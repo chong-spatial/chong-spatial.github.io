@@ -76,19 +76,19 @@
         }
 
         #traveltimeColorSpan .traveltime1 {
-            background-color: rgba(71, 255, 4, 0.8);
+            background-color: rgba(71, 255, 4, 0.4);
             /*0.25*/
-            border: 1px solid yellow;
+            border: 1px solid rgb(127, 240, 127);
         }
 
         #traveltimeColorSpan .traveltime2 {
-            background-color: rgba(64, 171, 171, 0.8);
-            border: 1px solid rgb(226, 133, 151);
+            background-color: rgba(255, 255, 0, 0.4);
+            border: 1px solid rgb(235, 217, 63);
         }
 
         #traveltimeColorSpan .traveltime3 {
-            background-color: rgba(140, 177, 241, 0.8);
-            border: 1px solid rgb(219, 125, 226);
+            background-color: rgba(255, 193, 7, 0.8);
+            border: 1px solid rgb(230, 83, 83);
         }
 
         .cell .t1 {
@@ -99,12 +99,12 @@
         .cell .t2 {
             /*stroke: #ff8a00;*/
             /*fill: rgb(128,150,48);*/
-            fill: #40abab;
+            fill: rgb(207, 219, 95);
         }
 
         .cell .t3 {
             /*stroke: #ff8a00;*/
-            fill: rgb(140, 177, 241);
+            fill: rgba(255, 193, 7,0.6);
         }
 
         #mapSearch {
@@ -138,13 +138,13 @@
         }
 
         .layer_hotel_pt .hotel {
-            stroke: #eee;
-            fill: orange;
+            stroke: #ffffff;
+            fill: #6c26e8;
         }
 
         .attraction {
-            stroke: #000d10;
-            fill: #07c9ff;
+            stroke: #ffffff;
+            fill: #53c2f5;
             /*
          stroke: #43b6d6;
          fill: #1266c5;
@@ -486,7 +486,7 @@
 
             function attractionLyrCallback(attrFeatures) {
                 //console.log('attr geofeatures: ',attrFeatures)
-                var pointSpans = '<span style="display: inline-block;width:10px; height:10px;background-color:orange; border: 1px solid #eee;"> </span>Hotel <span style="display: inline-block; border-radius: 6px; width:10px; height:10px;background-color:#07c9ff; border: solid 1px #000d10"></span>Attraction';
+                var pointSpans = '<span style="display: inline-block;width:10px; height:10px;background-color:#6c26e8; border: 1px solid #ffffff;"> </span>Hotel <span style="display: inline-block; border-radius: 6px; width:12px; height:12px;background-color:#53c2f5; border: solid 1px #ffffff"></span>Attraction';
                 var travelTimePySpans = '<div id="traveltimeColorSpan"><span class="traveltime1"></span>1minutes <span class="traveltime2"></span>2minutes <span class="traveltime3"></span>3minutes</div>';
                 d3.select('#legendDiv').html(pointSpans + travelTimePySpans)
                 d3.selectAll('.attraction').call(d3.helper.attractiontip());
