@@ -1,0 +1,361 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SF Muni Vis</title>
+	<link type="text/css" rel="stylesheet" href="css/layout-default-latest.css" />
+  <link rel="stylesheet" href="css/jquery-ui_smoothness.css">  
+
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/exptree.css">
+  <link rel="stylesheet" href="css/map.css">
+  <link rel="stylesheet" href="css/mlinechart.css">
+
+  <script type="text/javascript" src="js/lib/d3.js"></script> 
+  <script type="text/javascript" src="js/lib/jquery-latest.js"></script>
+	<script type="text/javascript" src="js/lib/jquery-ui-latest.js"></script>
+	<script type="text/javascript" src="js/lib/jquery.layout-latest.js"></script>
+
+  <script type="text/javascript" src="js/globalsettings.js"></script>
+  <script type="text/javascript" src="js/mlinechart.js"></script>
+  <script type="text/javascript" src="js/expTree.js"></script>
+  <script type="text/javascript" src="js/vehicle.js"></script>
+
+ 
+	<script type="text/javascript">
+		$(document).ready(function () {
+			var pageLayout = $('#container').layout({
+           
+            center__spacing_open: 1
+          , center__spacing_closed: 1
+          , center__onresize: function(){           
+            // for small screen device
+            var newRightPaneWidth = $('#rightpane').width();
+            $("#inspectList").width(newRightPaneWidth);
+            delayChart.resize(newRightPaneWidth);
+            $('#map svg').width($('#map').width());
+            $('#map svg').height($('#map').height());
+          }    
+
+          , west__size: "20%"
+          , west__enableCursorHotkey: false
+          , west__closable: false
+          , west__resizable: false
+          , west__slidable: false
+          , west__spacing_open: 1
+          , west__spacing_closed: 1
+          
+
+          , east__size: "25%"
+          , east__spacing_open: 4
+          , east__spacing_closed: 4
+          , east__slidable: true
+          , east__resizable: true
+          , east__closable: true 
+            
+  				
+  				, north__enableCursorHotkey: false
+      		, north__closable: false
+      		, north__resizable: false
+      		, north__slidable: false
+      		, north__spacing_open: 1
+      		, north__spacing_closed: 1
+
+			});
+      
+      // north pane only has resizer
+      pageLayout.panes.north.css('border', 'none');      
+      pageLayout.panes.north.css('padding', '12px');
+
+      // map svg dimension
+      var mapWidth = $('#map').width(),
+          mapHeight = $('#map').height(); 
+
+      // can use d3 queue, if basemap and routeTree have to be first displayed.
+      // not using d3 queue because requirment is no other library than d3 and jQuery
+      // right now, only two async xhr requests for basemap and routeTree, so vehicle locations may display earlier if no browser caching
+      d3.xml(routeURL, function(error, response){
+        if (error) throw error;
+
+        var routeData = [].map.call(response.querySelectorAll("route"), function(route) {
+          return {
+            tag: route.getAttribute("tag"),
+            title: route.getAttribute("title"),
+            // for labeling
+            name: route.getAttribute("tag"),
+            // for css class
+            type: 'route',
+            // for coloring
+            colorDomain: isNaN(route.getAttribute("tag").charAt(0)) ? 'A-Z' : route.getAttribute("tag").charAt(0)
+            };
+        });
+          
+
+        // add title, color, stop info to routeMap
+        // not use at this moment
+        routeData.forEach(function(r) { 
+          d3.xml(routeConfigURL + r.tag + '&terse', function(e, routeConfigs){ 
+              var rStops = routeConfigs.documentElement.getElementsByTagName('stop');             
+              routeMap[r.tag] = {title: r.title, colorDomain: r.colorDomain}
+              var stops = [];
+              routeMap[r.tag]['stop'] = stops;
+              for (var i = 0; i < rStops.length; i++) {
+                var sElement = rStops[i],
+                    sId = sElement.getAttribute('stopId'),
+                    sTag = sElement.getAttribute('tag'),
+                    sLonLat = [+sElement.getAttribute('lon'), +sElement.getAttribute('lat')],
+                    sTitle = sElement.getAttribute('title'); 
+
+                stops.push({
+                  stopId: sId,
+                  stopTag: sTag,
+                  stopTitle: sTitle,
+                  stopLonLat: sLonLat
+                });
+                      
+              }
+                  
+            })
+          
+        })
+
+
+        // create a map for quick access to route
+        // key is the first letter of tag for numerical tag, 'A-Z' for categorical tag
+        var routeGroupMap = {};
+        routeData.forEach(function(r) {
+          var rTagFirstLetter = r.tag.charAt(0).toLowerCase();
+          // if route starts with number, form separate groups because the route count is large
+          // if route starts with letter, form a same group because route count is small
+          rTagFirstLetter = isNaN(rTagFirstLetter) ? 'A-Z' : rTagFirstLetter;
+          if (routeGroupMap.hasOwnProperty(rTagFirstLetter)) {
+              routeGroupMap[rTagFirstLetter].push(r);
+            } else {
+              routeGroupMap[rTagFirstLetter] = [r];
+            }            
+
+        })
+  
+        // create ExpTree data structure
+        var eTreeData = {"id": "root", "type": "root", "name": "Routes", "children": []};
+        
+        eTreeData.children = Object.keys(routeGroupMap).map(function(rkey) {            
+          return { 
+            // for css class
+            type: 'group', 
+            // for labeling
+            name: rkey, 
+            // for coloring
+            colorDomain: rkey,             
+            children: routeGroupMap[rkey]
+        }}) 
+
+        routeColorScale.domain(eTreeData.children.map(function(d){ return d.name}));
+        routeTree = new ExpTree(eTreeData, "leftPane", {width: $('#leftPane').width() - 40, height: $('#leftPane').height() - 40, colorScale: routeColorScale}).draw();
+
+        routeTree.rootsvg.on('click', filterRoutes);
+              
+        
+      })
+
+      
+      // Basemap part 
+      zoom = d3.behavior.zoom()
+        .scaleExtent([1, 10])
+        .on("zoom", zoomed);
+
+      var mapSvg = d3.select('#map').append('svg')
+        .attr("width", mapWidth)
+        .attr("height", mapHeight)
+        
+
+      mapg = mapSvg.append('g');
+       
+      projection = d3.geo.mercator()
+        .scale(300000)
+        .center(sfctr)
+        .translate([mapWidth / 2, mapHeight / 2]);
+
+      var path = d3.geo.path()
+        .projection(projection);
+       
+      mapSvg.call(zoom).call(zoom.event);
+      
+
+    
+      // zoom event handler
+      function zoomed() {
+        mapg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+        // control vehicle labeling display level
+        controlMapLabel();        
+
+      }
+      
+      // street basemap  
+      d3.json('./data/sfmaps/streets.json', function(error, streets) {
+        if(error) {
+          return console.error(error);
+        }
+
+        var streetG = mapg.append('g').attr('class', 'streets');
+        streetG.selectAll('path')
+          .data(streets.features)
+          .enter().append('path')
+          .attr('d', path)
+          .attr('class', function(d) { return 'DISTRICT_' + d.properties.DISTRICT})
+        
+        // might color scale districts, future work
+        var districts = [];
+        for (var i = 0; i < streets.features.length; i++){
+          var f = streets.features[i];
+          if (!~districts.indexOf(f.properties.DISTRICT)) {
+            districts.push(f.properties.DISTRICT);
+          }
+        }   
+
+        // the following code is inside because 
+        // vehicle layer should be on the top of street layer
+        mapg.append('g').attr('class', 'vehicles');
+
+        //first call when webpage is open
+        var vLocationsLastTimeUpdated = new Date().getTime() - 1 * 60 * 1000
+        $.ajax({          
+          url: vehicleURL + vLocationsLastTimeUpdated, 
+          dataType: "xml",     
+          success: function(res) {
+            var vElements = res.documentElement.getElementsByTagName('vehicle');
+            updateVehicles(vLocationsLastTimeUpdated, vElements);
+          } 
+        });   
+        
+      })
+     
+
+      // initialize realtime line chart
+      // no data arrives yet
+      delayChart = MLineChart()
+        .title("GPS Report Delay Tracking")
+        .yTitle("Delay(second)")
+        .xTitle("Time")
+        // GPS delay range
+        .yDomain([0, 120])
+        .longestHistoryLength(longestHistoryLength)
+        .duration(vehicleUpdateInterval)
+        .backTrack(systemDelay)
+        .width($('#rightpane').width())
+        .height($('#rightpane').width());
+
+      // attach the realtime line chart to the div
+      var declayDiv = d3.select("#declayChartDiv")
+        .call(delayChart);
+      delayChart.tick();
+      
+      $("#declayChartDiv").height($('#rightpane').height()/2);
+      $("#inspectList").width($('#rightpane').width());
+
+      // display inactive vehicles in a grid in the right pane
+      // when a vehicle is clicked, map will center and zoom it
+      $("#inspectList").selectable({
+        selected: function(event, ui){ 
+          var vid = ui.selected.getAttribute('vid'),
+              vtag = ui.selected.getAttribute('vtag'),
+              colorgroup = ui.selected.getAttribute('colorgroup')
+              vlon = ui.selected.getAttribute('vlon'),
+              vlat = ui.selected.getAttribute('vlat');
+          if(vid) {
+            delayChart.inspectID(vid); 
+          }
+
+          if(vtag && colorgroup) {            
+            routeTree.toggleLeaf(vtag);
+            routeTree.highlightLeaf(vtag);
+
+            //center the vehicle on the map
+            var scrx = projection([vlon, vlat])[0],
+                scry = projection([vlon, vlat])[1];
+
+            var scale = 4,
+                translate = [mapWidth / 2 - scale * scrx, mapHeight / 2 - scale * scry];
+            // center and zoom
+            mapg.transition()
+              .duration(750)   
+              .attr("transform", "translate(" + translate + ")scale(" + scale + ")")
+            // keep zoom consistant with the transformation
+            // so that map will not jump in next zoom
+            zoom.translate(translate)
+            zoom.scale(4);
+            // adjust route label display
+            controlMapLabel();
+
+          }
+
+          
+        }
+      });    
+  
+
+    });
+	</script>
+
+</head>
+<body>
+	<div id="container">
+    <div class="pane ui-layout-west">
+        <div id='div_desc' style="margin-top: -10px;">          
+          <div class="view_header">
+            <div class="view_title">Route Switch</div>
+          </div>
+          <div class="info">Click route(s) to switch map display</div>
+          <div id='leftPane'></div>
+        </div>
+    </div>
+
+		<div class="pane ui-layout-center">			
+      <div id="map"></div>      
+		</div>
+
+    <div class="pane ui-layout-east">
+        <div id='div_res' style="margin-top: -10px;">          
+          <div class="view_header">
+            <div class="view_title">Inactive Vehicles</div>            
+          </div>
+          <div class="info">Monitoring..., wait 3+ minutes and click for details</div>
+          <div id='rightpane'>
+            <div id='inspectDiv'>
+              <div id="delaySdColorScale" style="text-align: center; display: none; margin-top: 2px;"><svg width="400" height="60"><defs><linearGradient id="colorLg"><stop id="colorLgSpStart" offset="0%" stop-color="#ccc"></stop><stop id="colorLgSpMiddle" offset="50%" stop-color="#777"></stop><stop id="colorLgSpEnd" offset="100%" stop-color="#000"></stop></linearGradient></defs><rect width="400" height="20" style="fill: url('#colorLg');"></rect><g class="x axis" transform="translate(0, 20)"><text y="20" dy="1.2em" style="text-anchor: middle;" x="200">Standard Deviation of GPS report delay history</text></g></svg></div>
+              <ul id="inspectList">              
+              </ul>
+            </div>
+            <div id='declayChartDiv'>           
+            </div>             
+          </div>
+        </div>
+    </div>
+
+		<div class="pane ui-layout-north" style="overflow:hidden">
+      <div style="float:right">
+       <a href="./about.html" target="_blank">This work was completed only in 6 days. About...</a>
+     </div>
+      <div align="center"><font size='5'><strong>
+          San Francisco Muni Real-time Tracking
+        </strong></font>
+      </div>
+      
+    </div>
+
+	</div>
+  <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+    var sc_project=10227952; 
+    var sc_invisible=1; 
+    var sc_security="19025bec"; 
+    var sc_https=1; 
+    var scJsHost = (("https:" == document.location.protocol) ?
+    "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
+    "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
+    </script> 
+    <noscript><div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div></noscript> 
+    <!-- End of StatCounter Code for Default Guide -->  
+</body>
+</html>

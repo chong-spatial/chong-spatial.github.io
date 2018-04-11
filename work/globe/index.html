@@ -1,0 +1,310 @@
+<!-- inspired by many exmaple code from Mike Bostock and Jason Davis  -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+    Lightweight Globe
+  </title>
+  <meta charset="utf-8">
+  <style>
+
+    #container {
+      float: left;
+      width: 600px;
+      height: 600px;
+    }
+    #info {
+      margin-left: 600px;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .blur {
+      -webkit-filter: blur(6px);
+      filter: blur(6px);
+    }
+
+  </style>
+  <script src="d3.v4.min.js"></script>
+  <script src="topojson.v1.min.js"></script>
+</head>
+<body>
+  <div id="container"></div>
+  <div id="info">
+    <h3>
+      Features:
+    </h3>
+    <ul> 
+    <li>Zoomable</li>
+    <li>Transparent </li>
+    <li>Spinning</li>
+    <li>Floating</li>
+    <li>Shadowing</li>
+    <li>Mouse event</li>
+    <li>Lightweight and no Three.js</li>
+    
+    </ul>
+   
+    <h3>
+      Tech (inspired by examples):
+    </h3>
+    <ul> 
+    <li>HTML5 Canvas</li>
+    <li>Only D3.js v4.3.0, no WebGL</li>
+    </ul> 
+    <h3>
+      Plan:
+    </h3>
+    <ol> 
+    <li><a target="_blank" href="https://github.com/chongzhang-vis/OSMBuildings">WebGL OSM Buildings</a> </li>
+    <li><a target="_blank" href="http://maps.stamen.com/toner-labels">Stamen toner-label</a></li>
+    <li><a target="_blank" href="https://wiki.earthdata.nasa.gov/display/GIBS/GIBS+Available+Imagery+Products">NASA Global Imagery Browse Services (GIBS)</a></li>
+    <li>More overlay layers: population density, social media, traffic, NASA's Earth at Night, etc.</li>
+    </ol>
+
+  </div>
+  <script>
+
+
+var width = 600,
+height = 600,
+speed = 1e-2,
+start = Date.now();
+var t = [0, 0], s = 1;
+var sphere = {type: "Sphere"};
+
+var highlightPoint = null;
+
+var projection = d3.geoOrthographic()
+.translate([width / 2, height / 2])
+.precision(.5);
+
+
+var graticule = d3.geoGraticule();
+
+var tipCanvas = d3.select("#container").append("canvas")
+.attr("width", width)
+.attr("height", height);
+
+
+var canvas1 = d3.select("#container").append("canvas"),
+canvas2 = d3.select("#container").append("canvas").attr("class", "blur"),
+canvas3 = d3.select("#container").append("canvas").attr('id', 'c3');
+
+var latlonDiv = d3.select("#container").append("div").attr("id", "latlonTip").style("position", "absolute").style('font-size', '1.2em');    
+
+
+d3.selectAll("canvas")
+.attr("width", width)
+.attr("height", height);
+
+var context1 = canvas1.node().getContext("2d"),
+context2 = canvas2.node().getContext("2d"),
+context3 = canvas3.node().getContext("2d");
+var tipContext = tipCanvas.node().getContext("2d");
+
+
+
+var path = d3.geoPath()
+.projection(projection);
+
+projection.scale(width / 2.3).clipAngle(90);
+
+
+
+
+d3.tileProviders = {
+  //earthAtNight: tileUrl("http://map1.vis.earthdata.nasa.gov/wmts-webmerc/VIIRS_CityLights_2012/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg"),
+  //stamenTonerLabels: tileUrl("http://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}.png")
+}
+
+
+function renderTiles() {
+
+  layer
+  .style("position", "absolute")
+  .style("transform-origin", "0 0 0")
+  .call(d3.geoRaster(projection)
+    .url("http://map1.vis.earthdata.nasa.gov/wmts-webmerc/VIIRS_CityLights_2012/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg"));
+
+  imgDiv.selectAll("canvas.tile").style("position","absolute")
+
+}
+
+d3.json("world-110m.json", function(error, topo) {
+  if (error) throw error;
+
+  var land = topojson.feature(topo, topo.objects.land),
+  borders = topojson.feature(topo, topo.objects.countries),
+  grid = graticule();
+
+
+  function draw() {
+    context3.save(); context2.save(); context1.save();
+
+    context1.clearRect(0, 0, width, height);
+    context2.clearRect(0, 0, width, height);
+    context3.clearRect(0, 0, width, height);
+
+    context3.translate(t[0], t[1]);
+    context3.scale(s, s);
+    context3.lineWidth = 1 / s;
+    context2.translate(t[0], t[1]);
+    context2.scale(s, s);
+    context2.lineWidth = 1;
+    context1.translate(t[0], t[1]);
+    context1.scale(s, s);
+    context1.lineWidth = 1 / s;
+
+    projection.rotate([speed * (Date.now() - start), -15]);
+
+    projection.scale(width / 2.3).clipAngle(90);
+
+    context1.beginPath();
+    path.context(context1)(sphere);
+    context1.lineWidth = 3;
+    context1.strokeStyle = "#3797d4";
+    context1.stroke();
+
+
+
+    context1.beginPath();
+    path.context(context1)(sphere);
+    context1.fillStyle = "#56a5f4"; 
+    context1.fill();
+    projection.clipAngle(180);
+
+
+    context2.beginPath();
+    path.context(context2)(land);
+    context2.fillStyle = "rgba(0,0,0,.4)";
+    context2.fill();
+
+    context3.beginPath();
+    path.context(context3)(grid);
+    context3.lineWidth = .5;
+    context3.strokeStyle = "rgba(0,0,0,.2)";
+    context3.stroke();
+
+    //rear-facing render
+    projection.scale(width / 2.2).clipAngle(180); //106
+    context3.beginPath();
+    path.context(context3)(land);
+    context3.fillStyle = "rgba(137, 137, 111, .5)"; // #737368 #b5ed7f
+    context3.fill();
+    context3.beginPath();
+    path.context(context3)(borders);
+    context3.lineWidth = .5;
+    context3.strokeStyle = "rgba(0,0,0,.2)";
+    context3.stroke();
+
+    //front-facing render
+    projection.scale(width / 2.2).clipAngle(90);
+    context3.beginPath();
+    path.context(context3)(land);
+    context3.fillStyle = "rgba(181, 237, 127, .8)"; 
+    context3.fill();
+    context3.beginPath();
+    path.context(context3)(borders);
+    context3.lineWidth = .5;
+    context3.strokeStyle = "#fff";
+    context3.stroke();
+
+    if(highlightPoint) {
+      context3.beginPath();
+      path.context(context3)(highlightPoint);
+      context3.fillStyle = "#f00";
+      context3.fill();
+      }
+
+    context3.restore();
+    context2.restore();
+    context1.restore();
+
+
+  }
+
+  function drawEllipse(ctx, x1, y1, x2, y2) {
+    var radiusX = (x2 - x1) * 0.5,
+        radiusY = (y2 - y1) * 0.5,
+        centerX = x1 + radiusX,
+        centerY = y1 + radiusY,
+        step = 0.01,
+        a = step,
+        pi2 = Math.PI * 2 - step;
+    
+    ctx.beginPath();
+    ctx.moveTo(centerX + radiusX * Math.cos(0),
+               centerY + radiusY * Math.sin(0));
+
+    for(; a < pi2; a += step) {
+        ctx.lineTo(centerX + radiusX * Math.cos(a),
+                   centerY + radiusY * Math.sin(a));
+    }
+    
+    ctx.closePath();
+    ctx.strokeStyle = '#f00';
+    ctx.stroke();
+  }
+
+
+  function zoomed() {
+    t = [d3.event.transform.x, d3.event.transform.y], s = d3.event.transform.k;
+    
+  }
+
+  d3.timer(draw);
+
+  canvas3
+  .on("mousemove", select)
+  .on("touchstart", select);
+  
+  canvas3
+  .call(d3.zoom()
+    .scaleExtent([1 / 2, 8])
+    .on("zoom", zoomed));
+
+
+  function select() {
+    var pos = d3.mouse(this);
+    var lonlat = projection.invert(pos);
+    latlonDiv.text('Lat: ' + lonlat[1].toFixed(2) + ', Lon: ' + lonlat[0].toFixed(2));
+
+    highlightPoint = {"type": "Feature", "geometry": {"type": "Point", "coordinates": lonlat} };
+
+    context3.beginPath();
+    path.pointRadius(5);
+    path.context(context3)(highlightPoint);
+    context3.fillStyle = "#f00";
+    context3.fill();
+
+
+
+
+
+  };
+
+});
+
+d3.select(self.frameElement).style("height", height + "px");
+
+</script>
+<!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+    var sc_project=10227952; 
+    var sc_invisible=1; 
+    var sc_security="19025bec"; 
+    var sc_https=1; 
+    var scJsHost = (("https:" == document.location.protocol) ?
+    "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
+    "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
+    </script> 
+    <noscript><div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div></noscript> 
+<!-- End of StatCounter Code for Default Guide -->
+</body>
+</html>

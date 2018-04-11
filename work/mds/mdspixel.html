@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <title>MDS-EPA</title>  
+  <style>
+    .mdsWin #mdsBar {
+      margin-top: 5px;
+      margin-left: 2px;
+      margin-bottom: 6px;
+    }
+    .mdsWin #mdsModelBar {
+      margin-bottom: 5px;
+      margin-left: 2px;
+    }
+    #mdsgDiv{
+      cursor:default;
+    }
+    #mdsBar .left{
+      float: left;
+
+    }
+    #mdsBar .middle{ 
+      width:65px;
+      margin: auto;
+    }
+    #mdsBar .middle ul{
+        display: inline;
+        float: none;
+    }
+
+    #mdsBar .right{
+      float: right;    
+
+    }
+    .mdsg rect{
+      fill: none;
+      stroke: #f3be16;
+      stroke-width: 1px;
+    }
+    .mdsg rect.actived{  
+
+      stroke: rgb(23, 106, 160);;
+      stroke-width: 2px;
+    }
+    .mdsg .clicked{  
+
+      stroke: rgb(23, 106, 160);
+      stroke-width: 2px;
+    }
+    .mdsg .highlighted{  
+
+      stroke:greenyellow;
+      stroke-width: 4px;
+    }
+
+    /*MDS color legend*/
+    .cm1 .O0-4 {
+      background:#FFFFB2;
+    }
+    .cm1 .O1-4 {
+      background: #FECC5C;
+    }
+    .cm1 .O2-4 {
+      background: #FD8D3C;
+    }
+    .cm1 .O3-4 {
+      background: #E31A1C;
+    }
+
+    /*Legend*/
+    .legend {
+      /*float:right;*/
+      width: 76px;
+      height: 30px;
+      color: #777;
+      background: #f3f3f3;
+      border: 1px solid #f0f0f0;
+      overflow: hidden;
+      line-height: 11px;
+      margin-bottom: 10px;
+      margin-right: 10px;
+    }
+
+    .legend ul {
+      list-style-type: none;
+      overflow: hidden;
+      padding:0;
+      list-style: none;
+      margin:0;
+    }
+
+    .legend li {
+      float: left;
+      margin-right: 3px;
+      width: 14px;
+      height: 14px;
+    }
+    .legend p{
+      display: inline-block;
+      margin-left:5px;
+      margin-top: 1px;
+    }
+    .legend p.more {
+      float: right;
+      margin-top: 3px;
+      margin-bottom:3px;
+    }
+
+    .legend p.less {
+      float: left;
+      margin-top: 3px;
+      margin-bottom:3px;
+    }
+
+
+    .controls {
+      margin: 0px;
+      //margin: 0 0 20px 7px;
+      font-size: 12px;
+      line-height: 12px;
+    }
+
+    .controls input {
+      display: none;
+      width: 0;
+      height: 0;
+      margin: 0;
+      padding: 0;
+      opacity: 0;
+    }
+
+    .controls label {
+      float: left;
+      display: block;
+      cursor: pointer;
+      padding: 4px 6px;
+      background: #ddd;
+      border: 1px solid #ccc;
+      -moz-border-radius: 2px;
+      border-radius: 2px;
+      margin: 0 3px 2px 0;
+      color: #888;
+    }
+
+    .controls label:hover {
+      background: #999;
+      color: white;
+      border: 1px solid #888;
+    }
+
+    .controls label.sel {
+      background: #444;
+      color: white;
+      border: 1px solid #333;
+      cursor: default;
+    }
+
+    .controls button {
+      padding: 2px 6px 3px 6px;
+      background: #ddd;
+      border: 1px solid #ccc;
+      -moz-border-radius: 2px;
+      border-radius: 2px;
+      cursor: pointer;
+      color: #888;
+      font-size: 12px;
+      margin: 0;
+      
+    }
+
+    .controls button:hover {
+      background: #999;
+      color: white;
+      border: 1px solid #888;
+    }
+
+    .controls button.sel {
+      background: #444;
+      color: white;
+      border: 1px solid #333;
+      cursor: default;
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.sm.css">
+ 
+  <script src="jquery-1.10.2.min.js"></script>
+  <script src="jquery-ui-1.10.3.custom.min.js"></script>
+
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script src="numeric.js"></script>
+  <script src="mds.js"></script>
+</head>
+
+<body>
+  <div><h2>
+    Multidimensional scaling (MDS) layout is used to display the relationships between variables. The closer two blocks, the higher the correlation they represent. </h2>
+    <h2>Pixel-Oriented visualization represents the distribution of values.
+  </h2></div>
+	<div id="mdsBar"> 
+    <div id="mdsBarRadio" class="left">                 
+        <input type="radio" id="radio_sel" name="radiomds" value="select" /><label title="Click to select one glyph" for="radio_sel">Select</label>
+        <input type="radio" id="radio_move" name="radiomds" value="move"  checked="checked" /><label title="Click to move one glyph" for="radio_move">Move</label>
+        <input type="radio" id="radio_sort" name="radiomds" value="sort"/><label title="Click any glyph to sort pixels in other glyphs" for="radio_sort">Sort</label>
+    </div>  
+
+          
+    <div class="cm1 legend">
+      <ul>          
+        <li class="O0-4"></li>
+        <li class="O1-4"></li>
+        <li class="O2-4"></li>
+        <li class="O3-4"></li>                    
+      </ul>
+      <p>0</p><p>L</p><p>M</p><p>H</p>
+    </div>                        
+  </div>
+
+  <div id="mdsgDiv">
+      <svg style="display: block;"></svg>               
+  </div>
+
+	<script type="text/javascript">
+  	$( document ).ready(function() {
+  		$("#mdsBarRadio").buttonset();
+    
+  		$('#mdsBarRadio input[type=radio]').change(function() {
+  			var isMove=this.value=="move",
+  				isSort=this.value=="sort",
+  				isSel=this.value=="select";
+                              
+  			isMove==true? $('#mdsgDiv').css('cursor', 'move'):isSel==true?$('#mdsgDiv').css('cursor', 'default'):$('#mdsgDiv').css('cursor', 'crosshair');
+  		})
+  		var selNames=["A74851", "A75650", "A100414", "A106990", "A108316", "A108383", "A115071", "A123911", "A25321146","AN770"];		 
+  		drawMDS(selNames);
+  	})	
+	</script>
+
+  <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+    var sc_project=10227952; 
+    var sc_invisible=1; 
+    var sc_security="19025bec"; 
+    var sc_https=1; 
+    var scJsHost = (("https:" == document.location.protocol) ?
+    "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
+    "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
+    </script> 
+    <noscript><div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div></noscript> 
+<!-- End of StatCounter Code for Default Guide -->
+  </body>
+</html>

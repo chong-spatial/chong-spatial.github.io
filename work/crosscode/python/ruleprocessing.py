@@ -1,0 +1,340 @@
+import json
+from string import ascii_uppercase
+import itertools
+import pdb
+ 
+def strSeq():
+    for n in itertools.count(1):    
+        for s in itertools.product(ascii_uppercase, repeat=n):
+            yield "".join(s)
+
+
+        
+def output1(ruledict):
+    data = []
+    for week, values in ruledict.iteritems():
+        v2 = copy.copy(values)
+        v2['week'] = week
+        data.push(v2)
+
+    newdict = { 'success' : true, 'data' : data }
+
+    json.dumps(newdict)
+
+def coverageObsRule(clsRuleList, obsFile, attrVals, attrMap, outCoverageFile):
+    with open(obsFile) as obsf, \
+         open(outCoverageFile, 'w') as outcovf:
+
+        obsCoverRule = {}
+
+        for oid, o in enumerate(obsf):
+            # the last one is class lable
+           
+            obs_list = o.split(' ')[:-1]
+            obs_set = set()
+            for i in obs_list:
+                ori_attr_val = i.split('=')
+                obs_set.add(attrMap[ori_attr_val[0]] + '=' + str(attrVals[ori_attr_val[0]].index(ori_attr_val[1]) + 1))
+
+            #pdb.set_trace()
+            for r in clsRuleList:
+                ruleset = set(r['it'])
+                if ruleset.issubset(obs_set):
+                    if oid in obsCoverRule:
+                        obsCoverRule[oid].add(r['id'])
+                    else:
+                        obsCoverRule[oid] = set([r['id']])
+        for o in obsCoverRule:
+            obsCoverRule[o] = list(obsCoverRule[o])
+        json.dump(obsCoverRule, outcovf)
+            
+def commonItemNumber(cls1RuleList, cls2RuleList, outCommonItemFile):
+    with open(outCommonItemFile, 'w') as outf:
+        itmdict = {}
+        for r in cls1RuleList:
+            for i in r['it']:
+                if i in itmdict:
+                    itmdict[i]['cls1'].add(r['id'])
+                else:
+                    itmdict[i] = {'cls1': set([r['id']]), 'cls2': set()}
+
+        for r in cls2RuleList:
+            for i in r['it']:
+                if i in itmdict:
+                    if 'cls2' in itmdict[i]:
+                        itmdict[i]['cls2'].add(r['id'])
+                    else:
+                        itmdict[i]['cls2'] = set(r['id'])
+                else:
+                    itmdict[i] = {'cls1':set(), 'cls2':set([r['id']])}
+
+        for i in itmdict:
+            for c in itmdict[i]:
+                itmdict[i][c] = list(itmdict[i][c])                    
+        json.dump(itmdict, outf)
+
+def compressAndCoverageRule(cls1InFile, cls2InFile, cls1RuleOutFile, cls2RuleOutFile, obsFile, outCls1CoverageFile, outCls2CoverageFile, attrVals, attrMap):
+    with open(cls1InFile) as infcls1, \
+         open(cls2InFile) as infcls2, \
+         open(cls1RuleOutFile, 'w') as outcls1f, \
+         open(cls2RuleOutFile, 'w') as outcls2f:
+
+        infcls1.seek(0)
+        infcls2.seek(0)
+
+        cls1Rule = []
+        rid = -1
+        for r in infcls1:
+            rid = rid + 1
+            lhs = r.split('<-')[1]
+            lhsList = lhs.strip().split('(')
+            itemsets = lhsList[0].split(',')
+            measures = lhsList[1][:-1].split(',')
+
+            it = []
+            for i in itemsets:
+                if "=" in i:
+                    oneItem = i.split("=")    
+                    attrName = oneItem[0]                
+                    attrVal = oneItem[1]
+                    
+                    it.append(attrMap[attrName] + "=" + str(attrVals[attrName].index(attrVal) + 1) )
+            cls1Rule.append({"id": rid, "it":it, "m":[[round(float(measures[0].split("/")[0]), 4), int(measures[0].split("/")[1])], round(float(measures[1]), 4), float(measures[2])]})
+
+
+        cls2Rule = []
+        rid = -1
+        for r in infcls2:
+            rid = rid + 1
+            lhs = r.split('<-')[1]
+            lhsList = lhs.strip().split('(')
+            itemsets = lhsList[0].split(',')
+            measures = lhsList[1][:-1].split(',')
+
+            it = []
+            for i in itemsets:
+                if "=" in i:
+                    oneItem = i.split("=")    
+                    attrName = oneItem[0]                
+                    attrVal = oneItem[1]
+                    
+                    it.append(attrMap[attrName] + "=" + str(attrVals[attrName].index(attrVal) + 1) )
+            cls2Rule.append({"id": rid, "it":it, "m":[[round(float(measures[0].split("/")[0]), 4), int(measures[0].split("/")[1])], round(float(measures[1]), 4), float(measures[2])]})
+
+        json.dump(cls1Rule, outcls1f)
+        json.dump(cls2Rule, outcls2f)
+
+        #coverageObsRule(cls1Rule, obsFile, attrVals, attrMap, outCls1CoverageFile)
+        #coverageObsRule(cls2Rule, obsFile, attrVals, attrMap, outCls2CoverageFile)
+        #commonItemNumber(cls1Rule, cls2Rule, outCommonItemFile)
+    
+
+def output(cls1InFile, cls2InFile, outStatFile, outCls1File, outCls2File, obsFile, outCoverageCls1File, outCoverageCls2File):
+    outDict = {}
+    outDict["name"] = "Census Income"
+    outDict["dimensions"] = 14
+    outDict["instances"] = 48842
+    outDict["source"] = "https://archive.ics.uci.edu/ml/datasets/Census+Income"
+
+    
+    
+    with open(cls1InFile) as infcls1, \
+         open(cls2InFile) as infcls2, \
+         open(obsFile) as obsfile, \
+         open(outStatFile, 'w') as outf:
+
+
+        attrs = {}
+        data = {}
+
+        maxLen = 0
+
+        for o in obsfile:
+            itemsets = o.split(' ')[:-1]
+            for i in itemsets:
+                if "=" in i:
+                    oneItem = i.split("=")    
+                    attrName = oneItem[0]                
+                    attrVal = oneItem[1]
+                    
+                    if attrName in attrs:
+                        attrs[attrName].add(attrVal)
+                    else:
+                        attrs[attrName] = set([attrVal])
+            
+
+        ''' attributes stats Postive rule part'''
+##        for line in infcls1:
+##            
+##            lhs = line.split('<-')[1]
+##            lhsList = lhs.strip().split('(')
+##            itemsets = lhsList[0].split(',')
+##            measures = lhsList[1][:-1].split(',')
+##
+##            maxLen = max(maxLen, len(itemsets))
+##            # pull up attributes and values
+##            for i in itemsets:
+##                if "=" in i:
+##                    oneItem = i.split("=")    
+##                    attrName = oneItem[0]                
+##                    attrVal = oneItem[1]
+##                    
+##                    if attrName in attrs:
+##                        attrs[attrName].add(attrVal)
+##                    else:
+##                        attrs[attrName] = set([attrVal])
+##
+##
+##        ''' attributes stats Negative rule part '''
+##        
+##        for line in infcls2:
+##            lhs = line.split('<-')[1]
+##            lhsList = lhs.strip().split('(')
+##            itemsets = lhsList[0].split(',')
+##            measures = lhsList[1][:-1].split(',')
+##
+##            maxLen = max(maxLen, len(itemsets))
+##
+##            for i in itemsets:
+##                if "=" in i:
+##                    oneItem = i.split("=")    
+##                    attrName = oneItem[0]                
+##                    attrVal = oneItem[1]
+##                    
+##                    if attrName in attrs:
+##                        attrs[attrName].add(attrVal)
+##                    else:
+##                        attrs[attrName] = set([attrVal])
+
+        for line in infcls1:            
+            lhs = line.split('<-')[1]
+            lhsList = lhs.strip().split('(')
+            itemsets = lhsList[0].split(',')
+
+            maxLen = max(maxLen, len(itemsets))
+           
+            
+        for line in infcls2:
+            lhs = line.split('<-')[1]
+            lhsList = lhs.strip().split('(')
+            itemsets = lhsList[0].split(',')
+
+            maxLen = max(maxLen, len(itemsets))
+          
+
+            
+
+        for a in attrs:
+            attrs[a] = list(attrs[a])
+    
+  
+        outDict["attributes"] = attrs
+        outDict["attrMap"] = dict(zip(attrs.keys(), list(itertools.islice(strSeq(),len(attrs)))))
+        
+        # print(outDict)
+
+        
+
+        ''' aggregate length info'''
+        infcls1.seek(0)
+        infcls2.seek(0)
+        
+        for l in range(1, maxLen + 1):
+            data["len" + str(l)] = {}
+            
+        outDict["data"] = data
+        print(outDict)
+        
+        ruleID = -1
+        for line in infcls1:
+            ruleID = ruleID + 1
+            
+            lhs = line.split('<-')[1]
+            lhsList = lhs.strip().split('(')
+            itemsets = lhsList[0].split(',')
+            #measures = lhsList[1][:-1].split(',')
+
+            curLen = data["len" + str(len(itemsets))] 
+
+            for i in itemsets:
+                if "=" in i:
+                    oneItem = i.split("=")    
+                    attrName = oneItem[0]                
+                    attrVal = oneItem[1]
+                    
+                    if outDict["attrMap"][attrName] in curLen:
+                        attrVals = curLen[outDict["attrMap"][attrName]]
+                        if outDict["attrMap"][attrName] + "="+str(attrs[attrName].index(attrVal)+1) in attrVals:
+                            specificNameVal = attrVals[outDict["attrMap"][attrName] + "="+str(attrs[attrName].index(attrVal)+1)]
+                            if "cls1" in specificNameVal:
+                                specificNameVal["cls1"].append(ruleID)
+                            else:
+                                specificNameVal["cls1"] = [ruleID]
+                        else:
+                            attrVals[outDict["attrMap"][attrName] +"="+ str(attrs[attrName].index(attrVal)+1)] = {"cls1":[ruleID]}
+                    else:
+                        tmp ={}
+                        tmp[outDict["attrMap"][attrName] + "="+str(attrs[attrName].index(attrVal)+1)] = {"cls1":[ruleID]}
+                        curLen[outDict["attrMap"][attrName]] = tmp
+
+
+        ruleID = -1             
+        for line in infcls2:
+            ruleID = ruleID + 1
+            lhs = line.split('<-')[1]
+            lhsList = lhs.strip().split('(')
+            itemsets = lhsList[0].split(',')
+            #measures = lhsList[1][:-1].split(',')
+
+            curLen = data["len" + str(len(itemsets))] 
+
+            for i in itemsets:
+                if "=" in i:
+                    oneItem = i.split("=")    
+                    attrName = oneItem[0]                
+                    attrVal = oneItem[1]
+                    
+                    if outDict["attrMap"][attrName] in curLen:
+                        attrVals = curLen[outDict["attrMap"][attrName]]
+                        if outDict["attrMap"][attrName] + "=" + str(attrs[attrName].index(attrVal)+1) in attrVals:
+                            specificNameVal = attrVals[outDict["attrMap"][attrName] + "="+str(attrs[attrName].index(attrVal)+1)]
+                            if "cls2" in specificNameVal:
+                                specificNameVal["cls2"].append(ruleID)
+                            else:
+                                specificNameVal["cls2"] = [ruleID]
+                        else:
+                            attrVals[outDict["attrMap"][attrName] + "="+str(attrs[attrName].index(attrVal)+1)] = {"cls2":[ruleID]}
+                    else:
+                        tmp ={}
+                        tmp[outDict["attrMap"][attrName] + "=" + str(attrs[attrName].index(attrVal)+1)] = {"cls2":[ruleID]}
+                        curLen[outDict["attrMap"][attrName]] = tmp
+            
+       
+        json.dump(outDict, outf)
+
+    # attrMap only contains attributes and values from the two class
+    # may need iterate over the original observation file to get all attr/val mapped
+    ''' use the attribute dict to compress rules'''
+    compressAndCoverageRule(cls1InFile, cls2InFile, outCls1File, outCls2File, obsFile, outCoverageCls1File, outCoverageCls2File, outDict["attributes"], outDict["attrMap"])
+
+    
+
+if __name__ == "__main__":
+
+    obsFile = "census.dat"
+    class1RuleInputFile = "rules_gt_50k.txt"
+    class2RuleInputFile = "rules_lt_50k.txt"
+    outStatFile = "ruleStats.json"
+    outClass1CompressedFile = "cls1.json"
+    outClass2CompressedFile = "cls2.json"
+    outCoverageCls1File = "obs_cover_rule_cls1.json"
+    outCoverageCls2File = "obs_cover_rule_cls2.json"
+    #outCommonItemFile = "rule_common_item.json"
+    output(class1RuleInputFile, class2RuleInputFile, outStatFile, outClass1CompressedFile, outClass2CompressedFile, obsFile, outCoverageCls1File, outCoverageCls2File)
+    
+
+    
+    
+
+
+

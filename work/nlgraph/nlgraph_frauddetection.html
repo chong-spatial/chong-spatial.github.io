@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>NLGraph.js examples - Fraud detection</title>
+    <link rel="stylesheet" href="nlgraph.css" />
+    <style>
+    .fraud2 {
+      width: 100%;
+      height: 800px;
+    }
+    </style>
+    <script src="NLGraph.min.v0.3.4.js"></script>    
+    <script src="global.js"></script>
+    <script src="jsondata.js"></script>
+  </head>
+  <body>
+    <div><p>
+    This is fraud detection graph with Node-Link Graph JavaScript library - NLGraph.js</p>
+    
+    <p>1. Find accounts linked to 57#cc (the central node) which is a suspect account styled in a differen shape and fill color</p>
+    <p>2. Filter account type, only display mobible, credit card, and email. (Node filter)</p>
+    <p>3. Filter associations of transcation, association can not be of type A, B, or C (Edge filter)</p>
+    <p>4. Filter the relatedness score, can not be smaller than 0.5</p>
+ 
+    <h3>Node label is account ID + '#' + account type; link label is transaction type. This graph allows users to immediately see suspect account and associated trasactions, fraud propagation, and how the fraudulent transactions are identified.</h3>
+  </div>
+        
+  <div class="container">
+    <div id="fraud2" class="fraud2"></div>
+  </div>
+      
+
+  <script>
+    var fraud2El = document.getElementById("fraud2");   
+
+    var  fraud2Graph = new NLGraph(fraud2El, nodes[5], links[5], options[5])
+                          .render();   
+
+    for(var i = 0; i < fraud2Graph.links.length; ++i){
+      var n = fraud2Graph.links[i];
+      fraud2Graph.setEdgeLabel(n.source.id, n.source.type, n.target.id, n.target.type, n.etype, ["label"]);
+
+    }    
+     
+   // can also use jQuery to listen for events
+   d3.select(window).on("click", function () {      
+     fraud2Graph.unHighlight();
+     fraud2Graph.unSelect();
+
+   });
+   
+  </script>
+
+
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+    var sc_project=10227952; 
+    var sc_invisible=1; 
+    var sc_security="19025bec"; 
+    var sc_https=1; 
+    var scJsHost = (("https:" == document.location.protocol) ?
+    "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
+    "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
+    </script> 
+    <noscript><div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div></noscript> 
+<!-- End of StatCounter Code for Default Guide -->
+  </body>
+</html>

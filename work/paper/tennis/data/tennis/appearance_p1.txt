@@ -1,0 +1,2 @@
+in
+Winner=P1 out

@@ -1,0 +1,38 @@
+day1:
+1. big picture, plan, read NextBus manual
+2. creat tree for route tags
+3. load basemap
+
+day2:
+1. draw bus GPS positions, 
+2. repeatlly request bus location using setTimeout(draw, 1500)
+
+
+day3:
+1. link tree to bus map - select to filter
+2. labeling for buses on map view
+3. add title for routes on tree view, 
+4. change routeTree switch
+
+
+day4:
+1. add history data including lonlat, delay, speed
+2. add vehicle direction indicator
+3. highlight inactive vehicles in black
+
+
+day5(slammed with other things):
+
+
+day6:
+1. realtime line chart component
+2. interaction in right pane
+3. refactor, bug fix(group inspected list, realtime, mapcenter, adjusted height)
+
+
+day7:
+1. browser compatible
+2. clean code
+3. add color scale for inactive vehicles (standard deviation, easily select top suspect vehicles)
+4. bug fix(recalculate time ticking for inactive system)
+5. documentation, help, about, future plan

@@ -1,0 +1,26 @@
+.streets path {
+	fill: none;
+	stroke: #b1b1b1;
+}
+
+.vehicles .vehicle {
+	cursor: pointer;
+}
+
+.vehicles .label {
+	font-size: .5em;
+	fill: #fff;
+}
+
+.vehicles .outline {
+	fill: none;
+	stroke: #000;
+}
+
+.vehicles .arrow {
+	fill: none;    
+}
+
+.vehicles .dead {
+	stroke: #000;
+}

@@ -1,0 +1,23 @@
+#gridtable, #gridtableheader, #pager { 
+  width: 98%;
+}
+
+
+#gridtable {
+  /*bottom: 50px;*/
+  width: 100%;
+  position: relative;
+  height: 88%;
+  background: white;
+  outline: 0;
+  border: 1px solid gray;
+}
+
+.slick-row:hover {
+  font-weight: bold;
+  color: #069;
+}
+
+ .slick-viewport {
+  /*overflow-x: hidden !important;*/
+}

@@ -1,0 +1,142 @@
+.freqTab .highltrect{
+	fill: yellow;
+	opacity: 0.3;
+	height: 11px;
+}
+.freqTabSvgBg {
+	fill: none;
+	pointer-events: all;
+}
+.freqTab .cls1 {
+	fill: none;
+	stroke: #69af5d;
+	
+
+}
+
+.freqTab .htCls1{
+	stroke: #69af5d;
+}
+
+.freqTab .htCls2{
+	stroke: #e87872;
+}
+
+.freqTab .htCls1eqCls2{
+	stroke: #fff;
+}
+
+.freqTab .cls2 {
+	fill: none;
+	stroke: #e87872;
+
+
+}
+
+.freqTab .cls1eqcls2 {
+	fill: #fff;
+}
+
+.freqTab .root rect{
+	fill: none;
+	stroke: #fff;
+}
+
+.freqTab .node {
+	/*
+font: 12px sans-serif;
+fill: #ccc;
+stroke: #5D5D5D;
+stroke-width: 1px;
+*/
+}
+
+.freqTab .node circle {
+fill: #fff;
+stroke: steelblue;
+stroke-width: 1.5px;
+cursor: pointer;
+}
+
+.freqTab .node .checkable {
+
+cursor: pointer;
+}
+
+.freqTab .others rect{
+	fill: #ccc;
+}
+
+.freqTab .other rect{
+	fill: #ccc;
+}
+.freqTab .node .head {
+width: 11px;
+height: 11px;
+/*cursor: pointer;*/
+}
+
+.freqTab .node.select {
+width: 9px;
+height: 9px;
+cursor: pointer;
+fill: red;
+stroke-width: 0px;
+}
+
+.freqTab .node .arrow {
+width: 11px;
+height: 11px;
+fill: #ccc;
+stroke: #5D5D5D;
+cursor: pointer;
+}
+
+.freqTab .node text Panel {
+stroke: #69af5d;
+stroke-width: 0.5px;
+}
+
+.freqTab .node text Cell {
+stroke: #e87872;
+stroke-width: 0.5px;
+}
+
+.freqTab .node.Root {
+fill: #f7f7f7;
+stroke: #505050;
+stroke-width: 1.0px;
+}
+
+.freqTab .node.Root.text {
+fill: #505050;
+stroke-width: 0px;
+font-size: 10px;
+font-family: sans-serif;
+}
+
+.freqTab .node.Panel {
+fill: #eff3ff;
+stroke: #69af5d;
+stroke-width: 1.0px;
+}
+
+.freqTab .node.Panel.text {
+fill: #69af5d;
+stroke-width: 0px;
+font-size: 12px;
+font-family: sans-serif;
+}
+
+.freqTab .node.Cell {
+fill: #fee5d9;
+stroke: #e87872;
+stroke-width: 1.0px;
+}
+
+.freqTab .node.Cell.text {
+fill: #e87872;
+stroke-width: 0px;
+font-size: 12px;
+font-family: sans-serif;
+}

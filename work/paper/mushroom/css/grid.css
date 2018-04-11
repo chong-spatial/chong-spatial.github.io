@@ -1,0 +1,137 @@
+
+#sortdimratio label,
+#sortruleratio label {
+  margin-bottom: 1em;
+}
+
+#ruleControls {
+  width: 20%;
+  float: left;
+}
+
+#ruleControls fieldset {
+  padding: 0 0 1em 0;
+  border: 1px solid #ccc;
+  
+}
+
+#ruleview {
+  height: 94%;
+}
+#ruleOverview {
+  height: 100%;
+  margin-left: 20%;
+}
+
+#ruleOverview .title {
+  fill: #fff;
+  font-style: italic;
+}
+#projectionView .title {
+  fill: #fff;
+  font-style: italic;
+}
+
+#ruleOverview .dimension {
+  cursor: ew-resize;
+}
+
+#ruleOverview .lab {
+  fill: #000;
+}
+#ruleOverview .background {
+  fill: #fbfbfb;
+}
+
+#projectionView .background {
+  fill: #fbfbfb;
+}
+
+#projectionView svg, canvas{
+	position: absolute;
+}
+
+#projectionView .cluster .lab{
+  fill: #fff;
+}
+
+#projectionView polyline{
+  opacity: .3;
+  stroke: black;
+  stroke-width: 2px;
+  fill: none;
+}
+
+
+
+#ruleOverview line {
+  stroke: #d0d0d0;
+}
+
+#ruleOverview tspan.sort { fill: #636363; cursor: pointer; opacity: 1; }
+#ruleOverview tspan.sort:hover { fill: #000; }
+
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #ccc;
+  shape-rendering: crispEdges;
+
+}
+
+
+.rowBg {
+	fill: yellow;
+}
+
+.rowBgGreen {
+  fill: #b9e1b9;
+  fill-opacity: 0.3;
+  mix-blend-mode: multiply;
+  stroke: #d0d0d0;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+}
+.rowBgRed {
+  fill: #e7caca;
+  fill-opacity: 0.3;
+  mix-blend-mode: multiply;
+  stroke: #d0d0d0;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+}
+
+.row {
+	cursor: pointer;
+  isolation: isolate;
+
+}
+
+.row .cell {
+  fill-opacity: 0.8; 
+   /*mix-blend-mode: screen;*/
+}
+.row:hover rect{
+  fill-opacity: 1; 
+}
+
+.row .highlight rect{
+  /*fill-opacity: 1; */
+}
+
+.cellHighlight {
+	fill-opacity: 1 !important; 
+}
+
+.clickHighLight :not(text){  
+  stroke: yellow;
+  stroke-width: 2px;
+
+}
+
+
+.column {
+	/*cursor: pointer;*/
+  cursor: ns-resize;
+}

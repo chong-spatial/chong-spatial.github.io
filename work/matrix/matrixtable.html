@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+    <title>Matrix-Table</title>  
+    <style type="text/css">
+      body{
+        background: #fcfcfa;
+        color: #333;
+        font-family: "PT Serif", serif;
+        position: relative;
+        width: 960px;
+      }
+      .background {
+        fill: #eee;
+      }
+
+      line {
+        stroke: #fff;
+      }
+
+      text.active {
+        fill: red;
+      }
+
+      #chart {
+        font: 16px sans-serif;
+      }
+
+       
+      .varsvg {
+        fill: #ccc;
+        
+      }
+      .varsvg rect {
+        stroke: green;
+        stroke-width:1;
+
+      }
+
+      .varsvg text {
+        fill: #4052D6;;
+
+      }
+      .confdIndCell{
+        fill:none;
+        stroke:red;
+      }
+
+      .Model .qn-3{fill:#ccc;}
+      .Model .q0-3{fill:rgb(208,28,139)}
+
+      .Model .q1-3{fill:rgb(247,247,247)}
+
+      .Model .q2-3{fill:rgb(77,172,38)}
+      .Model rect{
+        stroke: white;
+      }
+      .Model rect:hover{
+      	fill: yellow;
+      }
+      .Corr .q0-5{fill:rgb(123,50,148); background:rgb(123,50,148)}
+      .Corr .q1-5{fill:rgb(194,165,207)}
+      .Corr .q2-5{fill:rgb(247,247,247)}
+      .Corr .q3-5{fill:rgb(166,219,160)}
+      .Corr .q4-5{fill:rgb(0,136,55)}
+
+      .Corr rect{
+        stroke: white;
+      }
+      .Corr rect:hover{
+      	fill: #6CA4DB;
+      }
+    </style>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+  </head>
+
+  <body> 
+     <div><h2>
+    Matrix-table view encodes correlation matrix, regression models, and confounder determination.</h2>
+    
+  </div>
+   
+    
+    <div id="chart">
+    </div>      
+
+    <script src="matrixtable.js"></script> 
+
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+    var sc_project=10227952; 
+    var sc_invisible=1; 
+    var sc_security="19025bec"; 
+    var sc_https=1; 
+    var scJsHost = (("https:" == document.location.protocol) ?
+    "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
+    "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
+    </script> 
+    <noscript><div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div></noscript> 
+<!-- End of StatCounter Code for Default Guide -->
+
+  </body>
+</html>

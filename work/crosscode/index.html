@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>C Square</title>
+
+  <link rel="stylesheet" type="text/css" href="./css/html_styles.css">
+  <link rel="stylesheet" type="text/css" href="./css/bar_view.css">
+  <link rel="stylesheet" type="text/css" href="./css/attr_view.css">
+  <link rel="stylesheet" type="text/css" href="./css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="./css/grid.css">
+  <link rel="stylesheet" type="text/css" href="./css/freqtab.css">
+
+  <link rel="stylesheet" type="text/css" href="./css/newcar.css">
+  <link rel="stylesheet" type="text/css" href="./css/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href="./css/slick.grid.css">
+
+  <link rel="stylesheet" type="text/css" href="./css/tab.css">
+
+
+<script type="text/javascript" src="./data/mushroom/rules_mushroom.js"></script>
+<script type="text/javascript" src="./data/mushroom/obs_mushroom.js"></script>
+
+
+  <script src="./js/lib/d3.js" charset="utf-8"></script>
+  <script src="./js/lib/d3.tip.js" charset="utf-8"></script>
+  <script src="./js/d3.helper.js" charset="utf-8"></script>
+
+
+  <script src="./js/lib/d3.layout.cloud.js" charset="utf-8"></script>
+  <script src="./js/lib/d3.layout.grid.js" charset="utf-8"></script>
+  <script src="./js/lib/colorbrewer.js" charset="utf-8"></script>
+  <!--<script src="./js/lib/jquery-1.11.2.min.js"></script>-->
+  <script src="./js/lib/jquery-1.12.4.min.js"></script>
+
+  <script src="./js/lib/jquery.event.drag-2.2.js"></script>
+  <script src="./js/lib/jquery-ui.min.js"></script>
+
+
+  <script src="./js/canvasCrossTab.js"></script>
+  <script src="./js/freqTree.js"></script>
+  <script src="./js/mushroomlabel.js"></script>
+
+  <script src="./js/lib/slickgrid/slick.core.js"></script>
+  <script src="./js/lib/slickgrid/slick.grid.js"></script>
+  <script src="./js/lib/slickgrid/slick.dataview.js"></script>
+  <script src="./js/lib/slickgrid/slick.autotooltips.js"></script>
+
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div class="ui-header">
+  <div class="header-container">
+    <div class="header"> CrossCode - Visual Exploration of Interesting Associations in a Dichotomous Categorical Dataset </div>
+    <div class="header-right">
+
+        <input type="submit" name="turnoffhighlt" id="turnoffhighlt" value="Clear" >
+
+        <!--<div style="float: left;margin-left: 2px;margin-top: 4px;">Clear highlightings</div> -->
+
+    </div>
+  </div>
+</div>
+
+
+
+<div class="ui-fader" style="display: none;">
+</div>
+
+
+<div class="ui-container">
+    <!-- Left Side configuration menu -->
+    <div class="ui-layout-west">
+
+      <div class="legendTable">
+        <div class="configHeader">Legend</div>
+        <table style="width:96%;" id="crossTab">
+          <caption></caption>
+          <tr>
+              <td></td>
+              <td class='righttd'>Poisonous Rules</td>
+              <td>Edible Rules </td>
+          </tr>
+          <tr pos='up1'>
+              <td class='bottomtd' rowspan='2'>Poisonous Mushrooms</td>
+              <td pos='red'> <span style='background: #de2d26'></span></td>
+              <td pos='white' class='lefttd'><span style='background: white; border: gray solid 1px;'></span></td>
+          </tr>
+          <tr pos='up2'>
+              <td pos='red' class='bottomtd'> <span style='background: #de2d26'></span></td>
+              <td pos='blue' class='lefttd'><span style='background: #2ea017'></span></td>
+          </tr>
+          <tr pos='down1'>
+              <td rowspan='2'>Edible Mushrooms</td>
+              <td pos='red' class='righttd'> <span style='background: #de2d26'></span></td>
+              <td pos='blue' class='toptd'><span style='background: #2ea017'></span></td>
+          </tr>
+          <tr pos='down2'>
+              <td pos='white' class='righttd'> <span style='background: white;border: gray solid 1px;'></span></td>
+              <td pos='blue'><span style='background: #2ea017'></span></td>
+          </tr>
+        </table>
+        <div style="width:100%" >
+          <div class="configHeader">Features</div>
+          <div id="freqDiv" style="height: 240px;overflow-y: auto"></div>
+        </div>
+<!--
+        <div id='colorBar'>
+          <div>
+            <div id="redColorSpans"><span></span><span></span><span></span><span></span><span></span></div>
+            <label for="redColorBar">for</label>
+            <select name="redColorBar" id="redColorBar" style="width: 200px;">
+              <option value="length" selected="selected">Length</option>
+              <option value="support" >Support</option>
+              <option value="confidence" >Confidence</option>
+              <option value="lift" >Lift</option>
+            </select>
+          </div>
+          <div>
+            <div id="blueColorSpans"><span></span><span></span><span></span><span></span><span></span></div>
+            <label for="blueColorBar">for</label>
+            <select name="blueColorBar" id="blueColorBar" style="width: 200px;">
+              <option value="length" selected="selected">Length</option>
+              <option value="support" >Support</option>
+              <option value="confidence" >Confidence</option>
+              <option value="lift" >Lift</option>
+            </select>
+          </div>
+        </div>
+-->
+      </div>
+
+
+      <div id="sortRuleConfig" class="configTable">
+        <div>
+            <div  class="configHeader">Sort rules by</div>
+            <div id="sortruleratio">
+              <input type="radio" id="rule_sortbyRuleLength" name="sortRule" value="length" checked="true">
+              <label for="rule_sortbyRuleLength"> Length</label>
+              <br>
+              <input type="radio" id="rule_sortbySupport" value="support" name="sortRule">
+              <label for="rule_sortbySupport"> Support</label>
+              <br>
+              <input type="radio" id="rule_sortbyConfidence" value="confidence" name="sortRule">
+              <label for="rule_sortbyConfidence"> Confidence</label>
+              <br>
+              <input type="radio" id="rule_sortbyLift" value="lift" name="sortRule">
+              <label for="rule_sortbyLift"> Lift</label>
+            </div>
+        </div>
+
+        <div>
+          <div class="configHeader">Sort observations by hit</div>
+          <div id="sortobsratio">
+            <input type="radio" id="obs_sortbypr2" name="sortObs" value="hitrule2mlength" checked="true">
+            <label for="obs_sortbypr2">Poisonous rules (mixed)</label>
+            <br>
+            <input type="radio" id="obs_sortbyer2" name="sortObs" value="hitrule1mlength">
+            <label for="obs_sortbyer2">Edible rules (mixed)</label>
+            <br>
+            <input type="radio" id="obs_sortbypr1" name="sortObs" value="hitrule2length" >
+            <label for="obs_sortbypr1">Poisonous rules </label>
+            <br>
+            <input type="radio" id="obs_sortbyer1" name="sortObs" value="hitrule1length">
+            <label for="obs_sortbyer1">Edible rules</label>
+            <br>
+
+            <input type="radio" id="obs_sortbyFreqitem" name="sortObs" value="freqitem">
+            <label for="obs_sortbyFreqitem"> FrequentItem count</label>
+          </div>
+        </div>
+
+      </div>
+
+<!--
+      <div style="width:100%" >
+          <div class="configHeader">Features</div>
+          <div id="freqDiv"></div>
+      </div>
+-->
+
+    </div>
+
+
+    <!-- center panel  -->
+    <div class="ui-layout-center">
+      <div id="vis-container" >
+        <div id="vis-context">
+          <canvas id="barcode"></canvas>
+          <svg id="itemSVG" style="position: absolute;">          
+          </svg>
+          <svg id="bsvg"></svg>
+        </div>
+        <div id="tabs">
+          <ul>
+          <li><a href="#tabs-1">Detail</a> <span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span></li>
+          </ul>
+
+            <div id="tabs-1"> <svg></svg></div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- right panel  
+
+    <div class="ui-layout-east">        
+
+      <div class="element-view-header">
+        <div class="element-view-title">
+          Raw Data
+        </div>
+      </div>
+      <div id="element-viewers-container" class="element-view-container">
+        <div id="rawdata-table">
+          <div> 
+              <div class="descSel" >
+
+                <div id="slickGrid" style="width:100%;height:920px"></div>
+                <div id="pager" style="width:100%;height:20px;"></div>
+                <div id="inlineFilterPanel" style="display:none;background:#dddddd;padding:3px;color:black;">
+                  Show variables with name including <input type="text" id="txtSearch2">
+                  and % zero at least &nbsp;
+                  <div style="width:100px;display:inline-block;" id="pcSlider2"></div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+-->
+</div>
+
+
+<script type="text/javascript" src="./js/vcar.js"></script>
+<script src="./js/ruletable.js"></script>
+
+<script src="./js/main.js"></script>
+
+<!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+    var sc_project=10227952; 
+    var sc_invisible=1; 
+    var sc_security="19025bec"; 
+    var sc_https=1; 
+    var scJsHost = (("https:" == document.location.protocol) ?
+    "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
+    "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
+    </script> 
+    <noscript><div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div></noscript> 
+<!-- End of StatCounter Code for Default Guide -->
+    
+</body></html>

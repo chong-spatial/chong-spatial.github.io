@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <title>Fisheye</title>
+    <style>
+
+      body {
+        font: 10px sans-serif;
+      }
+      line {
+        fill: none;
+        stroke: #333;
+        stroke-width: 2px;
+      }
+      .background {
+        fill: none;
+        pointer-events: all;
+      }
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: #fff;
+        shape-rendering: crispEdges;
+      }
+
+      .or {
+        fill: none;
+
+        stroke-width: 1px;
+      }
+      line.hidden{
+        stroke: #ccc !important;
+      }
+
+    </style>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="fisheye.js"></script>
+  </head>
+  <body>
+    <div><h2>
+    Fisheye line chart (move mouse to see what will happen to the lines).</h2>
+  </div>
+
+    <script>
+
+      var width = 950,
+          height = 180,
+          xSteps = d3.range(10, width, 16),
+          ySteps = d3.range(10, height, 16);
+
+      var xFisheye = d3.fisheye.scale(d3.scale.identity).domain([0, width]).focus(360)
+          //yFisheye = d3.fisheye.scale(d3.scale.identity).domain([0, height]).focus(90);
+
+      var svg =  d3.select("body").append("svg")
+          .attr("width", width)
+          .attr("height", height)
+        .append("g")
+          .attr("transform", "translate(-.5,-.5)");
+
+      svg.append("rect")
+          .attr("class", "background")
+          .attr("width", width)
+          .attr("height", height)
+    	  .on ("click", function(){
+    		d3.selectAll(".orline").classed("hidden", false);
+    	  });
+
+      var ySteps=[];
+      for (var i = 0; i < xSteps.length; ++i){
+        ySteps.push({"label": "L"+i, "val": 20 + ~~(Math.random() * xSteps[i])});
+      }
+      var y = d3.scale.linear().range([height, 0]).domain(d3.extent(ySteps, function(d) { return d.val; }));
+      var lineColorScale = d3.scale.linear().domain([20, height]).interpolate(d3.interpolateRgb).range(["#1a9641", "#f03b20"]);
+
+      var xLine = svg.selectAll(".orline")
+        .data(xSteps)
+        .enter().append("line")
+        .attr("class", "orline")
+        .attr("y1", height)
+        .attr("y2", function(d,i){return y(ySteps[i].val)})
+        .style("stroke", function(d,i){return lineColorScale(ySteps[i].val)})
+        .on("mouseover", function(d){
+          d3.selectAll(".orline").classed("hidden", function(dd){ return d != dd});
+        })
+        .on("mouseout", function(d){
+           d3.select(this).classed("hidden", false);
+        })
+        .on("click", function(d){console.log("clicked: "+d)})
+
+      redraw();
+
+      svg.on("mousemove", function() {
+        var mouse = d3.mouse(this);
+        xFisheye.focus(mouse[0]);
+        //yFisheye.focus(mouse[1]);
+        redraw();
+      });
+
+      function redraw() {
+        xLine.attr("x1", xFisheye).attr("x2", xFisheye);
+        //yLine.attr("y1", yFisheye).attr("y2", yFisheye);
+      }
+
+
+    </script>
+
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+    var sc_project=10227952; 
+    var sc_invisible=1; 
+    var sc_security="19025bec"; 
+    var sc_https=1; 
+    var scJsHost = (("https:" == document.location.protocol) ?
+    "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
+    "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
+    </script> 
+    <noscript><div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div></noscript> 
+<!-- End of StatCounter Code for Default Guide -->
+  </body>
+</html>

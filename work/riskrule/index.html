@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />		
+		<title>RulesVis</title>
+
+		<link href="css/main.css" rel="stylesheet" type="text/css" />
+		<link href="css/datatable_jui.css" rel="stylesheet" type="text/css" />
+		<link href="css/jquery.tooltip.css" rel="stylesheet" type="text/css" />
+		<link href="css/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css" />
+	
+		<script type="text/javascript" language="javascript" src="data/rulesdata1.js"></script>
+		<script type="text/javascript" language="javascript" src="js/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" language="javascript" src="js/jquery.dataTables.min.js"></script>	
+		<script type="text/javascript" language="javascript" src="js/jquery-ui-1.10.0.custom.min.js"></script>	
+		<script type="text/javascript" language="javascript" src="js/d3.v3.min.js"></script>
+		<script type="text/javascript" language="javascript" src="js/underscore-min.js"></script>	
+		<script type="text/javascript" language="javascript">
+			$(function(){
+				$( "#statdialog" ).dialog({
+					autoOpen: false,
+					show: {
+						effect: "blind",
+						duration: 1000
+					},
+					hide: {
+						effect: "explode",
+						duration: 1000
+					}
+				});
+			});
+		</script>
+		
+		<script type="text/html" id="rulestabletmpl" >
+			<table cellpadding="0" cellspacing="0" border="0" class="display" id="ruletable">
+				<thead>
+					<tr>
+						<th rowspan="2">Characteristics</th>
+						<th colspan="4" ><%= bdtype %><img id='bd100m' src='css/images/switch2.png' onclick="toggleVis()";/></th><!--only indices 1,2,3 changed -->
+					</tr>
+					<tr>
+						<th>Prevalence</th>
+						<th>LogOR</th>
+						<th>MaxDiff</th>
+						<th>ToxicW/Max</th>							
+					</tr>
+				</thead>
+				<tbody>
+					<% _.each(curBDrules, function(arule){ %>
+					<tr id=<%= arule[0] %>>
+						<td><%= arule[1] %></td>								
+						<td id='<%= arule[0] %>_s' class='tiletd'><div style="display: none;" class="tileval"><%= arule[3] %></div><div style="display: inline-block;" class="tile" title="<%= arule[3] %>"></div></td>
+						<td id='<%= arule[0] %>_o' class='tiletd'><div style="display: none;" class="tileval"><%= arule[4] %></div><div style="display: inline-block;" class="tile" title="<%= arule[4] %>, 95% CI=[<%= arule[5] %>, <%= arule[6] %>]"></div></td>								
+						<td id='<%= arule[0] %>_d' class='tiletd'><div style="display: none;" class="tileval"><%= arule[8] %></div><div style="display: inline-block;" class="tile" title="<%= arule[8] %>"></div></td>
+						<td class='maxtoxic' title='<%= arule[7] %>'><%= arule[7] %></td>								
+					</tr>	
+					<% }); %>
+				</tbody>
+			</table>
+		</script>
+		<script type="text/javascript" language="javascript" src="js/rulestable.js"></script>				
+	</head>
+	<body>
+		<div id="container" style="width: 1350px;">	
+			<div class="ruleview">
+				<div id="navigate" class="controls">			
+					<fieldset id="bdtype">
+						<input type="radio" id="type_bd100" name="bdtype" value="bd100" checked="checked"/><label for="type_bd100" class="sel"><span class="bd100">BD100</span></label>
+						<!--<input type="radio" id="type_bd200" name="bdtype" value="bd200"/><label for="type_bd200"><span class="bd200">BD200</span></label>-->
+						<input type="radio" id="type_bd300" name="bdtype" value="bd300"/><label for="type_bd300"><span class="bd300">BD300</span></label>
+						<input type="radio" id="type_bd400" name="bdtype" value="bd400"/><label for="type_bd400"><span class="bd400">BD400</span></label>
+					</fieldset>		
+					<!--<div class="sigtips">Significance level for Odds Ratio is 0.05</div> -->
+					<div class="cm1 legend">
+						<ul>					
+							<li class="S0-5"></li>
+							<li class="S1-5"></li>
+							<li class="S2-5"></li>
+							<li class="S3-5"></li>
+							<li class="S4-5"></li>
+						</ul>
+						<p class="more">high</p>
+						<p class="less">low</p>
+					</div>
+					<div class="cm1 legend">
+						<ul>					
+							<li class="O0-5"></li>
+							<li class="O1-5"></li>
+							<li class="O2-5"></li>
+							<li class="O3-5"></li>
+							<li class="O4-5"></li>
+						</ul>
+						<p class="more">high</p>
+						<p class="less">low</p>
+					</div>
+					<div class="cm1 legend">
+						<ul>					
+							<li class="D0-5"></li>
+							<li class="D1-5"></li>
+							<li class="D2-5"></li>
+							<li class="D3-5"></li>
+							<li class="D4-5"></li>
+						</ul>
+						<p class="more">high</p>
+						<p class="less">low</p>
+					</div>
+				</div>
+				<div id='rulestablediv'>			
+				</div>
+			</div>
+			<div id="visview">
+				<div id="chartctl" >
+					<!--<div class="sigtips">Significance level for Rpb coefficient is 0.05</div>	-->
+					<div class="pnp pnplen">
+						<ul>					
+							<li class="l0-2"></li>
+							<li class="l1-2"></li>					
+						</ul>
+						<p class="more">Unexposed</p>
+						<p class="less">Exposed</p>
+					</div>
+				</div>
+				<div class="bardiv-header">	
+					<div class="barcontrols">
+						<fieldset id="charttype">
+							<input type="radio" id="chart_group" name="charttype" value="group" checked="checked"/><label for="chart_group" class="sel"><span class="bd100">Group</span></label>
+							<input type="radio" id="chart_stack" name="charttype" value="stack"/><label for="chart_stack"><span class="bd200">Stack</span></label>
+						</fieldset>
+					</div>
+					<div class="bardiv-filter" id="barchart_filter">
+						<label>Search Toxic:  
+							<input type="text" id="barft_in">
+						</label>
+						<input type="button" name="restorevis" value="restore" style="display: none;"/><label for="restvisbtn" class='restorelb'><span  id="restvisbtn">Reset View</span></label>						
+					</div>					
+				</div>
+				<div  class="barcontrols">	
+				<div style="float: right; margin-top: 10px;margin-right: 10px;margin-bottom: 10px;width: 39%; text-align:right">Significance level for rpb is 0.05</div>
+					<div style="float: left; margin-top: 10px;margin-right: 10px;margin-bottom: 10px;">Sort Rpb by:</div>		
+					<div style="float: left; margin-top: 6px;margin-bottom: 6px; "					
+						<fieldset id="sortingtype" style="border:0">
+							<input type="radio" id="sorting_p" name="sortingtype" value="p" checked="checked"/><label for="sorting_p" class="sel"><span class="bd100">Exposed</span></label>
+							<input type="radio" id="sorting_np" name="sortingtype" value="np"/><label for="sorting_np"><span class="bd200">Unexposed</span></label>
+							<input type="radio" id="sorting_diff" name="sortingtype" value="diff"/><label for="sorting_diff"><span class="bd200">Diff</span></label>
+						</fieldset>	
+					</div>
+								
+				</div>
+				<div id="chart">
+					<svg id="barsvg"></svg>	
+					<div style="clear:both"></div>
+					<div id='pcview'>
+						<div  class="controls">	
+							<span style="float: left; margin-top: 10px;"> </span>
+							<fieldset id="pcpkeytype">
+								 <input type="radio" id="pcpkeytype_0" name="pcpkeytype" value="1" checked="checked"/><label for="pcpkeytype_0" class="sel"><span class="key_ca_num">Chemicals</span></label> 
+								<!--<input type="radio" id="pcpkeytype_1" name="pcpkeytype" value="1"/><label for="pcpkeytype_1"><span class="key_num"></span></label>-->
+							</fieldset>
+						</div>						
+						<svg id="pcsvg"></svg>	
+					</div>					
+					<div id="statdialog" title="Summary Statistic Table">This is test dialog.</div>
+				</div>			
+			</div> 			
+		</div>	
+		
+		<script type="text/javascript" src="js/negbar.js"></script>
+		<script type="text/javascript" src="js/pcp.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+
+<!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+    var sc_project=10227952; 
+    var sc_invisible=1; 
+    var sc_security="19025bec"; 
+    var sc_https=1; 
+    var scJsHost = (("https:" == document.location.protocol) ?
+    "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
+    "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
+    </script> 
+    <noscript><div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div></noscript> 
+<!-- End of StatCounter Code for Default Guide -->
+
+	</body>
+</html>

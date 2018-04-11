@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <title>Dual Parallel Coordinates</title>
+    <link rel="stylesheet" href="css/main.css" type="text/css" charset="utf-8" />
+  </head>
+  <body> 
+    <div><h2>
+    Dual Parallel Coordinates compares correlations between whole vs partitioned independent variables and the dependent variable. </h2><h2>Position on each axis represents the value of correlation. </h2><h2>Nonsignificant variables are forced to cross the position of 0 for the purpose of selection. </h2><h2>Drag up or down on each axis to brush and select.</h2>
+    
+  </div>  
+    <div id="pcmain">	
+      
+  		<div id="chart">
+  			<svg id="pcsvg"></svg>	  
+  		</div>  	
+    </div>  
+
+    <script type="text/javascript" src="js/d3.v2.js"></script>	
+    <script type="text/javascript" src="js/underscore.js"></script>	
+    <script type="text/javascript" src="js/parallel.js"></script>	
+    <script> loadCSV(); </script>
+  
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+    var sc_project=10227952; 
+    var sc_invisible=1; 
+    var sc_security="19025bec"; 
+    var sc_https=1; 
+    var scJsHost = (("https:" == document.location.protocol) ?
+    "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
+    "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
+    </script> 
+    <noscript><div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div></noscript> 
+<!-- End of StatCounter Code for Default Guide -->
+  </body>
+</html>

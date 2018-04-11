@@ -1,0 +1,208 @@
+@charset "UTF-8";
+
+
+.legendTable {
+  padding-bottom: 10px;
+  clear: both;
+  float: left;
+}
+#crossTab {
+  border: 1px solid #ccc;
+}
+.legendTable table, th, td{
+  border-collapse: collapse;
+}
+.legendTable table span {
+  display: inline-block;
+  height: 12px;
+  width: 32px;
+  vertical-align: middle;
+    line-height: 12px;
+    color: #fff;
+    cursor: pointer;
+}
+
+#redColorSpans, #blueColorSpans {
+  display: inline;
+}
+
+#redColorSpans span {
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+}
+#blueColorSpans span {
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+}
+
+#crossTab .toptd { border-top: thin solid #9D1CE2; }
+#crossTab .bottomtd { border-bottom: thin solid #9D1CE2; }
+#crossTab .lefttd { border-left: thin solid #9D1CE2; }
+#crossTab .righttd { border-right: thin solid #9D1CE2; }
+#crossTab td {
+    text-align: center;
+}
+
+#freqTab td.label {
+  padding-left: 4px;
+}
+
+/**
+* Styles for pure html layout
+*/
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+a:link,
+a:visited {
+  color: black; }
+
+h1 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+.header-label-left {
+  margin-right: 5px;
+  float: left;
+  color: white; }
+
+#data-loading-indicator {
+  padding-left: 5px;
+  padding-right: 5px; }
+
+.header, .header-right, .header-right-clickable {
+  color: white;
+  font-weight: bold;
+  float: left;}
+  .header a:visited, .header-right a:visited, .header-right-clickable a:visited,
+  .header a:link,
+  .header-right a:link,
+  .header-right-clickable a:link {
+    color: white;
+    text-decoration: none; }
+
+.header-right, .header-right-clickable {
+  float: right;
+  padding-right: 10px; }
+
+.header-right-clickable {
+  cursor: pointer; }
+
+#header-ds-selector {
+  float: right;
+  color: black; }
+
+.button-panel {
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 5px; }
+
+.header-container {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background: #000;
+  border-bottom: 2px solid #999;
+  display: block;
+  height: 20px;
+  color: #666; }
+
+.menu-container {
+  padding: 5px 10px;
+  background: #eee;
+  border-bottom: 2px solid #999;
+  display: block;
+  height: 20px;
+  text-align: right;
+  font-size: 0.8em;
+  font-style: italic; }
+
+.padded-container {
+  padding: 20px 20px 10px; }
+
+.ui-container {
+  /*position: relative;*/
+  width: 100%;
+  padding-top: 5px;
+  height: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.ui-layout-west {
+  /*
+  position: absolute;
+  width: 24%;
+  padding: 4px;
+  margin-left: 8px;
+  left: 0;
+  */
+
+  float: left;
+  width: 40%;
+  padding: 4px;
+  margin-left: 4px;
+/*
+  overflow: scroll;
+    height: 800px;
+    */
+
+}
+
+.ui-layout-center {
+  /*
+  position: absolute;
+  margin-left: 24%;
+  width: 51%;
+  */
+
+  width: 40%;
+  padding: 4px;
+
+
+}
+.ui-layout-east {
+  
+
+  float: right;
+  width: 32%; 
+  
+
+}
+
+.ui-fader {
+  position: absolute;
+  /* makes the div go into a position that’s absolute to the browser viewing area */
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  z-index: 90;
+  /* makes the div the second most top layer, so it’ll lay on top of everything else EXCEPT for divs with a higher z-index (meaning the #overlay ruleset) */ }
+
+
+
+
+/** ============ Configuration Panel Left ============== */
+.configTable {
+  padding-bottom: 10px;
+
+  /*display: inline-block;*/
+
+  clear: both; }
+
+.configHeader {
+  font-weight: bold;
+  padding-bottom: .2em;
+  padding-top: .4em;
+}
+
+.configH1 {
+  font-weight: bold; }

@@ -1,0 +1,82 @@
+html, body {
+   width: 100%;
+   height: 100%;
+   margin: 0;
+}
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+
+.left {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;    
+    width: 42%;
+
+    border-right: rgb(128, 158, 196);
+    border-width: 1px;
+    border-style: solid;
+}
+
+.topLeft {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 55%; 
+    width: 100%;      
+}
+
+.buttomLeft {
+    position: absolute;
+    top: 55%;
+    left: 0px;
+    bottom: 0px;
+    height: 45%;  
+    width: 100%;      
+}
+
+.content {
+    position: absolute;
+    top: 0px;
+    left: 42%;
+    width: 58%;
+    right: 0px;
+    bottom: 0px;        
+}
+
+.label rect {
+    stroke: #CB7676;
+    stroke-width: 1;
+    fill: none;
+}
+.graph {
+		fill: None;		
+	}
+	
+.graph .route .rosearcs path {
+	stroke: #fff;	
+	stroke-width: 1px
+}
+.label .node, .label text{
+  cursor: pointer;
+}
+.label .nodeoutline {
+    fill: black;
+    stroke: black;
+    display: none;
+}
+.node_line {
+    stroke: #999;
+    stroke-width: 1px;
+    opacity: 0.5;
+}
+
+.olControlLayerSwitcher .layersDiv{
+  background-color: rgba(119, 152, 190, 0.7) !important;   
+}
+  

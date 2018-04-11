@@ -1,0 +1,17 @@
+{
+  "name": "sfbusvis",
+  "version": "1.0.0",
+  "description": "San Francisco Muni Real-time Tracking",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "SF",
+    "Muni",
+    "visualization",
+    "real-time"
+  ],
+  "author": "Chong Zhang",
+  "license": "MIT"
+}

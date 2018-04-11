@@ -1,0 +1,39 @@
+.treeChart{
+	font-size: 1em;
+}
+
+.treeChart .background {
+	fill: none;
+	pointer-events: all;
+}
+
+.treeChart .root rect{
+	fill: none;
+	stroke: #fff;
+}
+
+.treeChart .node :not(.root) {
+	cursor: pointer;
+}
+
+.treeChart .node .checkbox {
+    fill: none;
+    stroke: white;
+    stroke-width: 1px;
+}
+
+.treeChart .node .uncheck {
+	opacity: 0;
+}
+
+.treeChart .node .arrow {
+	width: 11px;
+	height: 11px;
+	fill: #ccc;
+	stroke: #5D5D5D;
+	cursor: pointer;
+}
+
+.treeChart .node .outline {
+	fill: none;
+}

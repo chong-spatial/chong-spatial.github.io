@@ -1,0 +1,2 @@
+in
+salary<=50K out

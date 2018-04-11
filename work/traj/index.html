@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+  <head> 
+    <title>Trajectory Data Visualization</title>
+    <meta charset="UTF-8">
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+    <link href="css/jquery-ui-1.10.3.sm.css" rel="stylesheet" type="text/css">
+    <link href="css/nv.d3.css" rel="stylesheet" type="text/css">
+
+    <script src="scripts/OpenLayers.js" ></script>  
+    <script src="scripts/jquery-1.10.2.min.js"></script>
+    <script src="scripts/jquery-ui-1.10.3.custom.min.js"></script>  
+    <script src="scripts/d3.min.js"></script>
+    <!-- <script src="data/FeatureCollection_ForChong.js"></script> -->
+    
+    <script src="data/FeatureCollection_synthetic0.js"></script>  
+    <script src="data/partitionGraphAndDetail_ForChong.js"></script>
+    <script src="scripts/nv.d3.js"></script>
+    <script src="scripts/rosegraph-1d.js"></script>
+    <script src="scripts/setting.js"></script>
+    <script src="scripts/overlay.js"></script>
+    <script src="scripts/line.js"></script>
+    <script src="scripts/main.js"></script> 
+
+  </head>
+  <body onload="init();">
+    <div class="container">    
+      <div class="left">
+        <div class='topLeft'>
+          <div id = "ctrlPane" style="width: 100%; "> <!--padding: 1px;-->
+            <!-- <div id = "ctrlWin" style="float: left; cursor: pointer">&and;</div> -->
+            <div style="float: left; padding-top: 3px;"><input type="checkbox" id="mulsel" value="multiselect" checked > <label style="
+            cursor: pointer"; for='mulsel'>Multi-select</label></div>
+            <div style="display: inline; float: right; padding: 1px;">
+              <select id="timeSelect" >
+                  <option value="allday" >All day</option>
+                  <option value="0" >0:00</option>
+                  <option value="2" >2:00</option>
+                  <option value="4" >4:00</option>
+                  <option value="6" >6:00</option>
+                  <option value="8">8:00</option>
+                  <option value="10">10:00</option>
+                  <option value="12">12:00</option>
+                  <option value="14">14:00</option>
+                  <option value="16">16:00</option>
+                  <option value="18">18:00</option>
+                  <option value="20">20:00</option>
+                  <option value="22">22:00</option>
+              </select>
+              <input type = "submit" id = "resetbtn" value = "Reset Map">
+            </div>
+            <div id="graphpart" style="text-align: center;" class="ui-widget-header ui-corner-all";>
+              <input type="radio" id="nlradio1" value="pagerank" name="nlradio" checked="checked"><label for="nlradio1">PageRank</label>
+              <input type="radio" id="nlradio2" value="betweenness" name="nlradio" ><label for="nlradio2">Betweeness</label>
+              <input type="radio" id="nlradio3" value="closeness" name="nlradio" ><label for="nlradio3">Closeness</label>
+              <input type="radio" id="nlradio4" value="averageSpeed" name="nlradio" ><label for="nlradio4">AvgSpeed</label>
+              <input type="radio" id="nlradio5" value="travelTime" name="nlradio" ><label for="nlradio5">TravelTime</label>
+              <input type="radio" id="nlradio6" value="flow" name="nlradio" ><label for="nlradio6">Flow</label>
+              <!-- <input type="radio" id="degree" name="radio" ><label for="degree">Degree</label>-->
+            </div>
+            <div id = "graphvisdiv" style=" border-top: 0px;"></div> <!--border: 1px solid rgb(128, 158, 196);-->
+          </div>
+        </div>
+        <div class='buttomLeft'>
+          <div id='groupselect' class="ui-widget-header ui-corner-all" style="text-align: center;" >
+            <label for="lineSelect">Line chart:</label>
+            <select id="lineSelect" >
+                <option value="pagerank" >Pagerank</option>
+                <option value="betweenness" >Betweeness</option>
+                <option value="closeness" >Closeness</option>
+                <option value="averageSpeed" >AvgSpeed</option>
+                <option value="travelTime" >TravelTime</option>
+                <option value="flow">Flow</option>
+            </select>
+            <label for="roseSelect">Rose chart:</label>
+            <select id="roseSelect" >
+                <option value="pagerank" >Pagerank</option>
+                <option value="betweenness" >Betweeness</option>
+                <option value="closeness" >Closeness</option>
+                <option value="averageSpeed" >AvgSpeed</option>
+                <option value="travelTime" >TravelTime</option>
+                <option value="flow">Flow</option>
+            </select>
+            <label for="roadSelect">Road network:</label>
+            <select id="roadSelect" >
+                <option value="pagerank" >Pagerank</option>
+                <option value="betweenness" >Betweeness</option>
+                <option value="closeness" >Closeness</option>
+                <option value="averageSpeed" >AvgSpeed</option>
+                <option value="travelTime" >TravelTime</option>
+                <option value="flow">Flow</option>
+            </select>
+          </div>
+          <svg id = 'multiline'></svg>
+        </div>
+      </div>
+      <div id="basicMap" class="content"></div>
+    </div> 
+
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+    var sc_project=10227952; 
+    var sc_invisible=1; 
+    var sc_security="19025bec"; 
+    var sc_https=1; 
+    var scJsHost = (("https:" == document.location.protocol) ?
+    "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
+    "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
+    </script> 
+    <noscript><div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div></noscript> 
+<!-- End of StatCounter Code for Default Guide -->
+   </body>
+</html>

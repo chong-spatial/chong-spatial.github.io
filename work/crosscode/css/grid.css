@@ -1,0 +1,192 @@
+#itemSVG .itemg{
+  pointer-events: all;
+}
+#arrow4ruleSVG path {
+  /*fill:#bdbdbd;*/
+  fill: white;
+  stroke: #bdbdbd;
+  cursor: pointer;
+}
+#bsvg .highltRule {
+  fill: #ecec14;
+  stroke: #9e9e9e;
+  stroke-width: 1px;
+}
+
+#itemSVG .highltItem {  
+  stroke: #000;
+  stroke-width: 2px;  
+}
+
+.rulebg {
+  fill:none;
+  pointer-events: all;
+}
+.svggridbg {
+  fill:none;
+}
+#bsvg .inline line{
+  stroke: #9E14DA;
+}
+.rulehead {
+  cursor: pointer;
+}
+.itemName text{
+  fill: #fff;
+}
+.itemName itemLabRect{
+  stroke: #000;
+}
+.rulehead rect{
+  fill: #636363;
+}
+.rulehead text {
+  /*fill: #fff;*/
+}
+.itemVal rect {
+  opacity: 0.7;
+}
+.col .focus_cell  {
+  opacity: 0.7;
+}
+
+.focus_highlight {
+  stroke: #000;
+  stroke-width: 2px;
+}
+.itemset_highlight {
+  stroke: #000 !important;
+    stroke-width: 2px;
+
+}
+.slickGrid_highlight_red_0{
+  background: #a50f15;
+      border-color: #000 !important;
+      opacity: 0.7;
+}
+.slickGrid_highlight_red_1{
+  background: #de2d26;
+      border-color: #000 !important;
+      opacity: 0.7;
+}
+.slickGrid_highlight_red_2{
+  background: #fb6a4a;
+      border-color: #000 !important;
+      opacity: 0.7;
+}
+.slickGrid_highlight_red_3{
+  background: #fcae91;
+      border-color: #000 !important;
+      opacity: 0.7;
+}
+.slickGrid_highlight_red_4{
+  background: #fee5d9;
+      border-color: #000 !important;
+      opacity: 0.7;
+}
+
+.slickGrid_highlight_blue_0 {
+  background: #08519c;
+      border-color: #000 !important;
+      opacity: 0.7;
+}
+.slickGrid_highlight_blue_1 {
+  background: #3182bd;
+      border-color: #000 !important;
+      opacity: 0.7;
+}
+.slickGrid_highlight_blue_2 {
+  background: #6baed6;
+      border-color: #000 !important;
+      opacity: 0.7;
+}
+.slickGrid_highlight_blue_3 {
+  background: #bdd7e7;
+      border-color: #000 !important;
+      opacity: 0.7;
+}
+.slickGrid_highlight_blue_4 {
+  background: #eff3ff;
+      border-color: #000 !important;
+      opacity: 0.7;
+}
+
+#vis-context{
+  border-radius: 2px;
+  /*border: 1px solid #ccc;*/
+}
+
+#vis-context canvas{
+  position: absolute;
+  z-index: -1;
+  margin-top: 108px; /*24 px*/
+}
+
+#vis-context #bsvg {
+  margin-top: 108px; /*24 px*/
+}
+
+.grid {
+    font: 12px 'arial';
+    fill: none;
+    stroke: black;
+    /*shape-rendering: crispEdges;*/
+}
+.caption {
+
+    font-size: 10px;
+}
+
+
+rect.cell:hover {
+    stroke: 2px rgb(200,5,5);
+}
+
+
+#legend {
+    padding: 1.5em 0 0 1.5em;
+}
+
+li.key {
+    border-top-width: 15px;
+    border-top-style: solid;
+    font-size: .75em;
+    width: 10%;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: #636363;
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}

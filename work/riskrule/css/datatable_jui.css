@@ -1,0 +1,732 @@
+
+/*
+ * jQuery UI specific styling
+ */
+.expanded-group{
+	background: url("images/minus.jpg") no-repeat scroll left center transparent;
+}
+
+.collapsed-group{
+	background: url("images/plus.jpg") no-repeat scroll left center transparent;
+/*	padding-left: 15px !important */
+}
+
+.paging_two_button .ui-button {
+	float: left;
+	cursor: pointer;
+	* cursor: hand;
+}
+
+.paging_full_numbers .ui-button {
+	padding: 2px 6px;
+	margin: 0;
+	cursor: pointer;
+	* cursor: hand;
+	color: #333 !important;
+}
+
+.dataTables_paginate .ui-button {
+	margin-right: -0.1em !important;
+}
+
+.paging_full_numbers {
+	width: 350px !important;
+}
+
+.dataTables_wrapper .ui-toolbar {
+	/*padding: 5px;*/
+}
+
+.dataTables_paginate {
+	width: auto;
+}
+
+.dataTables_info {
+	padding-top: 3px;
+}
+
+table.display thead th {
+	padding: 3px 0px 3px 28px;
+	border-bottom: 1px solid black;
+	font-weight: normal;
+
+	cursor: pointer;
+	* cursor: hand;
+}
+
+div.dataTables_wrapper .ui-widget-header {
+	font-weight: normal;
+}
+
+
+/*
+ * Sort arrow icon positioning
+ */
+table.display thead th div.DataTables_sort_wrapper {
+	position: relative;
+	padding-right: 20px;
+}
+
+table.display thead th div.DataTables_sort_wrapper span {
+	position: absolute;
+	top: 50%;
+	margin-top: -8px;
+	right: 0;
+}
+
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ * Everything below this line is the same as demo_table.css. This file is
+ * required for 'cleanliness' of the markup
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DataTables features
+ */
+
+.dataTables_wrapper {
+	position: relative;
+	clear: both;
+}
+
+.dataTables_processing {
+	position: absolute;
+	top: 0px;
+	left: 50%;
+	width: 250px;
+	margin-left: -125px;
+	border: 1px solid #ddd;
+	text-align: center;
+	color: #999;
+	font-size: 11px;
+	padding: 2px 0;
+}
+
+.dataTables_length {
+	width: 40%;
+	float: left;
+}
+
+.dataTables_filter {
+	width: 58%;
+	float: right;
+	text-align: right;
+}
+
+.dataTables_filter  span{
+
+	float: left;
+	text-align: center;
+}
+
+.dataTables_info {
+	width: 50%;
+	float: left;
+}
+
+.dataTables_paginate {
+	float: right;
+	text-align: right;
+}
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DataTables display
+ */
+table.display {
+	width: 100%;
+	margin: 0 auto;	
+	border-collapse: collapse;
+	border-spacing: 0;
+	clear: both;
+	border: 1px solid lightGrey;
+}
+
+table.display tfoot th {
+	padding: 3px 0px 3px 10px;
+	font-weight: bold;
+	font-weight: normal;
+}
+
+table.display tr.heading2 td {
+	border-bottom: 1px solid #aaa;
+}
+
+table.display td {
+	padding: 0;
+	text-align: center;
+	margin:0;
+}
+
+table.display td.center {
+	text-align: center;
+}
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DataTables sorting
+ */
+
+.sorting_asc {
+	background: url('../images/sort_asc.png') no-repeat center right;
+}
+
+.sorting_desc {
+	background: url('../images/sort_desc.png') no-repeat center right;
+}
+
+.sorting {
+	background: url('../images/sort_both.png') no-repeat center right;
+}
+
+.sorting_asc_disabled {
+	background: url('../images/sort_asc_disabled.png') no-repeat center right;
+}
+
+.sorting_desc_disabled {
+	background: url('../images/sort_desc_disabled.png') no-repeat center right;
+}
+
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DataTables row classes
+ */
+table.display tr.odd.gradeA {
+	background-color: #ddffdd;
+}
+
+table.display tr.even.gradeA {
+	background-color: #eeffee;
+}
+
+
+
+
+table.display tr.odd.gradeA {
+	background-color: #ddffdd;
+}
+
+table.display tr.even.gradeA {
+	background-color: #eeffee;
+}
+
+table.display tr.odd.gradeC {
+	background-color: #ddddff;
+}
+
+table.display tr.even.gradeC {
+	background-color: #eeeeff;
+}
+
+table.display tr.odd.gradeX {
+	background-color: #ffdddd;
+}
+
+table.display tr.even.gradeX {
+	background-color: #ffeeee;
+}
+
+table.display tr.odd.gradeU {
+	background-color: #ddd;
+}
+
+table.display tr.even.gradeU {
+	background-color: #eee;
+}
+
+/*
+tr.odd {
+	background-color: #E2E4FF;
+}
+
+tr.even {
+	background-color: white;
+}
+*/
+#chart .bars .p{
+	/*
+	fill: #FF7F0E;
+	stroke: #FF7F0E;
+	*/
+	fill: #8E8EB5;
+	stroke: #556;
+	
+}
+#chart .bars .p:hover{
+	fill: #cccccc;
+	stroke: #556;
+	stroke-width: 2;
+}
+#chart .bars .np{
+	/*
+	fill: #1f77b4;
+	stroke: #1f77b4;
+	*/
+	fill: #aad;
+	stroke: #aad;
+}
+#chart .bars .np:hover{
+	fill: #cccccc;
+	stroke: #aad;
+	stroke-width: 2;
+}
+#chart .bars .highlight{
+	fill: #F9FFCB;
+}
+#ruletable tr.odd {
+	background-color: white;
+}
+
+#ruletable tr.even {
+	background-color: white;
+}
+#ruletable tr.highlight{
+	background-color: #F9FFCB;
+}
+
+#ruletable  tr.even:hover{
+    background-color: #CCCCCC;
+}
+ 
+#ruletable  tr.odd:hover{
+    background-color: #CCCCCC;
+}
+#ruletable  tr.even:hover td.sorting_1{
+    background-color: #CCCCCC;
+}
+ 
+#ruletable  tr.odd:hover td.sorting_1{
+    background-color: #CCCCCC;
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Misc
+ */
+.dataTables_scroll {
+	clear: both;
+}
+
+.dataTables_scrollBody {
+	-webkit-overflow-scrolling: touch;
+}
+
+.top, .bottom {
+	padding: 15px;
+	background-color: #F5F5F5;
+	border: 1px solid #CCCCCC;
+}
+
+.top .dataTables_info {
+	float: none;
+}
+
+.clear {
+	clear: both;
+}
+
+.dataTables_empty {
+	text-align: center;
+}
+
+tfoot input {
+	margin: 0.5em 0;
+	width: 100%;
+	color: #444;
+}
+
+tfoot input.search_init {
+	color: #999;
+}
+
+td.group {
+	background-color: #d1cfd0;
+	border-bottom: 2px solid #A19B9E;
+	border-top: 2px solid #A19B9E;
+}
+
+td.details {
+	background-color: #d1cfd0;
+	border: 2px solid #A19B9E;
+}
+
+
+.ruletable_alt_pagination div.dataTables_info {
+	width: 40%;
+}
+
+.paging_full_numbers a.paginate_button,
+ 	.paging_full_numbers a.paginate_active {
+	border: 1px solid #aaa;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	padding: 2px 5px;
+	margin: 0 3px;
+	cursor: pointer;
+	*cursor: hand;
+	color: #333 !important;
+}
+
+.paging_full_numbers a.paginate_button {
+	background-color: #ddd;
+}
+
+.paging_full_numbers a.paginate_button:hover {
+	background-color: #ccc;
+	text-decoration: none !important;
+}
+
+.paging_full_numbers a.paginate_active {
+	background-color: #99B3FF;
+}
+
+table.display tr.even.row_selected td {
+	background-color: #B0BED9;
+}
+
+table.display tr.odd.row_selected td {
+	background-color: #9FAFD1;
+}
+
+
+/*
+ * Sorting classes for columns
+ */
+/* For the standard odd/even */
+
+/*
+tr.odd td.sorting_1 {
+	background-color: #D3D6FF;
+}
+*/
+
+#ruletable tr.odd td.sorting_1.highlight {
+	background-color: rgb(249, 255, 203);
+}
+
+#ruletable tr.odd td.sorting_2 {
+	background-color: #DADCFF;
+}
+
+tr.odd td.sorting_3 {
+	background-color: #E0E2FF;
+}
+/*
+tr.even td.sorting_1 {
+	background-color: #EAEBFF;
+}
+*/
+
+#ruletable tr.even td.sorting_1.highlight {
+	background-color: rgb(249, 255, 203);
+}
+#ruletable tr.even td.sorting_2 {
+	background-color: #F2F3FF;
+}
+
+tr.even td.sorting_3 {
+	background-color: #F9F9FF;
+}
+
+
+/* For the Conditional-CSS grading rows */
+/*
+ 	Colour calculations (based off the main row colours)
+  Level 1:
+		dd > c4
+		ee > d5
+	Level 2:
+	  dd > d1
+	  ee > e2
+ */
+tr.odd.gradeA td.sorting_1 {
+	background-color: #c4ffc4;
+}
+
+tr.odd.gradeA td.sorting_2 {
+	background-color: #d1ffd1;
+}
+
+tr.odd.gradeA td.sorting_3 {
+	background-color: #d1ffd1;
+}
+
+tr.even.gradeA td.sorting_1 {
+	background-color: #d5ffd5;
+}
+
+tr.even.gradeA td.sorting_2 {
+	background-color: #e2ffe2;
+}
+
+tr.even.gradeA td.sorting_3 {
+	background-color: #e2ffe2;
+}
+
+tr.odd.gradeC td.sorting_1 {
+	background-color: #c4c4ff;
+}
+
+tr.odd.gradeC td.sorting_2 {
+	background-color: #d1d1ff;
+}
+
+tr.odd.gradeC td.sorting_3 {
+	background-color: #d1d1ff;
+}
+
+tr.even.gradeC td.sorting_1 {
+	background-color: #d5d5ff;
+}
+
+tr.even.gradeC td.sorting_2 {
+	background-color: #e2e2ff;
+}
+
+tr.even.gradeC td.sorting_3 {
+	background-color: #e2e2ff;
+}
+
+tr.odd.gradeX td.sorting_1 {
+	background-color: #ffc4c4;
+}
+
+tr.odd.gradeX td.sorting_2 {
+	background-color: #ffd1d1;
+}
+
+tr.odd.gradeX td.sorting_3 {
+	background-color: #ffd1d1;
+}
+
+tr.even.gradeX td.sorting_1 {
+	background-color: #ffd5d5;
+}
+
+tr.even.gradeX td.sorting_2 {
+	background-color: #ffe2e2;
+}
+
+tr.even.gradeX td.sorting_3 {
+	background-color: #ffe2e2;
+}
+
+tr.odd.gradeU td.sorting_1 {
+	background-color: #c4c4c4;
+}
+
+tr.odd.gradeU td.sorting_2 {
+	background-color: #d1d1d1;
+}
+
+tr.odd.gradeU td.sorting_3 {
+	background-color: #d1d1d1;
+}
+
+tr.even.gradeU td.sorting_1 {
+	background-color: #d5d5d5;
+}
+
+tr.even.gradeU td.sorting_2 {
+	background-color: #e2e2e2;
+}
+
+tr.even.gradeU td.sorting_3 {
+	background-color: #e2e2e2;
+}
+
+
+#ruletable .tile {
+	width: 42px;
+	height: 42px;
+	position: relative;
+	-webkit-transform-style: preserve-3d;
+	-webkit-transition: 0.7s;
+	display:inline-block;
+	vertical-align: middle;
+	margin-top: 2px;
+
+	border: 1px solid white;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+#ruletable td.sel .face {
+	border-color: black;
+}
+
+.face.hidden {
+	display: none;
+}
+
+#ruletable td.dim .screen {
+	opacity: 0.6;
+}
+
+
+.tile .screen {
+	background: white;
+	opacity: 0.0;
+	width: 36px;
+	height: 36px;
+	position: absolute;
+	z-index: 1337;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	border: 1px solid white;
+}
+/* 5 linear classes, sequential nature, according to colorbrewer */
+
+.cm1 .S0-5 {
+	background: #EDF8E9;
+	/*
+	border-left-color: #5b40b3;
+	border-top-color: #5b40b3;
+	border-right-color: #3e2b7a;
+	border-bottom-color: #3e2b7a;
+	*/
+}
+.cm1 .S1-5 {
+	background: #BAE4B3;
+}
+.cm1 .S2-5 {
+	background: #74C476;
+}
+.cm1 .S3-5 {
+	background: #31A354;
+}
+.cm1 .S4-5 {
+	background: #006D2C;
+}
+
+/*LogOR*/
+.cm1 .O0-5 {
+	background: #FEEDDE;
+}
+.cm1 .O1-5 {
+	background: #FDBE85;
+}
+.cm1 .O2-5 {
+	background: #FD8D3C;
+}
+.cm1 .O3-5 {
+	background: #E6550D;
+}
+.cm1 .O4-5 {
+	background: #A63603;
+}
+
+/*MaxDiff*/
+.cm1 .D0-5 {
+	background: #F2F0F7;
+}
+.cm1 .D1-5 {
+	background: #CBC9E2;
+}
+.cm1 .D2-5 {
+	background: #9E9AC8;
+}
+.cm1 .D3-5 {
+	background: #756BB1;
+}
+.cm1 .D4-5 {
+	background: #54278F;
+}
+
+/*Legend*/
+.legend {
+	float:right;
+	width: 76px;
+	color: #777;
+	background: #f3f3f3;
+	border: 1px solid #f0f0f0;
+	overflow: hidden;
+	line-height: 11px;
+	margin-bottom: 10px;
+	margin-right: 10px;
+}
+
+.legend ul {
+	list-style-type: none;
+	overflow: hidden;
+	padding:0;
+	list-style: none;
+	margin:0;
+}
+
+.legend li {
+	float: left;
+	margin-right: 1px;
+	width: 14px;
+	height: 14px;
+}
+
+.legend p.more {
+	float: right;
+	margin-top: 3px;
+	margin-bottom:3px;
+}
+
+.legend p.less {
+	float: left;
+	margin-top: 3px;
+	margin-bottom:3px;
+}
+
+.pnplen {
+	float:right;
+	width: 120px;
+	color: #777;
+	background: #f3f3f3;
+	border: 1px solid #f0f0f0;
+	overflow: hidden;
+	line-height: 11px;
+	margin-bottom: 10px;
+	margin-right: 10px;
+}
+.pnplen ul {
+	list-style-type: none;
+	overflow: hidden;
+	padding:0;
+	list-style: none;
+	margin:0;
+}
+
+.pnplen p.more {
+	float: right;
+	margin-top: 3px;
+	margin-bottom:3px;
+	font-size: 12px;
+}
+
+.pnplen p.less {
+	float: left;
+	margin-top: 3px;
+	margin-bottom:3px;
+	font-size: 12px;
+}
+.pnp .l0-2{
+	background: #8E8EB5;
+	float: left;
+	margin-right: 20px;
+	margin-left: 1px;
+	width: 14px;
+	height: 14px;
+}
+.pnp .l1-2{
+	background: #aad;
+	float: right;
+	margin-right: 1px;
+	width: 14px;
+	height: 14px;
+}

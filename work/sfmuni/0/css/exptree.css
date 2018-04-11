@@ -1,0 +1,39 @@
+.expTree{
+	font-size: 1.2em;
+}
+
+.expTree .background {
+	fill: none;
+	pointer-events: all;
+}
+
+.expTree .root rect{
+	fill: none;
+	stroke: #fff;
+}
+
+.expTree .node :not(.root) {
+	cursor: pointer;
+}
+
+.expTree .node .checkbox {
+    fill: none;
+    stroke: white;
+    stroke-width: 1px;
+}
+
+.expTree .node .selected {
+	opacity: 0;
+}
+
+.expTree .node .arrow {
+	width: 11px;
+	height: 11px;
+	fill: #ccc;
+	stroke: #5D5D5D;
+	cursor: pointer;
+}
+
+.expTree .node .outline {
+	fill: none;
+}

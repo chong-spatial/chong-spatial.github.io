@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type="text/css">
+  circle {
+    stroke-width: 1;
+    stroke: #555;
+  }
+  circle.NorthAmerica { fill: #f59d88; }
+  circle.SouthAmerica { fill: #dca0d6; }
+  circle.Europe { fill: #4cc3d9; }
+  circle.Asia { fill: #ffc65d; }
+  circle.Africa { fill: #d4d4d4; }
+  circle.Oceania { fill: #7bc8a4; }
+  text {
+    fill: #555;
+    font-family: sans-serif;
+    font-size: 9;
+    pointer-events: none;
+    text-anchor: middle;
+  }
+  </style>
+</head>
+<body>
+    <div >
+      
+      <div style="font-size: 1.5em">
+        <span>Circle size encodes population.</span>
+        <span>Circle color represents six continents.</span>
+      </div>
+      <div id="map" style="float: left"></div>
+    </div>
+
+    <script type="text/javascript" src="d3.min.js"></script>
+    <script type="text/javascript">
+(function() {
+  var width = 1000;
+  var height = 800;
+  var padding = 10;
+  var k;
+  var node;
+
+  var projection = d3.geo.mercator().scale(2000).translate([width/2, height/2]);
+
+
+
+  var zoom = d3.behavior.zoom()
+    .scaleExtent([1, 10])
+    .on("zoom", zoomed);
+
+
+  
+
+  svg = d3.select('#map')
+          .append('svg')
+          .attr('width', width)
+          .attr('height', height)
+          .append('g');
+
+  svg.call(zoom);
+
+  var rect = svg.append("rect")
+    .attr("width", width)
+    .attr("height", height)
+    .style("fill", "none")
+    .style("pointer-events", "all");
+
+
+  function zoomed() {
+    svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+  }
+
+  d3.json('coordinates.json', function(coordinates) {
+
+    var coords = [];
+    var xs = [];
+    var ys = []
+    for (alias in coordinates) {
+      coords.push(coordinates[alias]);
+      xs.push(coordinates[alias][0]);
+      ys.push(coordinates[alias][1]);
+    }
+
+    var minX = d3.min(xs);
+    var maxX = d3.max(xs);
+    var xScale = d3.scale.linear().domain([minX, maxX]).range([-50, -30]);
+
+    var minY = d3.min(ys);
+    var maxY = d3.max(ys);
+    var yScale = d3.scale.linear().domain([minY, maxY]).range([-30, -20]);
+
+
+
+    d3.json('countries.json', function(countries) {
+
+      var popExt = d3.extent(countries, function(d) { return d.population; })
+
+      var pointScale = d3.scale.sqrt().domain(popExt).range([10, 100]);
+
+      nodes = []
+      for (i=0; i < countries.length; i++) {
+        node = countries[i];
+        node.coordinates = coordinates[node.alias];
+        node.cx = xScale(projection(node.coordinates)[0]);
+        node.cy = yScale(projection(node.coordinates)[1]);
+        node.radius = pointScale(node.population);
+        nodes.push(node);
+      }
+
+      force = d3.layout.force()
+                .nodes(nodes)
+                .links([])
+                .size([width, height])
+                .charge(function(d) {
+                  -Math.pow(d.radius*4, 2.0)
+                })
+                .gravity(1.4)
+                .on('tick', function(e) {
+                  k = 12 * e.alpha;
+                  for (i=0; i < nodes.length; i++) {
+                    nodes[i].x += k * nodes[i].cx
+                    nodes[i].y += k * nodes[i].cy
+                  }
+                  svg.selectAll('circle')
+                     .each(collide(.1, nodes, pointScale))
+                     .attr('cx', function(node) { return node.x; })
+                     .attr('cy', function(node) { return node.y; });
+
+                  svg.selectAll('text')
+                     .attr('x', function(node) { return node.x; })
+                     .attr('y', function(node) { return node.y+5; })
+                     .attr('opacity', function(node) {
+                       if (node.radius < 20) {
+                         return 0;
+                       }
+                       return 1;
+                     });
+                     ;
+                })
+                .start();
+
+      svg.selectAll('circle')
+          .data(nodes)
+        .enter().append('svg:circle')
+          .attr('cx', function(node) {
+            return node.cx;
+          })
+          .attr('cy', function(node) {
+            return node.cy;
+          })
+          .attr('r', function(node) {
+            return node.radius;
+          })
+          .attr('class', function(node) {
+            return node.continent.replace(' ', '');
+          });
+
+    svg.selectAll('text')
+        .data(nodes)
+      .enter().append('svg:text')
+        .text(function(node) {
+          return node.alias;
+        });
+
+    });
+  });
+
+  // Adapted from http://bl.ocks.org/3116713
+  var collide = function (alpha, nodes, scale) {
+    var quadtree = d3.geom.quadtree(nodes);
+    return function(d) {
+      var r = d.radius + padding + 20;
+      var nx1 = d.x - r;
+      var nx2 = d.x + r;
+      var ny1 = d.y - r;
+      var ny2 = d.y + r;
+      quadtree.visit(function(quad, x1, y1, x2, y2) {
+        if (quad.point && quad.point !== d) {
+          var x = d.x - quad.point.x;
+          var y = d.y - quad.point.y;
+          var l = Math.sqrt(x * x + y * y)
+          var r = d.radius + quad.point.radius + padding ;
+          if (l < r) {
+            l = (l - r) / l * alpha;
+            d.x -= x *= l;
+            d.y -= y *= l;
+            quad.point.x += x;
+            quad.point.y += y;
+          }
+        }
+        return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+      });
+    }
+  }
+
+})();
+    </script>
+
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+    var sc_project=10227952; 
+    var sc_invisible=1; 
+    var sc_security="19025bec"; 
+    var sc_https=1; 
+    var scJsHost = (("https:" == document.location.protocol) ?
+    "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
+    "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
+    </script> 
+    <noscript><div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div></noscript> 
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>

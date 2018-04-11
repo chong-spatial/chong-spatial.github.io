@@ -1,0 +1,14 @@
+#tabs {
+    margin-top: 0.5em; 
+}
+
+#tabs li .ui-icon-close { float: left; margin: 0.2em 0.2em 0 0; cursor: pointer; }
+
+#tabs .itemsetTtl {
+float: left;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+
+    margin: 0.3em 0.2em 0 0;
+}

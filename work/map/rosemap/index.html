@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Rose map</title>
+    <link rel="stylesheet" href="http://js.arcgis.com/3.11/esri/css/esri.css">
+    <link rel="stylesheet" href="jquery-ui-1.10.3.sm.css">
+    
+    <style type="text/css">
+      .custom_tooltip_styling{
+        opacity: 0.6;
+      }
+      .rosearcs path{
+        stroke: #DCDADA;
+      }
+
+      .roseticks{
+        fill: none;
+        stroke: rgb(170, 162, 162);
+        stroke-dasharray: 2,2;
+        stroke-width: 1px;
+      }
+      .rosearcs {
+
+      }
+      .rosetickmarks {
+        fill: #f2f2f2;
+        /* text-shadow: 0 1px 0 #000, 1px 0 0 #000; */
+        text-shadow: 1px 1px 1px #fff, -1px -1px 1px #fff;
+      }
+    </style>
+
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://js.arcgis.com/3.11/"></script>
+    <script src="jquery-1.10.2.min.js"></script>
+    <script src="jquery-ui-1.10.3.custom.min.js"></script>
+     
+    <script src="rosemap.js"></script>
+    
+    <script> 
+      var map;
+      require([
+        "esri/map", 
+        "esri/geometry/Point",
+        "esri/geometry/screenUtils",
+        "esri/geometry/webMercatorUtils", 
+        "dojo/dom", 
+        "dojo/domReady!"
+ 
+      ], function(
+        Map, Point, screenUtils, webMercatorUtils, dom
+      ) {
+        map = new Map("map", {
+          basemap: "streets",
+          center: [34, 56],
+          zoom: 2
+        });
+        map.on("load", function() {
+          //after map loads, connect to listen to mouse move & drag events
+          extentHandler();
+          map.on("mouse-move", showCoordinates);
+          map.on("mouse-drag", showCoordinates);
+          map.on("extent-change", extentHandler);
+          
+        });
+
+        function showCoordinates(evt) {
+          //the map is in web mercator but display coordinates in geographic (lat, long)
+          var mp = webMercatorUtils.webMercatorToGeographic(evt.mapPoint);
+          //display mouse coordinates
+          dom.byId("info").innerHTML = mp.x.toFixed(3) + ", " + mp.y.toFixed(3);
+        }        
+   
+       
+      });
+    </script>
+  </head>
+  <body>
+    <div id="map" style="position:relative; width:900px; height:600px;">
+      <span id="info" style="position:absolute; left:15px; bottom:5px; color:#000; z-index:50;"></span>      
+    </div>
+
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+    var sc_project=10227952; 
+    var sc_invisible=1; 
+    var sc_security="19025bec"; 
+    var sc_https=1; 
+    var scJsHost = (("https:" == document.location.protocol) ?
+    "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
+    "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
+    </script> 
+    <noscript><div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div></noscript> 
+<!-- End of StatCounter Code for Default Guide -->
+  </body>
+</html>

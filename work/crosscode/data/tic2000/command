@@ -1,0 +1,42 @@
+apriori -tr -o -s1 -c80 -k, -v ("%s/%a, %C, %l") -R"appearance_1.txt" ticdata2000class1.dat caravan1.txt
+
+
+apriori -tr -o -s1 -c80 -el -d100 -ev -d100 -p2 -k, -v ("%s/%a, %C, %l") -R"appearance_1.txt" ticdata2000class1.dat caravan1.txt
+
+
+apriori -tr -o -s20 -c80 -el -d120 -ev -d120 -p2 -k, -v ("%s/%a, %C, %l") -R"appearance_0.txt" ticdata2000.dat caravan0.txt
+apriori -tr -o -s1 -c80 -el -d100 -ev -d100 -p2 -k, -v ("%s/%a, %C, %l") -R"appearance_1.txt" ticdata2000.dat caravan1.txt
+
+
+
+
+C:\Project\ARVis\code\VAC\data\mushroom>apriori -tr -o -s20 -c80 -el -d150 -ev -d120  -p>0 -k, -v ("%s/%a, %x/%b, %y/%h, %C, %l") -R"appearance_p.txt" mushroom.dat rules_poisonous.txt
+
+// 
+-e l lift value (confidence divided by prior)
+-e v conviction (inverse lift for negated head) 
+-e n normalized χ2 measure
+
+%%		a percent sign
+%a		absolute item set support
+%s		relative item set support as a fraction
+%S		relative item set support as a percentage
+%b		absolute body set support
+%x		relative body set support as a fraction
+%X		relative body set support as a percentage
+%h		absolute head item support
+%y		relative head item support as a fraction
+%Y		relative head item support as a percentage
+%c		rule confidence as a fraction
+%C		rule confidence as a percentage
+%l		lift value of a rule (confidence/prior)
+%L		lift value of a rule as a percentage
+%e		additional evaluation measure
+%E		additional evaluation measure as a percentage
+
+
+
+apriori -tr -o -s1 -c10 -el -d1 -p>0 -k, -v ("%S/%a, %X/%b, %Y/%h, %C, %l") -R"appearance.txt" census.dat rules1.txt
+
+
+apriori, -r\n, -f ,\t, -b \t\r, -C#, -m1, -o, -s1, -S100, -c80, -gtr, -h, , -I,  <- , -k,  ,, -v,  (%S/%a, %X/%b, %Y/%h, %C, %l, %E), -el, -d1, -u0.01, -RC:\Project\Genome\code\mining\appearance.txt, C:\Project\Genome\code\mining\census.dat, C:\Project\Genome\code\mining\rules1.txt, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null

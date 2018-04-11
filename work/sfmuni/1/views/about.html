@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+  <title>About SF-MuniVis</title>
+  <style>
+    html,body {
+      margin:0;padding:0;width:100%;height: 100%;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Helvetica neue", Helvetica, Arial;
+      font-size: 1.2em;
+      width: 960px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #EBEBEB;
+      height: 100%;
+      overflow-y:auto;
+    }
+  </style>
+</head>
+<body>
+  <div style="text-align: center; font-size: 1em;" > This prototype is implemented using D3 + Angular.js  </div>
+  <div><img style="width:100%" src="../images/main.png"></img></div>
+  <div id="background">
+    <h2>Background and motivation</h2>
+    <p>Track the real-time positions of San Francisco's buses and trains (SF Muni).</p>
+    <p>If a vehicle has been stopping at a location for a while, we can inspect it because it could either be something wrong with the vehicle or traffic jam at the location.</p>
+    <p>Target users: municipal transportation angency, administrator, or inspector</p>
+    <p></p>
+    <p>This is NOT an application for bus schedules, because there are many apps you can choose for this. </p>
+
+  </div>
+  <div id="goal">
+    <h2>Goal</h2>
+    <p>The goal is to real-time track SF buses and trains, see where they were, where they are going, where they stopped, whether or not they report GPS regularly. 
+  </p>
+  </div>
+  <div id="mainview">
+    <h2>Main visualizations</h2>
+    <ul>
+      <li>
+        <p>Route Switch view. A tree-based visualization for all the routes in SF. Routes are grouped based on the first character of the tag. If a route tag starts with number (0 - 9), it will be in a group with other routes that have the same number in the first char of tag. Routes whose first char is letter (A - Z) form a single group.</p>
+        <p>Click each group or each specific route to switch the map display off/on. </p>
+        <p>The view will also automatically expend when a vehicle is clicked in the Map View or Inactive Vehicle View.</p></li>
+      <li>Map view. It shows the real-time positions of SF buses and trains. 
+        <p>Interactions: zoom, pan, and click</p> 
+        <p>Color is based on the route tag in the Route Switch View</p>
+        <p>Real-time track every moves of vehicles</p>
+        <p>If a vehicle has been stopped at a location for 3 minutes (default), it will be outlined black. It will also be sent to Inactive Vehicles View for the GPS delay inspection.</p>
+        <p>Automatically center the vehicle clicked in the Inactive Vehicles View</p>
+      </li>
+      <li>Inactive Vehicles View. It inspects the real-time GPS delay with 30 latest reports (default).
+        <p>Inactive vehicles will automatically be added to the top list.</p>        
+        <p>The vehicle tag colors keep consistent with Route Switch View and Map View.</p>
+        <p>The background color of vehicle ID is based on the statistical distribution of GPS report delay historical data. The darker the background has, the more suspect the vehicle is. You might need to click and inspect its delay trend in the line chart below.</p>
+      </li>
+
+    </ul>
+  </div>
+  
+  <div id="tech">
+    <h2>Technology Stack</h2>
+    <ul>
+        <li>D3
+        </li>
+        <li>Angular
+        </li>  
+        <li>Node
+        </li>  
+        <li>Yeoman
+        </li>     
+
+    </ul>
+  </div>
+
+  <div id="log">
+      <h2>Work log (original)</h2>
+      <ul>
+        <li>Day1 
+          <ol>
+            <li>big picture, plan, read NextBus manual</li>
+            <li>creat tree for route tags</li>
+            <li>load basemap</li>
+          </ol>
+        </li>
+        <li>Day2 
+          <ol>
+            <li>draw bus GPS positions</li>
+            <li>repeatlly request bus location using setTimeout(draw, 1500)</li>
+          </ol>
+        </li>
+
+        <li>Day3 
+          <ol>
+            <li>link tree to bus map - select to filter</li>
+            <li>labeling for buses on map view</li>
+            <li>add title for routes on tree view</li>
+            <li>fix bug in routeTree switch</li>            
+          </ol>
+        </li>
+
+        <li>Day4 
+          <ol>
+            <li>add history data including lonlat, delay, speed</li>
+            <li>add vehicle direction indicator</li>
+            <li>highlight inactive vehicles in black</li>
+          </ol>
+        </li>
+
+        <li style="text-decoration: line-through;">Day5 (slammed with other things) </li>
+
+        <li>Day6 
+          <ol>
+            <li>realtime line chart component</li>
+            <li>interaction in right pane</li>
+            <li>refactor, bug fix(group inspected list, realtime, mapcenter, adjusted height)</li>
+          </ol>
+        </li>
+
+        <li>Day7 
+          <ol>
+            <li>browser compatibility</li>
+            <li>clean code</li>
+            <li>add color scale for inactive vehicles (standard deviation, easily select top suspect vehicles)</li>
+            <li>bug fix(recalculate time ticking for inactive system)</li>
+            <li>documentation</li>
+          </ol>
+        </li>
+    </ul>
+    </div>
+  <div id="future">
+    <h2>Future plan</h2>
+    <ul>
+        <li>Add bus stops and paths </li>                
+        <li>Prediction </li> 
+        <li>Traffic congestion spoting, planning, without relying on Google Maps </li>           
+    </ul>
+  </div>
+
+
+    <div id="credits">
+      <h4>Copyright 2016 Chong Zhang. If you have any questions or comments please send them over via email to ChongZhang.NC@gmail.com</h4>
+    </div>
+
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+    var sc_project=10227952; 
+    var sc_invisible=1; 
+    var sc_security="19025bec"; 
+    var sc_https=1; 
+    var scJsHost = (("https:" == document.location.protocol) ?
+    "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
+    "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
+    </script> 
+    <noscript><div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div></noscript> 
+    <!-- End of StatCounter Code for Default Guide -->
+  </body>
+</html>

@@ -1,0 +1,54 @@
+{
+	
+	"name": "Census Income",
+	"dimensions": 14,
+	"instances": 48842,	
+	"attrMap": {"occupation": "A", "age": "B", "gain": "C", "edu_num": "D", "sex": "I", "marital": "F", "loss": "G", "relationship": "H", "country": "E", "race": "J", "education": "K", "workclass": "L", "hours": "M"},
+	"attributes": {
+		"occupation": ["Machine-op-inspct", "Prof-specialty", "Adm-clerical", "Transport-moving", "Handlers-cleaners", "?", "Protective-serv", "Craft-repair", "Other-service", "Farming-fishing", "Sales", "Tech-support", "Exec-managerial"], 
+		"age": ["middle-aged", "young", "old", "senior"], 
+		"gain": ["none", "medium", "high"], 
+		"edu_num": ["10", "14", "13", "9", "8", "7", "11", "5", "12", "4", "15", "6"], 
+		"sex": ["Female", "Male"], 
+		"marital": ["Separated", "Married-civ-spouse", "Widowed", "Married-spouse-absent", "Never-married", "Divorced"], 
+		"loss": ["none", "small"], 
+		"relationship": ["Wife", "Not-in-family", "Unmarried", "Husband", "Own-child", "Other-relative"], 
+		"country": ["?", "United-States", "Mexico"], 
+		"race": ["Asian-Pac-Islander", "White", "Black"], 
+		"education": ["Prof-school", "10th", "Assoc-acdm", "9th", "Bachelors", "11th", "12th", "7th-8th", "Masters", "HS-grad", "Some-college", "Assoc-voc"], 
+		"workclass": ["Federal-gov", "State-gov", "Private", "?", "Self-emp-not-inc", "Self-emp-inc", "Local-gov"], 
+		"hours": ["overtime", "half-time", "too-many", "full-time"]
+		},
+    "source": "https://archive.ics.uci.edu/ml/datasets/Census+Income",
+    "data": {
+        //"len0" was dismissed
+    	"len1": {},
+    	"len2": {},
+    	"len3": {
+    				// used to calculate the postions for attributes
+    				// might have "stat": {"A": [289,0], "B": [34,78], "C": [0,56], "D":[987,0], "E":[63,2], "F":[23,18]},
+    				"A": {
+    						"A1":{"cls1":["a23", "a45"], "cls2": ["b12"]}, 
+    						"A2":{"cls1": ["a3"], "cls2": ["b25"]}, 
+    						"A3":{},
+                            "...": {"cls1": "...", "cls2": "..."}
+
+    					},
+    				"B": {
+    						"B1": {"cls1":["a23", "a44", "a51"], "cls2": []}, 
+    						"B2": {"cls1": [], "cls2": [] },
+                            "...": {"cls1": "...", "cls2": "..."}
+    					},
+                    "...": {
+                        "...": {"cls1": "...", "cls2": "..."}
+                    }
+    					
+    			},
+    	"len4": {},
+    	"len5": {},
+    	"len6": {}
+
+    }
+
+
+}

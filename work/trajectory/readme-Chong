@@ -1,0 +1,29 @@
+/*
+Chong Zhang
+3/10/2015
+*/
+
+Basically, the more you use it the faster.
+
+////////////////////////////
+////    Interaction     ////
+////////////////////////////
+1. Mouse wheel to zoom map
+2. If zoom < 12, no RoseChart display
+3. Click dot on the map to filter routes
+4. Click top right button to go back the whole routes map 
+5. Click top buttons to change the attributes of color setting
+ 
+
+
+
+////////////////////////////
+////    Customermize    ////
+////////////////////////////
+
+1. variable name for patitioned graph was set 'graphdata' (no data structure changed)
+2. variable name for detailed routes was set 'routesdata' (no data structure changed)
+3. Custome map/RoseChart color by changing values of colorSettings in scripts\settings.js
+4. Change RoseChart inner-size/outer-size by editing values of roseSettings in scripts\settings.js
+5. Display zoom for RoseChart is 12 by default. Change it by editing the value of displayZoom in scripts\settings.js
+6. For better performance, we may need to store the detailed routes data in a server offering Web Map Service.

@@ -1,0 +1,42 @@
+#ruleOverview .background {
+  fill: #eee;
+}
+
+#projectionView .background {
+  fill: #f5f5f5;
+}
+
+#projectionView svg, canvas{
+	position: absolute;
+}
+
+
+#ruleOverview line {
+  stroke: #fff;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+
+.rowBg {
+	fill: yellow;
+}
+
+.row {
+	cursor: pointer;
+}
+
+.cellHighlight {
+	stroke: yellow;
+    stroke-width: 4;
+}
+
+
+.column {
+	cursor: pointer;
+}

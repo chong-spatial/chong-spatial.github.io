@@ -1,0 +1,7 @@
+age workclass education edu_num marital occupation relationship race sex gain loss hours country salary
+
+https://archive.ics.uci.edu/ml/datasets/Census-Income+(KDD)
+
+http://www.borgelt.net/data/census
+
+http://www.borgelt.net/apriori.html
