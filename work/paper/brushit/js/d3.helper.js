@@ -193,11 +193,14 @@ d3.helper.attractiontip = function(){
             var secondlineContent = '';
             if(attractionIdInCluster.length > 3) {
                 firstlineContent=attractionIdInCluster[0] +', '+ attractionIdInCluster[1]+', '+attractionIdInCluster[2]+', ...';
-                secondlineContent=attractionNameInClusters[0] +', '+ attractionNameInClusters[1]+', '+attractionNameInClusters[2]+', ...'
+                secondlineContent=attractionNameInClusters[0] +', <br>'+ attractionNameInClusters[1]+', <br>'+attractionNameInClusters[2]+', <br> ...'
                 
+            } else {
+                firstlineContent = attractionIdInCluster.join(',');
+                secondlineContent = attractionNameInClusters.join(', <br>');
             }
             var first_line = "<span> <strong>Cluster size: </strong>" + attractionIdInCluster.length + "</span> <br>";
-            var secondContent = "<span> <strong>Attraction Names: </strong>" + secondlineContent + "</span>";
+            var secondContent = "<span> <strong>Attraction Names: </strong> <br>" + secondlineContent + "</span>";
             tooltipDiv.html(first_line+ "<span> <strong>Attraction IDs: </strong>" + firstlineContent + "</span> <br>" + secondContent);
 
 
