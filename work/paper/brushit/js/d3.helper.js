@@ -184,15 +184,21 @@ d3.helper.attractiontip = function(){
             //     fline = "<span> <strong>Phone:</strong> " + pD.properties.PHONE + "</span> <br>";
 
             var attractionIdInCluster=[];
+            var attractionNameInClusters =[];
             for(var i = 0; i<pD.points.length; i++){
                 attractionIdInCluster.push(pD.points[i].properties.myAttrId)
+                attractionNameInClusters.push(pD.points[i].properties.NAME)
             }
-            var firstlineContent=attractionIdInCluster.join(',');
+            var firstlineContent='';
+            var secondlineContent = '';
             if(attractionIdInCluster.length > 3) {
-                firstlineContent=attractionIdInCluster[0] +', '+ attractionIdInCluster[1]+', '+attractionIdInCluster[2]+', ...'
+                firstlineContent=attractionIdInCluster[0] +', '+ attractionIdInCluster[1]+', '+attractionIdInCluster[2]+', ...';
+                secondlineContent=attractionNameInClusters[0] +', '+ attractionNameInClusters[1]+', '+attractionNameInClusters[2]+', ...'
+                
             }
             var first_line = "<span> <strong>Cluster size: </strong>" + attractionIdInCluster.length + "</span> <br>";
-            tooltipDiv.html(first_line+ "<span> <strong>Attraction IDs: </strong>" + firstlineContent + "</span>");
+            var secondContent = "<span> <strong>Attraction Names: </strong>" + secondlineContent + "</span>";
+            tooltipDiv.html(first_line+ "<span> <strong>Attraction IDs: </strong>" + firstlineContent + "</span> <br>" + secondContent);
 
 
         })
