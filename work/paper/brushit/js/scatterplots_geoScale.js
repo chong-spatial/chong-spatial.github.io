@@ -5,9 +5,6 @@ var brushCell;
 
 function hotelScatterPlots(containerSelector, clickedAttrID) {
 
-    var attFeture = attraction_layer.geoFeatures.features.filter(function(d){ return d.properties.myAttrId == clickedAttrID})[0];
-    attFeture['geometry0'] = {coordinates:attraction_layer._project_to_screen(attFeture.geometry.coordinates)}
-
     var width = $(containerSelector).width() - 30,
         height = $(containerSelector).height() - 30,
         size = Math.min(width, height), //244
@@ -34,22 +31,20 @@ function hotelScatterPlots(containerSelector, clickedAttrID) {
     var maxTlv = d3.max(d3.keys(pointsInServiceAreas['hotel']['f' + clickedAttrID]));
     var hotelIDsInMaxTlv = pointsInServiceAreas['hotel']['f' + clickedAttrID][maxTlv];
     // hotels in max time level should contail ones in lower time levels
-    var hotelsInMaxTlv = [attFeture];
+    var hotelsInMaxTlv = [];
     for (var i = 0; i < hotelIDsInMaxTlv.length; i++) {
         hotelsInMaxTlv.push(hotel_layer.geoFeatures.features.filter(function(d) {
             return d.properties.myHotelId == hotelIDsInMaxTlv[i]
         })[0]);
     }
 
-    hotelsInMaxTlv.forEach(h=>{h.geometry0 = {coordinates:hotel_layer._project_to_screen(h.geometry.coordinates)}})
-
     // local scacle, ie, the scale is only based on the hotels in the 3 timelevel, without considering other hotels on the map
     var xbbox = d3.extent(hotelsInMaxTlv, function(d) {
-            return d.geometry0.coordinates[0];
+            return d.geometry.coordinates[0];
         }),
         ybbox = d3.extent(hotelsInMaxTlv, function(d) {
-            return d.geometry0.coordinates[1]
-        })//.reverse();
+            return d.geometry.coordinates[1]
+        }).reverse();
     xScalePlot.domain(xbbox);
 
     yScalePlot.domain(ybbox);
@@ -84,14 +79,14 @@ function hotelScatterPlots(containerSelector, clickedAttrID) {
             brushCell = this;
         }
 
-        var scrXext = d3.extent(d3.select(this).selectAll('rect.hotel').data(), function(d) {
-                return d.geof.geometry0.coordinates[0]
+        var geoXext = d3.extent(d3.select(this).selectAll('rect.hotel').data(), function(d) {
+                return d.geof.geometry.coordinates[0]
             }),
-            scrYext = d3.extent(d3.select(this).selectAll('rect.hotel').data(), function(d) {
-                return d.geof.geometry0.coordinates[1]
-            })//.reverse();
-        xScalePlot.domain(scrXext);
-        yScalePlot.domain(scrYext);
+            geoYext = d3.extent(d3.select(this).selectAll('rect.hotel').data(), function(d) {
+                return d.geof.geometry.coordinates[1]
+            }).reverse();
+        xScalePlot.domain(geoXext);
+        yScalePlot.domain(geoYext);
 
     }
 
@@ -101,8 +96,8 @@ function hotelScatterPlots(containerSelector, clickedAttrID) {
         var e = brush.extent();
         var matchedHotelIds = [];
         svg.selectAll("rect.hotel").classed("hidden", function(d) {
-            var within = e[0][0] > d.geof.geometry0.coordinates[0] || d.geof.geometry0.coordinates[0] > e[1][0] ||
-                e[0][1] > d.geof.geometry0.coordinates[1] || d.geof.geometry0.coordinates[1] > e[1][1];
+            var within = e[0][0] > d.geof.geometry.coordinates[0] || d.geof.geometry.coordinates[0] > e[1][0] ||
+                e[0][1] > d.geof.geometry.coordinates[1] || d.geof.geometry.coordinates[1] > e[1][1];
             if (!within && !~matchedHotelIds.indexOf(d.myHotelId)) matchedHotelIds.push(d.myHotelId);
             return within;
         });
@@ -258,8 +253,6 @@ function hotelScatterPlots(containerSelector, clickedAttrID) {
                     var geoF = hotel_layer.geoFeatures.features.filter(function(d) {
                         return d.properties.myHotelId == hotelID
                     })[0];
-                    geoF['geometry0'] = {coordinates:hotel_layer._project_to_screen(geoF.geometry.coordinates)}
-
                     res.push({
                         'myHotelId': hotelID,
                         'geof': geoF,
@@ -271,25 +264,16 @@ function hotelScatterPlots(containerSelector, clickedAttrID) {
             })
             .enter().append("rect")
             .attr("x", function(d) {
-                return xScalePlot(d.geof.geometry0.coordinates[0]) <= 0 ? 0 : (xScalePlot(d.geof.geometry0.coordinates[0]) >= size - 6 ? xScalePlot(d.geof.geometry0.coordinates[0]) - 6 : xScalePlot(d.geof.geometry0.coordinates[0]));
+                return xScalePlot(d.geof.geometry.coordinates[0]) <= 0 ? 0 : (xScalePlot(d.geof.geometry.coordinates[0]) >= size - 6 ? xScalePlot(d.geof.geometry.coordinates[0]) - 6 : xScalePlot(d.geof.geometry.coordinates[0]));
             })
             .attr("y", function(d) {
-                return yScalePlot(d.geof.geometry0.coordinates[1]) <= 0 ? 0 : (yScalePlot(d.geof.geometry0.coordinates[1]) >= size - 6 ? yScalePlot(d.geof.geometry0.coordinates[1]) - 6 : yScalePlot(d.geof.geometry0.coordinates[1]));
+                return yScalePlot(d.geof.geometry.coordinates[1]) <= 0 ? 0 : (yScalePlot(d.geof.geometry.coordinates[1]) >= size - 6 ? yScalePlot(d.geof.geometry.coordinates[1]) - 6 : yScalePlot(d.geof.geometry.coordinates[1]));
             })
             .attr("width", 6)
             .attr("height", 6)
             .attr("class", function(d) {
                 return 'hotel ' + d3.min(d.tlv); // eg. 1:[t1, t2, t3], we will pick t1 as the class name
             });
-
-        // insert the attraction location
-        cell.append('circle')
-            .attr('cx', xScalePlot(attFeture.geometry0.coordinates[0]) <= 0 ? 0 : (xScalePlot(attFeture.geometry0.coordinates[0]) >= size - 6 ? xScalePlot(attFeture.geometry0.coordinates[0]) - 6 : xScalePlot(attFeture.geometry0.coordinates[0])))
-            .attr('cy', yScalePlot(attFeture.geometry0.coordinates[1]) <= 0 ? 0 : (yScalePlot(attFeture.geometry0.coordinates[1]) >= size - 6 ? yScalePlot(attFeture.geometry0.coordinates[1]) - 6 : yScalePlot(attFeture.geometry0.coordinates[1])))
-            .attr('r',  4)
-            .style('fill', '#53c2f5')
-            .style('stroke', '#fff')
-
     }
 
     function redraw() {
@@ -324,23 +308,23 @@ function hotelScatterPlots(containerSelector, clickedAttrID) {
                     .attr("width", size)
                     .attr("height", size);
 
-                var scrXext = d3.extent(d3.select(this).selectAll('rect.hotel').data(), function(d) {
-                        return d.geof.geometry0.coordinates[0]
+                var geoXext = d3.extent(d3.select(this).selectAll('rect.hotel').data(), function(d) {
+                        return d.geof.geometry.coordinates[0]
                     }),
-                    scrYext = d3.extent(d3.select(this).selectAll('rect.hotel').data(), function(d) {
-                        return d.geof.geometry0.coordinates[1]
-                    })//.reverse();
-                xScalePlot.domain(scrXext);
-                yScalePlot.domain(scrYext);
+                    geoYext = d3.extent(d3.select(this).selectAll('rect.hotel').data(), function(d) {
+                        return d.geof.geometry.coordinates[1]
+                    }).reverse();
+                xScalePlot.domain(geoXext);
+                yScalePlot.domain(geoYext);
 
 
 
                 d3.select(this).selectAll('rect.hotel')
                     .attr("x", function(d) {
-                        return xScalePlot(d.geof.geometry0.coordinates[0]) <= 0 ? 0 : (xScalePlot(d.geof.geometry0.coordinates[0]) >= size - 6 ? xScalePlot(d.geof.geometry0.coordinates[0]) - 6 : xScalePlot(d.geof.geometry0.coordinates[0]));
+                        return xScalePlot(d.geof.geometry.coordinates[0]) <= 0 ? 0 : (xScalePlot(d.geof.geometry.coordinates[0]) >= size - 6 ? xScalePlot(d.geof.geometry.coordinates[0]) - 6 : xScalePlot(d.geof.geometry.coordinates[0]));
                     })
                     .attr("y", function(d) {
-                        return yScalePlot(d.geof.geometry0.coordinates[1]) <= 0 ? 0 : (yScalePlot(d.geof.geometry0.coordinates[1]) >= size - 6 ? yScalePlot(d.geof.geometry0.coordinates[1]) - 6 : yScalePlot(d.geof.geometry0.coordinates[1]));
+                        return yScalePlot(d.geof.geometry.coordinates[1]) <= 0 ? 0 : (yScalePlot(d.geof.geometry.coordinates[1]) >= size - 6 ? yScalePlot(d.geof.geometry.coordinates[1]) - 6 : yScalePlot(d.geof.geometry.coordinates[1]));
                     })
 
             }).call(brush);
