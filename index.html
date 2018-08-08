@@ -157,6 +157,27 @@
          font-size: 10px;
          }
          }
+         .yt_wrapper {
+            width: 80%;
+            height: 100%;
+            margin: 0 auto;
+            background: #fff;
+         }
+         .yt_iframe {
+            position:relative;
+         }
+         .yt_iframe .ratio {
+            display: block;
+            width: 100%;
+            height: auto;
+         }
+         .yt_iframe iframe {
+            position: absolute;
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height:100%;
+         }
       </style>
    </head>
    <body>
@@ -168,6 +189,14 @@
          <!-- On LinkedIn at <a href="https://www.linkedin.com/in/vis-chong/" target="_blank">vis-chong</a>. -->
          <div class="work-list clearfix">
             <h4 class="recent-work-head">Prototypes since 2012 </h4>
+         </div>
+         <div class="yt_wrapper clearfix">
+            <h4 class="recent-work-head">PhD research topic: Visual Analytics </h4>
+            <div class="yt_iframe">
+               <img class="ratio" src="img/16x9.png"/>
+               <iframe id="ytplayer" type="text/html" src="https://www.youtube.com/embed/eH7_7dyIzfk?origin=https://chongzhang-vis.github.io" frameborder="0" allowfullscreen></iframe>
+            </div>
+            
          </div>
       </div>
       <footer>
