@@ -1,4 +1,5 @@
 url,imgUrl,order,shortHead
+https://scoringanddashboard.firebaseapp.com/dashboard/team9,scoring,,Realtime Scoring
 ./work/antique_map/index.html,antique,,Antique Map
 ./work/isoline/leaflet1.html,isoline,,Contour (Isoline)
 ./work/similarityClustering,simclustering,,Similarity and Clustering - Canvas
