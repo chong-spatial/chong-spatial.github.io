@@ -1,0 +1,801 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Interactive Exploration 4 POI</title>
+    <link type="text/css" rel="stylesheet" href="css/layout-default-latest.css" />
+    <link rel="stylesheet" href="https://js.arcgis.com/3.13/esri/css/esri.css">
+    <link rel="stylesheet" href="css/jquery-ui_smoothness.css">
+    <style type="text/css">
+        html,
+        body {
+            background: #666;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            overflow: auto;
+            /* when page gets too small */
+            font-size: 1.1em;
+        }
+
+        #mapviewDiv {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        #container {
+            background: #999;
+            height: 100%;
+            margin: 0 auto;
+            width: 100%;
+            min-width: 900px;
+            _width: 700px;
+            /* min-width for IE6 */
+        }
+
+        .pane {
+            display: none;
+            /* will appear when layout inits */
+        }
+
+        #mapInfo {
+            bottom: 5px;
+            left: 5px;
+            position: absolute;
+            z-index: 99;
+            background: rgba(255, 255, 255, 0.7);
+            color: black;
+        }
+
+        #mapInfo .legendDiv {
+            position: relative;
+            margin-right: 10px;
+            box-sizing: border-box;
+            font-size: 14px;
+            line-height: 1.3em;
+            background-color: #fff;
+            display: flex;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            opacity: 0.9;
+        }
+
+        #traveltimeColorSpan {
+            display: none;
+        }
+
+        #traveltimeColorSpan span {
+            display: inline-block;
+            height: 20px;
+            width: 20px;
+            margin-left: 6px;
+            vertical-align: text-bottom;
+        }
+
+        #traveltimeColorSpan .traveltime1 {
+            background-color: rgba(71, 255, 4, 0.4);
+            /*0.25*/
+            border: 1px solid rgb(127, 240, 127);
+        }
+
+        #traveltimeColorSpan .traveltime2 {
+            background-color: rgba(255, 255, 0, 0.4);
+            border: 1px solid rgb(235, 217, 63);
+        }
+
+        #traveltimeColorSpan .traveltime3 {
+            background-color: rgba(100, 149, 237, 0.8);
+            border: 1px solid rgb(230, 83, 83);
+        }
+
+        .cell .t1 {
+            /*stroke: #ff8a00;*/
+            fill: rgb(71, 255, 4);
+        }
+
+        .cell .t2 {
+            /*stroke: #ff8a00;*/
+            /*fill: rgb(128,150,48);*/
+            fill: rgb(207, 219, 95);
+        }
+
+        .cell .t3 {
+            /*stroke: #ff8a00;*/
+            fill: rgba(100, 149, 237,0.6);
+        }
+
+        #mapSearch {
+            display: block;
+            position: absolute;
+            z-index: 2;
+            top: 40px;
+            left: 284px;
+        }
+
+        #interestedAttrGraphDiv .nodebg {
+            display: none;
+            fill: #bbbbbb;
+            stroke: #7b7b7b;
+        }
+
+        #interestedAttrGraphDiv .node {
+            cursor: pointer;
+        }
+
+        #interestedAttrGraphDiv .nodeoutline {
+            stroke: #43b6d6;
+            /*same as the one in .attraction*/
+        }
+
+        #attrDescDiv span {
+            display: inline-block;
+            height: 30px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .layer_hotel_pt .hotel {
+            stroke: #ffffff;
+            fill: rgba(255, 152, 0,0.8);
+        }
+
+        .attraction {
+            stroke: #ffffff;
+            fill: rgba(83, 194, 245,0.8);
+            /*
+         stroke: #43b6d6;
+         fill: #1266c5;
+         */
+        }
+
+        .tooltip {
+            background-color: rgba(232, 232, 232, 0.8);
+            padding: 5px;
+            position: absolute;
+            z-index: 1001;
+            color: #0a0a0a;
+            box-shadow: 1px 1px 2px 0 #c3b22c;
+        }
+
+        .tooltip span {
+            /*border: 1px solid #666;*/
+        }
+
+        #plotList {
+            width: 100%;
+            height: 100%;
+        }
+
+        #hotelplotList {
+            width: 100%;
+            height: 90%;
+        }
+
+        #hotelplotList .frame {
+            fill: #4d4d4f;
+            stroke: #aaa;
+        }
+
+        #hotelplotList .celllb {
+            fill: #fff;
+        }
+
+        #brushOption {
+            border: 1px solid #dddddd;
+            margin-bottom: 6px;
+        }
+
+        #hotelplotList .hidden {
+            fill: #848484 !important;
+            stroke: #ccc;
+        }
+
+        .extent {
+            fill-opacity: 0.2;
+            fill: #fff;
+            stroke: #ef5454;
+        }
+
+        .layer_attractions_pt {
+            cursor: pointer;
+        }
+    </style>
+    <script type="text/javascript" src="js/lib/jquery-latest.js"></script>
+    <script type="text/javascript" src="js/lib/jquery-ui-latest.js"></script>
+    <script type="text/javascript" src="js/lib/jquery.layout-latest.js"></script>
+    <script src="https://js.arcgis.com/3.13/"></script>
+    <script>
+        var map,
+            hotel_layer, attraction_layer
+        var serviceAreaTask, params;
+        var nodeColor;
+        var nodeGraph1, scatterplots1;
+
+        require([
+            "esri/config",
+            "esri/tasks/ServiceAreaTask", "esri/tasks/ServiceAreaParameters", "esri/tasks/FeatureSet",
+            "esri/symbols/SimpleMarkerSymbol", "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", "esri/symbols/TextSymbol", "esri/symbols/Font",
+            "esri/geometry/Point", "esri/graphic", "esri/SpatialReference",
+            "esri/Color", "dojo/_base/array",
+            "esri/map", "esri/layers/FeatureLayer",
+            "./js/d3layer_v3_quadtree.js", "js/d3.helper.js",
+            "dojo/parser", "dojo/Deferred"
+        ], function(
+            esriConfig,
+            ServiceAreaTask, ServiceAreaParameters, FeatureSet,
+            SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, TextSymbol, Font,
+            Point, Graphic, SpatialReference,
+            Color, arrayUtils,
+            Map, FeatureLayer,
+            d3Layer, d3helper,
+            parser, Deferred) {
+            parser.parse();
+
+            esriConfig.defaults.io.proxyUrl = "/proxy/";
+
+            map = new Map("mapviewDiv", {
+                center: [-77.0365, 38.8977],
+                basemap: "dark-gray", // satellite, hybrid, topo, gray, dark-gray, oceans, osm, national-geographic
+                zoom: 12
+            });
+
+            map.on("click", mapClickHandler);
+
+            params = new ServiceAreaParameters();
+            params.defaultBreaks = [1, 2, 3]; // minutes
+            params.outSpatialReference = map.spatialReference;
+            params.returnFacilities = false;
+
+            serviceAreaTask = new ServiceAreaTask("https://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Network/USA/NAServer/Service Area");
+
+            d3.selection.prototype.moveToFront = function() {
+                return this.each(function() {
+                    this.parentNode.appendChild(this);
+                });
+            };
+            d3.selection.prototype.moveToBack = function() {
+                return this.each(function() {
+                    var firstChild = this.parentNode.firstChild;
+                    if (firstChild) {
+                        this.parentNode.insertBefore(this, firstChild);
+                    }
+                });
+            };
+
+
+            function mapClickHandler(evt) {
+                var checkPt = d3.select(evt.toElement).datum();
+                if (!checkPt) return;
+
+                clickpoint = evt;
+
+                // is an attraction cluster
+                if (checkPt.hasOwnProperty('points')) {
+                    // if (checkPt.points.length > 5) {
+                    //     alert('Please select a cluster with size less then 5!');
+                    //     return;
+                    // }
+
+                    // for (var i = 0; i < checkPt.points.length; i++) {
+                    // only take the first one in the cluster
+                    var bindD = checkPt.points[0];
+                    var inPoint = new Point(bindD.geometry.coordinates, new SpatialReference({
+                        wkid: 4326
+                    }));
+
+                    if (!nodeid.hasOwnProperty(bindD.properties.myAttrId)) { // global variable
+                        nodeid[bindD.properties.myAttrId] = createServiceArea(inPoint, 'attraction', bindD.properties.myAttrId);
+                        d3.select("#nodeline_" + bindD.properties.myAttrId).style("display", 'block');
+
+
+                    } else {
+
+
+                        d3.select("#nodeline_" + bindD.properties.myAttrId).style("display", 'none');
+                        // damnit, ags does not allow d3 to remove
+                        // if map extent changes, the polygon areas will still show up even removed with d3.remove()
+                        // d3.selectAll('.polygon_attraction_' + bindD.properties.myAttrId).remove();
+                        for (var i = 0; i < nodeid[bindD.properties.myAttrId].length; i++) {
+                            var polyg = nodeid[bindD.properties.myAttrId][i];
+
+                            map.graphics.remove(polyg);
+
+                        }
+                        var textg = mapTextSymbols[bindD.properties.myAttrId];
+                        map.graphics.remove(textg[0]);
+                        map.graphics.remove(textg[1]);
+
+                        delete nodeid[bindD.properties.myAttrId];
+                        delete mapTextSymbols[bindD.properties.myAttrId];
+
+                        if (pointsInServiceAreas['hotel'].hasOwnProperty('f' + bindD.properties.myAttrId)) {
+                            delete pointsInServiceAreas['hotel']['f' + bindD.properties.myAttrId];
+
+                            d3.select('#cell_f' + bindD.properties.myAttrId).remove();
+                            var cellsvgwidth = +d3.select('#hotelplotList').select("svg").attr("width"),
+                                onesize = cellsvgwidth / (d3.keys(pointsInServiceAreas["hotel"]).length + 1);
+
+
+                            if (onesize == cellsvgwidth) {
+                                //stop transition
+                                d3.selectAll('circle.hotel')
+                                    .transition().attr('r', 5).style("fill", 'orange')
+                                    .style("stroke-width", 1)
+                            }
+                            d3.select('#hotelplotList').select("svg")
+                                .attr("width", cellsvgwidth - onesize)
+
+                            // then translate g
+                            d3.select('#hotelplotList').selectAll('.cell')
+                                .attr("transform", function(d, i) {
+                                    return "translate(" + i * onesize + ",0)";
+                                })
+                        }
+
+                    }
+                    // }
+
+                } else if (bindD.properties.hasOwnProperty('myHotelId')) {
+                    // TODO if clicked point is a hotel
+                    //createServiceArea(inPoint, 'hotel', bindD.properties.myHotelId);
+                }
+
+
+            }
+
+            function createServiceArea(inPt, attractionORhotel, clickedId) {
+                var retureServiceAreas = [];
+
+                //map.graphics.clear(); //clear existing graphics
+                //define the symbology used to display the results and input point
+
+                var sym = new SimpleMarkerSymbol(
+                    SimpleMarkerSymbol.STYLE_SQUARE, 20,
+                    new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                        new Color([0, 0, 0]), 1),
+                    new Color([0, 255, 0, 0.25])
+                );
+
+                var font = new Font("20px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL, Font.WEIGHT_BOLDER);
+                var textSymbol = new TextSymbol(
+                    '#' + clickedId, font, new Color([255, 255, 255])
+                );
+                textSymbol.setOffset(0, 6);
+
+                //var prjPt = webMercatorUtils.project(inPt, map);
+                var location1 = new Graphic(inPt, sym),
+                    location2 = new Graphic(inPt, textSymbol);
+                map.graphics.add(location1);
+                map.graphics.add(location2);
+                mapTextSymbols[clickedId] = [location1, location2];
+
+                var features = [];
+                features.push(location1);
+                var facilities = new FeatureSet();
+                facilities.features = features;
+                params.facilities = facilities;
+
+                function showServiceAreaLegend() {
+                    d3.select('#traveltimeColorSpan').style('display', 'inline')
+                    //var cur = d3.select('#legendDiv').html();
+                    //var travelTimePySpans = '<div id="traveltimeColorSpan"><span style="display:none; background-color: rgb(71, 255, 4);"></span><span style="background-color: rgb(128, 150, 48);"></span><span style="background-color: rgb(140, 177, 241);"></span></div>';
+                }
+
+
+                // pointsInServiceAreas:
+                // {'hotel': {'fromAttrID':{'to1': [], 'to2': [], 'to3': [] }},
+                //  'attraction': {'fromHotelID': {'to1': [], 'to2': [], 'to3': [] }}
+                // }
+                function getFallingHotels(polygon, fromAttractionORhotel, fromID, toBreak) {
+                    if (fromAttractionORhotel == 'attraction') {
+                        //console.log(hotel_layer.geoFeatures)
+                        hotel_layer.geoFeatures.features.forEach(function(d) {
+                            var pt = new Point(d.geometry.coordinates[0], d.geometry.coordinates[1], {
+                                "spatialReference": {
+                                    "wkid": 4326
+                                }
+                            });
+                            if (polygon.contains(pt)) {
+
+                                if (pointsInServiceAreas['hotel'].hasOwnProperty('f' + fromID)) {
+                                    if (pointsInServiceAreas['hotel']['f' + fromID].hasOwnProperty('t' + toBreak)) {
+                                        pointsInServiceAreas['hotel']['f' + fromID]['t' + toBreak].push(d.properties.myHotelId);
+                                    } else {
+                                        pointsInServiceAreas['hotel']['f' + fromID]['t' + toBreak] = [d.properties.myHotelId];
+                                    }
+
+                                } else {
+                                    pointsInServiceAreas['hotel']['f' + fromID] = {};
+                                    pointsInServiceAreas['hotel']['f' + fromID]['t' + toBreak] = [d.properties.myHotelId]
+                                }
+
+                            }
+                        })
+                    } else if (fromAttractionORhotel == 'hotel') {
+                        // TODO in the future work
+                    }
+
+                }
+
+
+                //solve
+                serviceAreaTask.solve(params, function(solveResult) {
+                    showServiceAreaLegend();
+
+                    arrayUtils.forEach(solveResult.serviceAreaPolygons, function(serviceArea) {
+                        var polygonSymbol = new SimpleFillSymbol(
+                            "solid",
+                            new SimpleLineSymbol("solid", new Color(colorStroke4timeRGB[serviceArea.attributes.ToBreak]), 1),
+                            new Color(colorbar4timeRGB[serviceArea.attributes.ToBreak])
+                        );
+
+                        serviceArea.setSymbol(polygonSymbol);
+                        map.graphics.add(serviceArea);
+                        retureServiceAreas.push(serviceArea);
+
+
+                        //serviceArea.geometry.contains()
+                        getFallingHotels(serviceArea.geometry, attractionORhotel, clickedId, serviceArea.attributes.ToBreak);
+                        serviceArea.setAttributes({
+                            'class': attractionORhotel,
+                            'fromID': clickedId,
+                            'toBreak': serviceArea.attributes.ToBreak
+                        })
+
+
+
+                    });
+
+                    // assign id to polygon paths
+                    // because AGS does not do
+                    // d3.select('#' + map.graphics.id + '_layer')
+                    //     .selectAll('path')
+                    //     .attr('id', function() {
+                    //         var eGraphicD = d3.select(this).property('e_graphic');
+                    //         var classVal = eGraphicD.attributes.class,
+                    //             fromID = eGraphicD.attributes.fromID,
+                    //             toBreak = eGraphicD.attributes.toBreak;
+                    //         return 'polygon_' + classVal + '_' + fromID + '_to' + toBreak;
+
+                    //     })
+                    //     .attr('class', function() {
+                    //         var eGraphicD = d3.select(this).property('e_graphic');
+                    //         var classVal = eGraphicD.attributes.class,
+                    //             fromID = eGraphicD.attributes.fromID;
+                    //         return 'polygon_' + classVal + '_' + fromID;
+                    //     })
+
+                    if (pointsInServiceAreas['hotel'].hasOwnProperty('f' + clickedId)) {
+                        scatterplots1 = hotelScatterPlots('#hotelplotList', clickedId);
+                    }
+
+                }, function(err) {
+                    console.log(err.message);
+                });
+
+                return retureServiceAreas;
+            }
+
+            function hotelLyrCallback(hotelFeatures) {
+                //console.log('hotel geofeatures: ', hotelFeatures);
+                d3.select(this.getSVGLayerSelector()).selectAll('.hotel').call(d3.helper.hoteltip())
+            }
+
+            function attractionLyrCallback(attrFeatures) {
+                //console.log('attr geofeatures: ',attrFeatures)
+                var pointSpans = '<span style="display: inline-block;width:10px; height:10px;background-color:#FF9800; border: 1px solid #ffffff;"> </span>Hotel <span style="display: inline-block; border-radius: 6px; width:12px; height:12px;background-color:#53c2f5; border: solid 1px #ffffff"></span>Attraction';
+                var travelTimePySpans = '<div id="traveltimeColorSpan"><span class="traveltime1"></span>1minutes <span class="traveltime2"></span>2minutes <span class="traveltime3"></span>3minutes</div>';
+                d3.select('#legendDiv').html(pointSpans + travelTimePySpans)
+                d3.selectAll('.attraction').call(d3.helper.attractiontip());
+                return;
+
+                var randomAttractionCount = 10;
+                var allAttrIDs = attrFeatures.features.map(function(d) {
+                    return d.properties.myAttrId
+                });
+                // random a bunch of interested attractions
+                var interestedAttrIDs = d3.range(randomAttractionCount).map(function() {
+                    return allAttrIDs[Math.floor(allAttrIDs.length * Math.random())]
+                });
+                var interestedAttractions = [];
+                for (var i = 0; i < interestedAttrIDs.length; i++) {
+                    interestedAttractions.push(attrFeatures.features.filter(function(d) {
+                        return d.properties.myAttrId == interestedAttrIDs[i]
+                    })[0]);
+                }
+
+                function nodeClick(d) {
+                    //map.graphics.clear();
+
+                    if (!nodeid.hasOwnProperty(d.properties.myAttrId)) { // global variable
+                        nodeid[d.properties.myAttrId] = createAttractionPolygon(d.properties.myAttrId);
+                        d3.select("#nodeline_" + d.properties.myAttrId).style("display", 'block');
+
+                    } else {
+                        d3.select("#nodeline_" + d.properties.myAttrId).style("display", 'none');
+                        // damnit, ags does not allow d3 to remove
+                        // if map extent changes, the polygon areas will still show up even removed with d3.remove()
+                        // d3.selectAll('.polygon_attraction_' + bindD.properties.myAttrId).remove();
+                        for (var i = 0; i < nodeid[d.properties.myAttrId].length; i++) {
+                            var polyg = nodeid[d.properties.myAttrId][i];
+                            map.graphics.remove(polyg)
+                        }
+
+                        delete nodeid[d.properties.myAttrId];
+
+
+                        if (pointsInServiceAreas['hotel'].hasOwnProperty('f' + d.properties.myAttrId)) {
+                            delete pointsInServiceAreas['hotel']['f' + d.properties.myAttrId];
+
+                            d3.select('#cell_f' + d.properties.myAttrId).remove();
+                            var cellsvgwidth = +d3.select('#hotelplotList').select("svg").attr("width"),
+                                onesize = cellsvgwidth / (d3.keys(pointsInServiceAreas["hotel"]).length + 1);
+
+                            if (onesize == cellsvgwidth) {
+                                //stop transition
+                                d3.selectAll('circle.hotel')
+                                    .transition().attr('r', 5).style("fill", 'orange')
+                                    .style("stroke-width", 1)
+                            }
+
+                            d3.select('#hotelplotList').select("svg")
+                                .attr("width", cellsvgwidth - onesize)
+
+                            // then translate g
+                            d3.select('#hotelplotList').selectAll('.cell')
+                                .attr("transform", function(d, i) {
+                                    return "translate(" + i * onesize + ",0)";
+                                })
+                        }
+
+                    }
+
+                }
+                // interestedAttractions, interestedAttrGraphDiv, attrDescDiv
+                nodeGraph1 = nodegraph(interestedAttractions, '#interestedAttrGraphDiv', '#attrDescDiv')
+
+                nodeGraph1.nodeGroup.on('click', nodeClick)
+
+                //map.setExtent(new esri.geometry.Extent({xmin:nodeGraph1.xGeoScale.domain()[0],ymin:nodeGraph1.yGeoScale.domain()[0],xmax:nodeGraph1.xGeoScale.domain()[1],ymax:nodeGraph1.yGeoScale.domain()[1],spatialReference:{wkid:4326}}))
+
+
+                // move out of this function
+                //color the attraction on the map with same style as in node graph
+                interestedAttrIDs.forEach(function(aid) {
+                    var colorIngraph = d3.select('#node_' + aid).select('.nodeoutline').style('fill');
+                    var curAttr = d3.select('#attraction_' + aid).attr('width', 40).attr('height', 30).style('fill', colorIngraph);
+                    curAttr.select(function() {
+                        return this.parentNode
+                    }).moveToFront();
+                    curAttr.select(function() {
+                            return this.parentNode
+                        })
+                        .append('text')
+                        .text(aid)
+                        .attr("dy", "1.2em")
+                        .attr("dx", "0.4em")
+                        .attr('text-anchor', 'start')
+                        .attr("font-size", 16)
+                        .attr("fill", "#fff");
+
+                })
+
+                var xbbox = nodeGraph1.xGeoScale.domain(),
+                    ybbox = nodeGraph1.yGeoScale.domain();
+
+                //var deferred = map.centerAt([(xbbox[0] + xbbox[1])/2, (ybbox[0] + ybbox[1])/2]);
+                var deferred = map.setExtent(new esri.geometry.Extent({
+                    xmin: xbbox[0],
+                    ymin: ybbox[0],
+                    xmax: xbbox[1],
+                    ymax: ybbox[1],
+                    spatialReference: {
+                        wkid: 4326
+                    }
+                }), true)
+                deferred.then(function(v) {
+                    var pointSpans = '<span style="display: inline-block; border-radius: 6px;width:10px; height:10px;background-color:orange"> </span>Hotel <span style="display: inline-block;width:10px; height:10px;background-color:#07c9ff; border: solid 1px #000d10"></span>Attraction';
+                    var travelTimePySpans = '<div id="traveltimeColorSpan"><span class="traveltime1"></span>1minutes <span class="traveltime2"></span>2minutes <span class="traveltime3"></span>3minutes</div>';
+                    d3.select('#legendDiv').html(pointSpans + travelTimePySpans)
+                })
+
+                function createAttractionPolygon(attrID) {
+
+                    var coord = d3.select('#attraction_' + attrID).datum().geometry.coordinates;
+                    map.centerAt(coord);
+                    var pt = new Point(coord[0], coord[1]);
+                    //var toscrPt = map.toScreen(inPoint);
+                    var inPt = webMercatorUtils.project(pt, map);
+                    return createServiceArea(inPt, 'attraction', attrID);
+                }
+
+            }
+
+
+            hotel_layer = new d3Layer('data/DC_hotels_new.json', {
+                id: 'layer_hotel_pt',
+                // attr: [{name: 'r', value: function }, {name: 'class', value: 'classname'}]
+                // style: [{name: 'stroke', value: }, {name: 'fill', value: }]
+                // svgType: circle, rect,
+
+                attr: [{
+                    name: 'width',
+                    value: 8
+                }, {
+                    name: 'height',
+                    value: 8
+                }, {
+                    name: 'id',
+                    value: function(d) {
+                        return 'hotel_' + d.properties.myHotelId;
+                    }
+                }, {
+                    name: 'class',
+                    value: 'hotel'
+                }],
+                /*
+                style:[
+                  {
+                    name: 'stroke',
+                    value: function(d){ return 'orange'; }
+                  },
+                  {
+                    name: 'fill',
+                    value: function(d){ return 'orange'; }//#43B7D6
+                  }
+                ],
+                */
+                svgType: 'rect',
+                map: map,
+                callback: hotelLyrCallback
+            });
+
+
+            attraction_layer = new d3Layer('data/DC_attractions_new.json', {
+                id: 'layer_attractions_pt',
+                // attr: [{name: 'r', value: function }, {name: 'class', value: 'classname'}]
+                // style: [{name: 'stroke', value: }, {name: 'fill', value: }]
+                // svgType: circle, rect,
+
+                attr: [{
+                    name: 'class',
+                    value: 'attraction'
+                }],
+                /*
+                style:[
+                  {
+                    name: 'stroke',
+                    value: function(d){ return '#43B7D6'; }
+                  },
+                  {
+                    name: 'fill',
+                    value: 'black'
+                  }
+                ],
+                */
+                svgType: 'circle',
+                map: map,
+                isClustering: true,
+                callback: attractionLyrCallback
+            });
+
+
+            map.addLayers([hotel_layer, attraction_layer]);
+            // what I really want to move is the _graphics_layer
+            //map.reorderLayer(hotel_layer,1);
+            //map.reorderLayer(attraction_layer,1);
+            map.on("load", function() {
+                d3.select('#' + map.graphics.id + '_layer').moveToBack()
+            })
+            map.on("zoom-end", function() {
+
+            });
+
+            hotel_layer.on("load", function(evt) {
+                d3.select(this.getSVGLayerSelector()).selectAll('.hotel')
+                    .on('mouseover', function(dot) {
+
+
+                    })
+                    .on('mouseout', function(dot) {
+
+                    });
+            });
+
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#container').layout({
+
+                south__size: "30%",
+                center__childOptions: {
+                    west__size: "40%",
+                    center__enableCursorHotkey: false,
+                    center__closable: false,
+                    center__resizable: false,
+                    center__slidable: false,
+                    center__spacing_open: 1,
+                    center__spacing_closed: 1,
+                    west__onresize: function() {
+                        nodeGraph1.reDraw();
+                        if (scatterplots1) scatterplots1.reDraw();
+                    }
+                }
+                // , north__enableCursorHotkey: false
+                //     , north__closable: false
+                //     , north__resizable: false
+                //     , north__slidable: false
+                //     , north__spacing_open: 1
+                //     , north__spacing_closed: 1
+
+            });
+
+
+            $("button")
+                .button()
+                .click(function(event) {
+                    //event.preventDefault();
+                    map.graphics.clear();
+                    d3.selectAll(".nodebg").style("display", null);
+                    d3.select('#traveltimeColorSpan').style('display', 'none')
+                    nodeid = {};
+                    mapTextSymbols = {};
+                    //d3.select("#nodeline_"+d.properties.myAttrId).style("display", null);
+                });
+
+
+
+        });
+    </script>
+</head>
+
+<body>
+    <div id="container">
+        <div class="pane ui-layout-center">
+            <div class="pane ui-layout-center" id="mapviewDiv">
+                <div> Step 1: click a few attractions (blue circles) you'd like to visit</div>
+                <div id="mapInfo">
+                    <!-- <div id="mapSearch"></div> -->
+                    <div id="legendDiv"></div>
+                </div>
+            </div>
+            <!--    <div class="pane ui-layout-west">
+               <div id='attrGraphDiv' style="width:100%; height:100%; margin-top: -10px;">
+                     
+                     <div id='attrDescDiv' style="width:100%; height:20%"></div>
+                     <div id='interestedAttrGraphDiv' style="width:100%; height:78%" ></div>
+                </div>
+               </div> -->
+        </div>
+        <div class="ui-layout-south">
+            <div id='plotList'>
+                <div id="brushOption">Step 2: click-and-drag hotels (squares) to many-to-many compare driving times with the same color coding.</div>
+                <div id='hotelplotList'>
+                    <!-- have it only if singleSVG is on -->
+                    <svg></svg>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+    <script src="js/scatterplots.js"></script>
+    <script type="text/javascript">
+         var sc_project=10227952; 
+         var sc_invisible=1; 
+         var sc_security="19025bec"; 
+         var sc_https=1; 
+         var scJsHost = (("https:" == document.location.protocol) ?
+         "https://secure." : "http://www.");
+         document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
+         "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
+      </script> 
+      <noscript>
+         <div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div>
+      </noscript>
+</body>
+
+</html>

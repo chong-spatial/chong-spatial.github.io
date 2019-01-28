@@ -1,7 +1,5 @@
 url,imgUrl,order,shortHead
 https://scoringanddashboard.firebaseapp.com/dashboard/team9,scoring,,Realtime Scoring
-./work/antique_map/index.html,antique,,Antique Map
-./work/isoline/leaflet1.html,isoline,,Contour (Isoline)
 ./work/similarityClustering,simclustering,,Similarity and Clustering - Canvas
 ./work/feature,feature,,Association Rule-based Feature Selection - SVG
 ./work/darling,darling,,Darling Cartogram
@@ -9,7 +7,7 @@ https://scoringanddashboard.firebaseapp.com/dashboard/team9,scoring,,Realtime Sc
 ./work/globe,globe,,Simple Globe without OpenGL
 ./work/sfmuni/1,sfmuni,, San Francisco Realtime Traffic
 ./work/voronoi/app.html,vor-app,,Voronoi for Multi-Dimensional Vis
-./work/selectormap,selector1,,Selector helps make decision
+./work/poi,selector,,Overlap-free POI exploration
 ./work/force/2,force-app,,Bubble for Multi-Dimensional Mapping
 ./work/gridmap/2,grid-app,,Grid Mapping
 ./work/traj,traj-app,,Trajactory Visualization
