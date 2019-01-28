@@ -1,2 +1,0 @@
-in
-Class=democrat out

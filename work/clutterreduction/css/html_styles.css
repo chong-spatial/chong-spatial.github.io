@@ -40,12 +40,12 @@ html, body {
   color: #fff;
 }
 .info .no {
-  background: #e67777; 
+  background: #c51b7d; 
   border: gray solid 1px;
 
 }
 .info .yes {
-  background: #369036; 
+  background: #4d9221; 
   border: gray solid 1px;
 
   margin-bottom: 4px;
@@ -91,9 +91,13 @@ html, body {
   padding-top: .4em;
   margin-top: 1em;
 }
+#support-container {
+  float: right;
+}
 
 #support-slider {
-  float: right;
+  /*float: right;*/
+  display: inline-block;
   width: 290px;
   margin-right: 10px; 
   /*margin: 15px;*/

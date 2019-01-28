@@ -23,13 +23,15 @@
 .dimension:hover > rect { fill-opacity: .3; }
 .ribbon path { 
 	stroke-opacity: 0; 
-	fill-opacity: .2; }
+	fill-opacity: .6; 
+	mix-blend-mode: multiply;
+}
 .ribbon path.active { 
 	fill-opacity: 1;   
 }
 
 .ribbon path.highlight { 
-	fill-opacity: 1; 
+	fill-opacity: 0.8; 
 }
 
 
@@ -53,13 +55,13 @@
 .category-Yes { fill: #ff7f0e; stroke: #ff7f0e; }
 */
 
-.category-No { fill: #e67777; stroke: #e67777; }
-.category-Yes { fill: #369036; stroke: #369036; }
+.category-No { fill: #c51b7d; stroke: #c51b7d; }
+.category-Yes { fill: #4d9221; stroke: #4d9221; }
 
 
 
-.category-0 { fill: #369036; stroke: #369036; }
-.category-1 { fill: #e67777; stroke: #e67777; }
+.category-0 { fill: #4d9221; stroke: #4d9221; }
+.category-1 { fill: #c51b7d; stroke: #c51b7d; }
 .category-2 { fill: #2ca02c; stroke: #2ca02c; }
 .category-3 { fill: #d62728; stroke: #d62728; }
 .category-4 { fill: #9467bd; stroke: #9467bd; }
