@@ -1,5 +1,5 @@
 url,imgUrl,order,shortHead
-./work/clutterreduction,clutterreduction,,Clutter reduction via association rule
+./work/clutterreduction,clutterreduction1,,Clutter reduction via association rule
 https://scoringanddashboard.firebaseapp.com/dashboard/team9,scoring,,Realtime Scoring
 ./work/similarityClustering,simclustering,,Similarity and Clustering - Canvas
 ./work/feature,feature,,Association Rule-based Feature Selection - SVG
