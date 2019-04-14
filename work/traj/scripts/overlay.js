@@ -1,5 +1,845 @@
-// @author Chong Zhang.
-// Please contact me at chongzhang.nc@gmail.com if you have any questions
+var nodeColor = d3.scale.linear()
+		    //.domain([20, 40, 60])			
+		    //.range(["#008837", "#ffffbf", "#7b3294"]);
+			.domain([graphdata.pagerank[0], (graphdata.pagerank[0] + graphdata.pagerank[1])/2 , graphdata.pagerank[1]])
+			//.range(["#d01c8b", "#4dac26"]);
+			//.range(["#00f", "#ff0", "#f00"]);
+			.range(colorSettings.nodeStrokeRange).clamp(true);
+
+var routeNode,
+	nodeid = [],
+	roseCharts = [];
+
+function getStyleMap (prop, time) {
+	var isAllDay = time == 'allday';
+	
+
+	var routesStyle, ol_context;	
+	if( prop == 'pagerank' || prop == 'betweenness' || prop == 'closeness')	{
+		if (isAllDay) {
+			nodeColor.domain([graphdata[prop][0], (graphdata[prop][0] + graphdata[prop][1])/2, graphdata[prop][1]]);
+		} else {
+			var minmaxSpecTime = d3.extent(graphdata.nodes, function(d) { return d.rank[prop][time/2] });
+			nodeColor.domain([minmaxSpecTime[0], (minmaxSpecTime[0] + minmaxSpecTime[1])/2, minmaxSpecTime[1]]);
+		}
+
+		routesStyle = {
+	      //strokeColor: colorSettings.routeStroke,      
+	      strokeColor: "${getRouteColor}",      
+	      storkeWidth: 1
+    	}
+  		ol_context = {
+		    getRouteColor: function(feature) {
+		      var nodeObj = $.grep(graphdata.nodes, function (el, idx) { return el.id == feature.attributes.partitionID; })[0];
+		      if (!nodeObj) return colorSettings.routeStroke;
+		      else return isAllDay ? nodeColor(nodeObj[prop]) : nodeColor(nodeObj.rank[prop][time/2]);        
+		    }
+  		};
+	} else {
+		if (prop == 'travelTime')
+			nodeColor.domain([ trafficColor.travelTime[0], trafficColor.travelTime[1], trafficColor.travelTime[2] ]);
+		else if (prop == 'flow')
+			nodeColor.domain([ trafficColor.flow[0], trafficColor.flow[1], trafficColor.flow[2] ]);
+		// speed
+		else
+			nodeColor.domain([ trafficColor.speed[0], trafficColor.speed[1], trafficColor.speed[2] ]);
+		//speed [0, 80/75/70/60]
+		//flow[0, 600/1000]
+		//travetime[10/5, 0]
+
+		routesStyle = {
+	      //strokeColor: colorSettings.routeStroke,      
+	      strokeColor: "${getRouteColor}",      
+	      storkeWidth: 1
+    	}
+  		ol_context = {
+		    getRouteColor: function(feature) {		      
+		      return isAllDay ? nodeColor(d3.mean(feature.attributes[prop])) : nodeColor(feature.attributes[prop][time/2]);        
+		    }
+  		};
+
+	}
+	
+  return new OpenLayers.StyleMap(new OpenLayers.Style(routesStyle, { context: ol_context }) );
+}
+
+function makeConstraintGraph(gid)	{
+	// by default
+	nodeColor.domain([graphdata.pagerank[0], (graphdata.pagerank[0] + graphdata.pagerank[1])/2 , graphdata.pagerank[1]]);
+
+	var padding = 30,
+		fixedRadius = 10,
+		width = $(".topLeft").width(),
+		height = $(".topLeft").height() -30; // minus menu height
+	
+
+	// code from Xiaoke with my edits
+    var xScale = d3.scale.linear()
+		.domain(graphdata.x).range([0+padding, width-padding]);
+
+	var yScale = d3.scale.linear()
+		.domain([graphdata.y[1], graphdata.y[0]]).range([padding, height-padding]);
+
+	var zoom = d3.behavior.zoom()
+	    .scaleExtent([1, 10])
+	    .on("zoom", zoomed);
+
+	var svg = d3.select("#" + gid).append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .call(zoom);
+
+    var rect = svg.append("rect")
+	    .attr("width", width)
+	    .attr("height", height)
+	    .style("fill", "none")
+	    .style("pointer-events", "all");
+	var container = svg.append("g");
+    function zoomed() {
+  		container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	}
 
 
-var _0x1bcc=["\x63\x6C\x61\x6D\x70","\x6E\x6F\x64\x65\x53\x74\x72\x6F\x6B\x65\x52\x61\x6E\x67\x65","\x72\x61\x6E\x67\x65","\x70\x61\x67\x65\x72\x61\x6E\x6B","\x64\x6F\x6D\x61\x69\x6E","\x6C\x69\x6E\x65\x61\x72","\x73\x63\x61\x6C\x65","\x61\x6C\x6C\x64\x61\x79","\x62\x65\x74\x77\x65\x65\x6E\x6E\x65\x73\x73","\x63\x6C\x6F\x73\x65\x6E\x65\x73\x73","\x6E\x6F\x64\x65\x73","\x72\x61\x6E\x6B","\x65\x78\x74\x65\x6E\x74","\x24\x7B\x67\x65\x74\x52\x6F\x75\x74\x65\x43\x6F\x6C\x6F\x72\x7D","\x69\x64","\x70\x61\x72\x74\x69\x74\x69\x6F\x6E\x49\x44","\x61\x74\x74\x72\x69\x62\x75\x74\x65\x73","\x67\x72\x65\x70","\x72\x6F\x75\x74\x65\x53\x74\x72\x6F\x6B\x65","\x74\x72\x61\x76\x65\x6C\x54\x69\x6D\x65","\x66\x6C\x6F\x77","\x73\x70\x65\x65\x64","\x6D\x65\x61\x6E","\x71\x75\x61\x64\x74\x72\x65\x65","\x67\x65\x6F\x6D","\x72","\x78","\x79","\x70\x6F\x69\x6E\x74","\x73\x71\x72\x74","\x76\x69\x73\x69\x74","\x73\x6F\x75\x72\x63\x65","\x73\x74\x72\x6F\x6B\x65","\x73\x74\x79\x6C\x65","\x73\x65\x6C\x65\x63\x74","\x73\x74\x72\x6F\x6B\x65\x2D\x77\x69\x64\x74\x68","\x74\x61\x72\x67\x65\x74","\x65\x61\x63\x68","\x2E\x6E\x6F\x64\x65\x5F\x6C\x69\x6E\x65","\x73\x65\x6C\x65\x63\x74\x41\x6C\x6C","\x77\x69\x64\x74\x68","\x2E\x74\x6F\x70\x4C\x65\x66\x74","\x68\x65\x69\x67\x68\x74","\x7A\x6F\x6F\x6D","\x74\x72\x61\x6E\x73\x66\x6F\x72\x6D","\x74\x72\x61\x6E\x73\x6C\x61\x74\x65\x28","\x74\x72\x61\x6E\x73\x6C\x61\x74\x65","\x65\x76\x65\x6E\x74","\x29\x73\x63\x61\x6C\x65\x28","\x29","\x61\x74\x74\x72","\x6F\x6E","\x73\x63\x61\x6C\x65\x45\x78\x74\x65\x6E\x74","\x62\x65\x68\x61\x76\x69\x6F\x72","\x63\x61\x6C\x6C","\x73\x76\x67","\x61\x70\x70\x65\x6E\x64","\x23","\x70\x6F\x69\x6E\x74\x65\x72\x2D\x65\x76\x65\x6E\x74\x73","\x61\x6C\x6C","\x66\x69\x6C\x6C","\x6E\x6F\x6E\x65","\x72\x65\x63\x74","\x67","\x66\x6F\x72\x45\x61\x63\x68","\x6C\x69\x6E\x6B\x73","\x61\x76\x65\x72\x61\x67\x65\x53\x70\x65\x65\x64","\x74\x72\x61\x66\x66\x69\x63\x49\x6E\x66\x6F\x72\x6D\x61\x74\x69\x6F\x6E","\x78\x78","\x79\x79","\x66\x72\x6F\x6D\x5F","\x5F\x74\x6F\x5F","\x63\x6C\x61\x73\x73","\x6E\x6F\x64\x65\x5F\x6C\x69\x6E\x65","\x6C\x69\x6E\x65","\x65\x6E\x74\x65\x72","\x64\x61\x74\x61","\x73\x74\x61\x72\x74","\x74\x69\x63\x6B","\x79\x32","\x78\x32","\x79\x31","\x78\x31","\x63\x79","\x63\x78","\x6F\x75\x74\x6C\x69\x6E\x65\x5F\x72\x65\x63\x74\x5F\x68","\x6F\x75\x74\x6C\x69\x6E\x65\x5F\x72\x65\x63\x74\x5F\x77","\x67\x65\x74\x43\x6F\x6D\x70\x75\x74\x65\x64\x54\x65\x78\x74\x4C\x65\x6E\x67\x74\x68","\x63\x68\x61\x72\x67\x65","\x67\x72\x61\x76\x69\x74\x79","\x73\x69\x7A\x65","\x66\x6F\x72\x63\x65","\x6C\x61\x79\x6F\x75\x74","\x6C\x61\x62\x65\x6C","\x6E\x6F\x64\x65\x73\x68\x61\x64\x6F\x77","\x6E\x6F\x64\x65\x6C\x69\x6E\x65\x5F","\x6E\x6F\x64\x65\x6F\x75\x74\x6C\x69\x6E\x65","\x63\x69\x72\x63\x6C\x65","\x72\x78","\x72\x79","\x6E\x6F\x64\x65\x5F","\x6E\x6F\x64\x65","\x6D\x6F\x75\x73\x65\x6F\x75\x74","\x6D\x6F\x75\x73\x65\x6F\x76\x65\x72","\x23\x6E\x6F\x64\x65\x5F","\x63\x6C\x69\x63\x6B","\x73\x74\x6F\x70\x50\x72\x6F\x70\x61\x67\x61\x74\x69\x6F\x6E","\x3A\x63\x68\x65\x63\x6B\x65\x64","\x69\x73","\x23\x6D\x75\x6C\x73\x65\x6C","\x69\x6E\x64\x65\x78\x4F\x66","\x73\x70\x6C\x69\x63\x65","\x64\x69\x73\x70\x6C\x61\x79","\x23\x6E\x6F\x64\x65\x6C\x69\x6E\x65\x5F","\x70\x75\x73\x68","\x62\x6C\x6F\x63\x6B","\x2E\x6E\x6F\x64\x65\x6F\x75\x74\x6C\x69\x6E\x65","\x76\x61\x6C","\x23\x6C\x69\x6E\x65\x53\x65\x6C\x65\x63\x74","\x66\x6F\x6E\x74\x2D\x73\x69\x7A\x65","\x74\x65\x78\x74\x66\x6F\x6E\x74\x73\x69\x7A\x65","\x64\x78","\x2E\x33\x65\x6D","\x64\x79","\x2E\x33\x35\x65\x6D","\x74\x65\x78\x74","\x52\x6F\x73\x65\x43\x68\x61\x72\x74","\x4C\x61\x79\x65\x72","\x61\x66\x74\x65\x72\x41\x64\x64","\x6D\x61\x72\x67\x69\x6E\x2D\x74\x6F\x70","\x67\x72\x61\x70\x68\x6D\x61\x72\x67\x69\x6E","\x70\x78","\x6D\x61\x72\x67\x69\x6E\x2D\x6C\x65\x66\x74","\x2C","\x45\x50\x53\x47\x3A\x34\x33\x32\x36","\x45\x50\x53\x47\x3A\x39\x30\x30\x39\x31\x33","\x67\x65\x74\x56\x69\x65\x77\x50\x6F\x72\x74\x50\x78\x46\x72\x6F\x6D\x4C\x6F\x6E\x4C\x61\x74","\x64\x69\x76","\x72\x65\x6D\x6F\x76\x65","\x67\x72\x61\x70\x68","\x72\x6F\x75\x74\x65","\x70\x72\x6F\x6A\x65\x63\x74\x69\x6F\x6E","\x70\x61\x74\x68","\x67\x65\x6F","\x6C\x65\x6E\x67\x74\x68","\x7A\x69\x70","\x72\x6F\x73\x65\x5F","\x69\x6E\x6E\x65\x72\x73\x69\x7A\x65","\x72\x6F\x73\x65\x73\x69\x7A\x65","\x50\x61\x67\x65\x72\x61\x6E\x6B","\x64\x72\x61\x77","\x72\x6F\x73\x65\x67","\x6D\x6F\x76\x65\x65\x6E\x64","\x72\x65\x67\x69\x73\x74\x65\x72","\x65\x76\x65\x6E\x74\x73","\x76\x61\x6C\x75\x65","\x23\x74\x69\x6D\x65\x53\x65\x6C\x65\x63\x74","\x63\x68\x61\x6E\x67\x65","\x23\x67\x72\x61\x70\x68\x70\x61\x72\x74\x20\x69\x6E\x70\x75\x74\x5B\x74\x79\x70\x65\x3D\x72\x61\x64\x69\x6F\x5D","\x64\x61\x74\x75\x6D","\x67\x65\x74\x49\x44","\x75\x70\x64\x61\x74\x65","\x23\x72\x6F\x73\x65\x53\x65\x6C\x65\x63\x74","\x73\x74\x79\x6C\x65\x4D\x61\x70","\x72\x65\x64\x72\x61\x77","\x23\x72\x6F\x61\x64\x53\x65\x6C\x65\x63\x74","\x69\x6E\x70\x75\x74\x5B\x6E\x61\x6D\x65\x3D\x6E\x6C\x72\x61\x64\x69\x6F\x5D\x3A\x63\x68\x65\x63\x6B\x65\x64","\x74","\x66\x69\x6C\x6C\x63\x6F\x6C\x6F\x72","\x23\x45\x35\x45\x35\x45\x35","\x2E\x72\x6F\x73\x65\x61\x72\x63\x73\x20\x70\x61\x74\x68","\x61\x64\x64\x4C\x61\x79\x65\x72","\x4F\x52","\x4C\x6F\x67\x69\x63\x61\x6C","\x46\x69\x6C\x74\x65\x72","\x73\x65\x74\x46\x69\x6C\x74\x65\x72","\x2E\x72\x6F\x73\x65\x67","\x45\x51\x55\x41\x4C\x5F\x54\x4F","\x43\x6F\x6D\x70\x61\x72\x69\x73\x6F\x6E"];var nodeColor=d3[_0x1bcc[6]][_0x1bcc[5]]()[_0x1bcc[4]]([graphdata[_0x1bcc[3]][0],(graphdata[_0x1bcc[3]][0]+graphdata[_0x1bcc[3]][1])/2,graphdata[_0x1bcc[3]][1]])[_0x1bcc[2]](colorSettings[_0x1bcc[1]])[_0x1bcc[0]](!0),routeNode,nodeid=[],roseCharts=[];function getStyleMap(_0x49ebx6,_0x49ebx7){var _0x49ebx8=_0x1bcc[7]==_0x49ebx7,_0x49ebx9,_0x49ebxa;_0x1bcc[3]==_0x49ebx6||_0x1bcc[8]==_0x49ebx6||_0x1bcc[9]==_0x49ebx6?(_0x49ebx8?nodeColor[_0x1bcc[4]]([graphdata[_0x49ebx6][0],(graphdata[_0x49ebx6][0]+graphdata[_0x49ebx6][1])/2,graphdata[_0x49ebx6][1]]):(_0x49ebx9=d3[_0x1bcc[12]](graphdata[_0x1bcc[10]],function(_0x49ebx9){return _0x49ebx9[_0x1bcc[11]][_0x49ebx6][_0x49ebx7/2]}),nodeColor[_0x1bcc[4]]([_0x49ebx9[0],(_0x49ebx9[0]+_0x49ebx9[1])/2,_0x49ebx9[1]])),_0x49ebx9={strokeColor:_0x1bcc[13],storkeWidth:1},_0x49ebxa={getRouteColor:function(_0x49ebx9){var _0x49ebxa=$[_0x1bcc[17]](graphdata[_0x1bcc[10]],function(_0x49ebx6,_0x49ebxa){return _0x49ebx6[_0x1bcc[14]]==_0x49ebx9[_0x1bcc[16]][_0x1bcc[15]]})[0];return _0x49ebxa?_0x49ebx8?nodeColor(_0x49ebxa[_0x49ebx6]):nodeColor(_0x49ebxa[_0x1bcc[11]][_0x49ebx6][_0x49ebx7/2]):colorSettings[_0x1bcc[18]]}}):(_0x1bcc[19]==_0x49ebx6?nodeColor[_0x1bcc[4]]([trafficColor[_0x1bcc[19]][0],trafficColor[_0x1bcc[19]][1],trafficColor[_0x1bcc[19]][2]]):_0x1bcc[20]==_0x49ebx6?nodeColor[_0x1bcc[4]]([trafficColor[_0x1bcc[20]][0],trafficColor[_0x1bcc[20]][1],trafficColor[_0x1bcc[20]][2]]):nodeColor[_0x1bcc[4]]([trafficColor[_0x1bcc[21]][0],trafficColor[_0x1bcc[21]][1],trafficColor[_0x1bcc[21]][2]]),_0x49ebx9={strokeColor:_0x1bcc[13],storkeWidth:1},_0x49ebxa={getRouteColor:function(_0x49ebx9){return _0x49ebx8?nodeColor(d3[_0x1bcc[22]](_0x49ebx9[_0x1bcc[16]][_0x49ebx6])):nodeColor(_0x49ebx9[_0x1bcc[16]][_0x49ebx6][_0x49ebx7/2])}});return  new OpenLayers.StyleMap( new OpenLayers.Style(_0x49ebx9,{context:_0x49ebxa}))}function makeConstraintGraph(_0x49ebx6){function _0x49ebx7(_0x49ebxc){var _0x49ebx6=d3[_0x1bcc[24]][_0x1bcc[23]](graphdata[_0x1bcc[10]]);return function(_0x49ebxd){var _0x49ebx9=_0x49ebxd[_0x1bcc[25]]+16;nx1=_0x49ebxd[_0x1bcc[26]]-_0x49ebx9;nx2=_0x49ebxd[_0x1bcc[26]]+_0x49ebx9;ny1=_0x49ebxd[_0x1bcc[27]]-_0x49ebx9;ny2=_0x49ebxd[_0x1bcc[27]]+_0x49ebx9;_0x49ebx6[_0x1bcc[30]](function(_0x49ebx6,_0x49ebx9,_0x49ebxe,_0x49ebxa,_0x49ebx7){if(_0x49ebx6[_0x1bcc[28]]&&_0x49ebx6[_0x1bcc[28]]!==_0x49ebxd){var _0x49ebxf=_0x49ebxd[_0x1bcc[26]]-_0x49ebx6[_0x1bcc[28]][_0x1bcc[26]],_0x49ebx10=_0x49ebxd[_0x1bcc[27]]-_0x49ebx6[_0x1bcc[28]][_0x1bcc[27]],_0x49ebx8=Math[_0x1bcc[29]](_0x49ebxf*_0x49ebxf+_0x49ebx10*_0x49ebx10),_0x49ebx11=_0x49ebxd[_0x1bcc[25]]+_0x49ebx6[_0x1bcc[28]][_0x1bcc[25]];_0x49ebx8<_0x49ebx11&&(_0x49ebx8=(_0x49ebx8-_0x49ebx11)/_0x49ebx8*_0x49ebxc,_0x49ebxd[_0x1bcc[26]]-=_0x49ebxf*=_0x49ebx8,_0x49ebxd[_0x1bcc[27]]-=_0x49ebx10*=_0x49ebx8,_0x49ebx6[_0x1bcc[28]][_0x1bcc[26]]+=_0x49ebxf,_0x49ebx6[_0x1bcc[28]][_0x1bcc[27]]+=_0x49ebx10)};return _0x49ebx9>nx2||_0x49ebxa<nx1||_0x49ebxe>ny2||_0x49ebx7<ny1})}}function _0x49ebx8(_0x49ebxc,_0x49ebxd){_0x49ebx11[_0x1bcc[39]](_0x1bcc[38])[_0x1bcc[37]](function(_0x49ebx6){_0x49ebx6[_0x1bcc[31]][_0x1bcc[14]]==_0x49ebxc?(d3[_0x1bcc[34]](this)[_0x1bcc[33]](_0x1bcc[32],_0x49ebxd),d3[_0x1bcc[34]](this)[_0x1bcc[33]](_0x1bcc[35],3)):_0x49ebx6[_0x1bcc[36]][_0x1bcc[14]]==_0x49ebxc&&(d3[_0x1bcc[34]](this)[_0x1bcc[33]](_0x1bcc[32],_0x49ebxd),d3[_0x1bcc[34]](this)[_0x1bcc[33]](_0x1bcc[35],3))})}nodeColor[_0x1bcc[4]]([graphdata[_0x1bcc[3]][0],(graphdata[_0x1bcc[3]][0]+graphdata[_0x1bcc[3]][1])/2,graphdata[_0x1bcc[3]][1]]);var _0x49ebx9=$(_0x1bcc[41])[_0x1bcc[40]](),_0x49ebxa=$(_0x1bcc[41])[_0x1bcc[42]]()-30,_0x49ebx12=d3[_0x1bcc[6]][_0x1bcc[5]]()[_0x1bcc[4]](graphdata[_0x1bcc[26]])[_0x1bcc[2]]([30,_0x49ebx9-30]),_0x49ebx13=d3[_0x1bcc[6]][_0x1bcc[5]]()[_0x1bcc[4]]([graphdata[_0x1bcc[27]][1],graphdata[_0x1bcc[27]][0]])[_0x1bcc[2]]([30,_0x49ebxa-30]),_0x49ebx14=d3[_0x1bcc[53]][_0x1bcc[43]]()[_0x1bcc[52]]([1,10])[_0x1bcc[51]](_0x1bcc[43],function(){_0x49ebxc[_0x1bcc[50]](_0x1bcc[44],_0x1bcc[45]+d3[_0x1bcc[47]][_0x1bcc[46]]+_0x1bcc[48]+d3[_0x1bcc[47]][_0x1bcc[6]]+_0x1bcc[49])}),_0x49ebx11=d3[_0x1bcc[34]](_0x1bcc[57]+_0x49ebx6)[_0x1bcc[56]](_0x1bcc[55])[_0x1bcc[50]](_0x1bcc[40],_0x49ebx9)[_0x1bcc[50]](_0x1bcc[42],_0x49ebxa)[_0x1bcc[54]](_0x49ebx14);_0x49ebx11[_0x1bcc[56]](_0x1bcc[62])[_0x1bcc[50]](_0x1bcc[40],_0x49ebx9)[_0x1bcc[50]](_0x1bcc[42],_0x49ebxa)[_0x1bcc[33]](_0x1bcc[60],_0x1bcc[61])[_0x1bcc[33]](_0x1bcc[58],_0x1bcc[59]);var _0x49ebxc=_0x49ebx11[_0x1bcc[56]](_0x1bcc[63]);graphdata[_0x1bcc[65]][_0x1bcc[64]](function(_0x49ebxc){_0x49ebxc[_0x1bcc[31]]=graphdata[_0x1bcc[10]][_0x49ebxc[_0x1bcc[31]]];_0x49ebxc[_0x1bcc[36]]=graphdata[_0x1bcc[10]][_0x49ebxc[_0x1bcc[36]]]});graphdata[_0x1bcc[10]][_0x1bcc[64]](function(_0x49ebxc){_0x49ebxc[_0x1bcc[11]]={pagerank:_0x49ebxc[_0x1bcc[11]][_0x1bcc[3]],betweenness:_0x49ebxc[_0x1bcc[11]][_0x1bcc[8]],closeness:_0x49ebxc[_0x1bcc[11]][_0x1bcc[9]],averageSpeed:_0x49ebxc[_0x1bcc[67]][_0x1bcc[66]],travelTime:_0x49ebxc[_0x1bcc[67]][_0x1bcc[19]],flow:_0x49ebxc[_0x1bcc[67]][_0x1bcc[20]]};_0x49ebxc[_0x1bcc[25]]=10;_0x49ebxc[_0x1bcc[68]]=_0x49ebxc[_0x1bcc[26]];_0x49ebxc[_0x1bcc[69]]=_0x49ebxc[_0x1bcc[27]];_0x49ebxc[_0x1bcc[26]]=_0x49ebx12(_0x49ebxc[_0x1bcc[26]]);_0x49ebxc[_0x1bcc[27]]=_0x49ebx13(_0x49ebxc[_0x1bcc[27]]);_0x49ebxc[_0x1bcc[20]]=d3[_0x1bcc[22]](_0x49ebxc[_0x1bcc[67]][_0x1bcc[20]]);_0x49ebxc[_0x1bcc[19]]=d3[_0x1bcc[22]](_0x49ebxc[_0x1bcc[67]][_0x1bcc[19]]);_0x49ebxc[_0x1bcc[66]]=d3[_0x1bcc[22]](_0x49ebxc[_0x1bcc[67]][_0x1bcc[66]]);delete _0x49ebxc[_0x1bcc[67]]});graphdata[_0x1bcc[20]]=d3[_0x1bcc[12]](graphdata[_0x1bcc[10]],function(_0x49ebxc){return _0x49ebxc[_0x1bcc[20]]});graphdata[_0x1bcc[19]]=d3[_0x1bcc[12]](graphdata[_0x1bcc[10]],function(_0x49ebxc){return _0x49ebxc[_0x1bcc[19]]});graphdata[_0x1bcc[66]]=d3[_0x1bcc[12]](graphdata[_0x1bcc[10]],function(_0x49ebxc){return _0x49ebxc[_0x1bcc[66]]});var _0x49ebxd=_0x49ebxc[_0x1bcc[56]](_0x1bcc[63])[_0x1bcc[39]](_0x1bcc[74])[_0x1bcc[76]](graphdata[_0x1bcc[65]])[_0x1bcc[75]]()[_0x1bcc[56]](_0x1bcc[74])[_0x1bcc[50]](_0x1bcc[72],_0x1bcc[73])[_0x1bcc[50]](_0x1bcc[14],function(_0x49ebxc){return _0x1bcc[70]+_0x49ebxc[_0x1bcc[31]][_0x1bcc[14]]+_0x1bcc[71]+_0x49ebxc[_0x1bcc[36]][_0x1bcc[14]]});d3[_0x1bcc[92]][_0x1bcc[91]]()[_0x1bcc[10]](graphdata[_0x1bcc[10]])[_0x1bcc[90]]([_0x49ebx9,_0x49ebxa])[_0x1bcc[89]](0)[_0x1bcc[88]](0)[_0x1bcc[51]](_0x1bcc[78],function(_0x49ebxc){_0x49ebxd[_0x1bcc[37]](_0x49ebx7(0.01))[_0x1bcc[50]](_0x1bcc[82],function(_0x49ebxc){return _0x49ebxc[_0x1bcc[31]][_0x1bcc[26]]})[_0x1bcc[50]](_0x1bcc[81],function(_0x49ebxc){return _0x49ebxc[_0x1bcc[31]][_0x1bcc[27]]})[_0x1bcc[50]](_0x1bcc[80],function(_0x49ebxc){return _0x49ebxc[_0x1bcc[36]][_0x1bcc[26]]})[_0x1bcc[50]](_0x1bcc[79],function(_0x49ebxc){return _0x49ebxc[_0x1bcc[36]][_0x1bcc[27]]});_0x49ebxf[_0x1bcc[37]](_0x49ebx7(0.01))[_0x1bcc[50]](_0x1bcc[84],function(_0x49ebxc){return _0x49ebxc[_0x1bcc[26]]})[_0x1bcc[50]](_0x1bcc[83],function(_0x49ebxc){return _0x49ebxc[_0x1bcc[27]]});routeNode[_0x1bcc[37]](_0x49ebx7(0.01))[_0x1bcc[50]](_0x1bcc[26],function(_0x49ebxc){return _0x49ebxc[_0x1bcc[26]]-nodelinkgraph[_0x1bcc[86]]/2})[_0x1bcc[50]](_0x1bcc[27],function(_0x49ebxc){return _0x49ebxc[_0x1bcc[27]]-nodelinkgraph[_0x1bcc[85]]/2});_0x49ebx10[_0x1bcc[37]](_0x49ebx7(0.01))[_0x1bcc[50]](_0x1bcc[26],function(_0x49ebxc){return _0x49ebxc[_0x1bcc[26]]-this[_0x1bcc[87]]()/2-4})[_0x1bcc[50]](_0x1bcc[27],function(_0x49ebxc){return _0x49ebxc[_0x1bcc[27]]})})[_0x1bcc[77]]();_0x49ebx6=_0x49ebxc[_0x1bcc[56]](_0x1bcc[63])[_0x1bcc[50]](_0x1bcc[72],_0x1bcc[93]);var _0x49ebxf=_0x49ebx6[_0x1bcc[39]](_0x1bcc[97])[_0x1bcc[76]](graphdata[_0x1bcc[10]])[_0x1bcc[75]]()[_0x1bcc[56]](_0x1bcc[97])[_0x1bcc[50]](_0x1bcc[72],_0x1bcc[96])[_0x1bcc[50]](_0x1bcc[14],function(_0x49ebxc){return _0x1bcc[95]+_0x49ebxc[_0x1bcc[14]]})[_0x1bcc[50]](_0x1bcc[25],nodelinkgraph[_0x1bcc[94]]);routeNode=_0x49ebx6[_0x1bcc[39]](_0x1bcc[62])[_0x1bcc[76]](graphdata[_0x1bcc[10]])[_0x1bcc[75]]()[_0x1bcc[56]](_0x1bcc[62])[_0x1bcc[50]](_0x1bcc[72],_0x1bcc[101])[_0x1bcc[50]](_0x1bcc[14],function(_0x49ebxc){return _0x1bcc[100]+_0x49ebxc[_0x1bcc[14]]})[_0x1bcc[33]](_0x1bcc[60],function(_0x49ebxc){return nodeColor(_0x49ebxc[_0x1bcc[3]])})[_0x1bcc[50]](_0x1bcc[99],4)[_0x1bcc[50]](_0x1bcc[98],4)[_0x1bcc[50]](_0x1bcc[42],nodelinkgraph[_0x1bcc[86]])[_0x1bcc[50]](_0x1bcc[40],nodelinkgraph[_0x1bcc[85]]);var _0x49ebx10=_0x49ebx6[_0x1bcc[39]](_0x1bcc[125])[_0x1bcc[76]](graphdata[_0x1bcc[10]])[_0x1bcc[75]]()[_0x1bcc[56]](_0x1bcc[125])[_0x1bcc[125]](function(_0x49ebxc){return _0x49ebxc[_0x1bcc[14]]})[_0x1bcc[50]](_0x1bcc[123],_0x1bcc[124])[_0x1bcc[50]](_0x1bcc[121],_0x1bcc[122])[_0x1bcc[50]](_0x1bcc[119],nodelinkgraph[_0x1bcc[120]])[_0x1bcc[51]](_0x1bcc[105],function(_0x49ebxc){d3[_0x1bcc[47]][_0x1bcc[106]]();if($(_0x1bcc[109])[_0x1bcc[108]](_0x1bcc[107])){if(~nodeid[_0x1bcc[110]](_0x49ebxc[_0x1bcc[14]])){var _0x49ebxd=nodeid[_0x1bcc[110]](_0x49ebxc[_0x1bcc[14]]);nodeid[_0x1bcc[111]](_0x49ebxd,1);d3[_0x1bcc[34]](_0x1bcc[113]+_0x49ebxc[_0x1bcc[14]])[_0x1bcc[33]](_0x1bcc[112],null)}else {nodeid[_0x1bcc[114]](_0x49ebxc[_0x1bcc[14]]),d3[_0x1bcc[34]](_0x1bcc[113]+_0x49ebxc[_0x1bcc[14]])[_0x1bcc[33]](_0x1bcc[112],_0x1bcc[115])}}else {nodeid=[_0x49ebxc[_0x1bcc[14]]],d3[_0x1bcc[39]](_0x1bcc[116])[_0x1bcc[33]](_0x1bcc[112],null),d3[_0x1bcc[34]](_0x1bcc[113]+_0x49ebxc[_0x1bcc[14]])[_0x1bcc[33]](_0x1bcc[112],_0x1bcc[115])};updateFilter();drawLine($(_0x1bcc[118])[_0x1bcc[117]]())})[_0x1bcc[51]](_0x1bcc[103],function(_0x49ebxc){_0x49ebx8(_0x49ebxc[_0x1bcc[14]],d3[_0x1bcc[34]](_0x1bcc[104]+_0x49ebxc[_0x1bcc[14]])[_0x1bcc[33]](_0x1bcc[60]))})[_0x1bcc[51]](_0x1bcc[102],function(_0x49ebxc){_0x49ebx11[_0x1bcc[39]](_0x1bcc[38])[_0x1bcc[33]](_0x1bcc[32],null);_0x49ebx11[_0x1bcc[39]](_0x1bcc[38])[_0x1bcc[33]](_0x1bcc[35],null)})}function makeSepGraph(_0x49ebx6){function _0x49ebx7(_0x49ebxc,_0x49ebxd){_0x49ebx14[_0x1bcc[39]](_0x1bcc[38])[_0x1bcc[37]](function(_0x49ebx6){_0x49ebx6[_0x1bcc[31]][_0x1bcc[14]]==_0x49ebxc?(d3[_0x1bcc[34]](this)[_0x1bcc[33]](_0x1bcc[32],_0x49ebxd),d3[_0x1bcc[34]](this)[_0x1bcc[33]](_0x1bcc[35],3)):_0x49ebx6[_0x1bcc[36]][_0x1bcc[14]]==_0x49ebxc&&(d3[_0x1bcc[34]](this)[_0x1bcc[33]](_0x1bcc[32],_0x49ebxd),d3[_0x1bcc[34]](this)[_0x1bcc[33]](_0x1bcc[35],3))})}nodeColor[_0x1bcc[4]]([graphdata[_0x1bcc[3]][0],(graphdata[_0x1bcc[3]][0]+graphdata[_0x1bcc[3]][1])/2,graphdata[_0x1bcc[3]][1]]);var _0x49ebx8=$(_0x1bcc[41])[_0x1bcc[40]](),_0x49ebx9=$(_0x1bcc[41])[_0x1bcc[42]]()-30,_0x49ebxa=d3[_0x1bcc[6]][_0x1bcc[5]]()[_0x1bcc[4]](graphdata[_0x1bcc[26]])[_0x1bcc[2]]([30,_0x49ebx8-30]),_0x49ebx12=d3[_0x1bcc[6]][_0x1bcc[5]]()[_0x1bcc[4]]([graphdata[_0x1bcc[27]][1],graphdata[_0x1bcc[27]][0]])[_0x1bcc[2]]([30,_0x49ebx9-30]),_0x49ebx13=d3[_0x1bcc[53]][_0x1bcc[43]]()[_0x1bcc[52]]([1,10])[_0x1bcc[51]](_0x1bcc[43],function(){_0x49ebx11[_0x1bcc[50]](_0x1bcc[44],_0x1bcc[45]+d3[_0x1bcc[47]][_0x1bcc[46]]+_0x1bcc[48]+d3[_0x1bcc[47]][_0x1bcc[6]]+_0x1bcc[49])}),_0x49ebx14=d3[_0x1bcc[34]](_0x1bcc[57]+_0x49ebx6)[_0x1bcc[56]](_0x1bcc[55])[_0x1bcc[50]](_0x1bcc[40],_0x49ebx8)[_0x1bcc[50]](_0x1bcc[42],_0x49ebx9)[_0x1bcc[54]](_0x49ebx13);_0x49ebx14[_0x1bcc[56]](_0x1bcc[62])[_0x1bcc[50]](_0x1bcc[40],_0x49ebx8)[_0x1bcc[50]](_0x1bcc[42],_0x49ebx9)[_0x1bcc[33]](_0x1bcc[60],_0x1bcc[61])[_0x1bcc[33]](_0x1bcc[58],_0x1bcc[59]);var _0x49ebx11=_0x49ebx14[_0x1bcc[56]](_0x1bcc[63]);graphdata[_0x1bcc[65]][_0x1bcc[64]](function(_0x49ebxc){_0x49ebxc[_0x1bcc[31]]=graphdata[_0x1bcc[10]][_0x49ebxc[_0x1bcc[31]]];_0x49ebxc[_0x1bcc[36]]=graphdata[_0x1bcc[10]][_0x49ebxc[_0x1bcc[36]]]});graphdata[_0x1bcc[10]][_0x1bcc[64]](function(_0x49ebxc){_0x49ebxc[_0x1bcc[11]]={pagerank:_0x49ebxc[_0x1bcc[11]][_0x1bcc[3]],betweenness:_0x49ebxc[_0x1bcc[11]][_0x1bcc[8]],closeness:_0x49ebxc[_0x1bcc[11]][_0x1bcc[9]],averageSpeed:_0x49ebxc[_0x1bcc[67]][_0x1bcc[66]],travelTime:_0x49ebxc[_0x1bcc[67]][_0x1bcc[19]],flow:_0x49ebxc[_0x1bcc[67]][_0x1bcc[20]]};_0x49ebxc[_0x1bcc[20]]=d3[_0x1bcc[22]](_0x49ebxc[_0x1bcc[67]][_0x1bcc[20]]);_0x49ebxc[_0x1bcc[19]]=d3[_0x1bcc[22]](_0x49ebxc[_0x1bcc[67]][_0x1bcc[19]]);_0x49ebxc[_0x1bcc[66]]=d3[_0x1bcc[22]](_0x49ebxc[_0x1bcc[67]][_0x1bcc[66]]);delete _0x49ebxc[_0x1bcc[67]]});graphdata[_0x1bcc[20]]=d3[_0x1bcc[12]](graphdata[_0x1bcc[10]],function(_0x49ebxc){return _0x49ebxc[_0x1bcc[20]]});graphdata[_0x1bcc[19]]=d3[_0x1bcc[12]](graphdata[_0x1bcc[10]],function(_0x49ebxc){return _0x49ebxc[_0x1bcc[19]]});graphdata[_0x1bcc[66]]=d3[_0x1bcc[12]](graphdata[_0x1bcc[10]],function(_0x49ebxc){return _0x49ebxc[_0x1bcc[66]]});_0x49ebx11[_0x1bcc[56]](_0x1bcc[63])[_0x1bcc[39]](_0x1bcc[74])[_0x1bcc[76]](graphdata[_0x1bcc[65]])[_0x1bcc[75]]()[_0x1bcc[56]](_0x1bcc[74])[_0x1bcc[50]](_0x1bcc[72],_0x1bcc[73])[_0x1bcc[50]](_0x1bcc[14],function(_0x49ebxc){return _0x1bcc[70]+_0x49ebxc[_0x1bcc[31]][_0x1bcc[14]]+_0x1bcc[71]+_0x49ebxc[_0x1bcc[36]][_0x1bcc[14]]})[_0x1bcc[50]](_0x1bcc[82],function(_0x49ebxc){return _0x49ebxa(_0x49ebxc[_0x1bcc[31]][_0x1bcc[26]])})[_0x1bcc[50]](_0x1bcc[81],function(_0x49ebxc){return _0x49ebx12(_0x49ebxc[_0x1bcc[31]][_0x1bcc[27]])})[_0x1bcc[50]](_0x1bcc[80],function(_0x49ebxc){return _0x49ebxa(_0x49ebxc[_0x1bcc[36]][_0x1bcc[26]])})[_0x1bcc[50]](_0x1bcc[79],function(_0x49ebxc){return _0x49ebx12(_0x49ebxc[_0x1bcc[36]][_0x1bcc[27]])});_0x49ebx6=_0x49ebx11[_0x1bcc[56]](_0x1bcc[63])[_0x1bcc[50]](_0x1bcc[72],_0x1bcc[93]);_0x49ebx6[_0x1bcc[39]](_0x1bcc[97])[_0x1bcc[76]](graphdata[_0x1bcc[10]])[_0x1bcc[75]]()[_0x1bcc[56]](_0x1bcc[97])[_0x1bcc[50]](_0x1bcc[72],_0x1bcc[96])[_0x1bcc[50]](_0x1bcc[14],function(_0x49ebxc){return _0x1bcc[95]+_0x49ebxc[_0x1bcc[14]]})[_0x1bcc[50]](_0x1bcc[25],nodelinkgraph[_0x1bcc[94]])[_0x1bcc[50]](_0x1bcc[84],function(_0x49ebxc){return _0x49ebxa(_0x49ebxc[_0x1bcc[26]])})[_0x1bcc[50]](_0x1bcc[83],function(_0x49ebxc){return _0x49ebx12(_0x49ebxc[_0x1bcc[27]])});routeNode=_0x49ebx6[_0x1bcc[39]](_0x1bcc[62])[_0x1bcc[76]](graphdata[_0x1bcc[10]])[_0x1bcc[75]]()[_0x1bcc[56]](_0x1bcc[62])[_0x1bcc[50]](_0x1bcc[72],_0x1bcc[101])[_0x1bcc[50]](_0x1bcc[14],function(_0x49ebxc){return _0x1bcc[100]+_0x49ebxc[_0x1bcc[14]]})[_0x1bcc[33]](_0x1bcc[60],function(_0x49ebxc){return nodeColor(_0x49ebxc[_0x1bcc[3]])})[_0x1bcc[50]](_0x1bcc[26],function(_0x49ebxc){return _0x49ebxa(_0x49ebxc[_0x1bcc[26]])-nodelinkgraph[_0x1bcc[86]]/2})[_0x1bcc[50]](_0x1bcc[27],function(_0x49ebxc){return _0x49ebx12(_0x49ebxc[_0x1bcc[27]])-nodelinkgraph[_0x1bcc[85]]/2})[_0x1bcc[50]](_0x1bcc[99],4)[_0x1bcc[50]](_0x1bcc[98],4)[_0x1bcc[50]](_0x1bcc[42],nodelinkgraph[_0x1bcc[86]])[_0x1bcc[50]](_0x1bcc[40],nodelinkgraph[_0x1bcc[85]]);_0x49ebx6[_0x1bcc[39]](_0x1bcc[125])[_0x1bcc[76]](graphdata[_0x1bcc[10]])[_0x1bcc[75]]()[_0x1bcc[56]](_0x1bcc[125])[_0x1bcc[125]](function(_0x49ebxc){return _0x49ebxc[_0x1bcc[14]]})[_0x1bcc[50]](_0x1bcc[26],function(_0x49ebxc){return _0x49ebxa(_0x49ebxc[_0x1bcc[26]])-this[_0x1bcc[87]]()/2})[_0x1bcc[50]](_0x1bcc[27],function(_0x49ebxc){return _0x49ebx12(_0x49ebxc[_0x1bcc[27]])})[_0x1bcc[50]](_0x1bcc[123],_0x1bcc[124])[_0x1bcc[50]](_0x1bcc[121],_0x1bcc[122])[_0x1bcc[50]](_0x1bcc[119],nodelinkgraph[_0x1bcc[120]])[_0x1bcc[51]](_0x1bcc[105],function(_0x49ebxc){d3[_0x1bcc[47]][_0x1bcc[106]]();if($(_0x1bcc[109])[_0x1bcc[108]](_0x1bcc[107])){if(~nodeid[_0x1bcc[110]](_0x49ebxc[_0x1bcc[14]])){var _0x49ebxd=nodeid[_0x1bcc[110]](_0x49ebxc[_0x1bcc[14]]);nodeid[_0x1bcc[111]](_0x49ebxd,1);d3[_0x1bcc[34]](_0x1bcc[113]+_0x49ebxc[_0x1bcc[14]])[_0x1bcc[33]](_0x1bcc[112],null)}else {nodeid[_0x1bcc[114]](_0x49ebxc[_0x1bcc[14]]),d3[_0x1bcc[34]](_0x1bcc[113]+_0x49ebxc[_0x1bcc[14]])[_0x1bcc[33]](_0x1bcc[112],_0x1bcc[115])}}else {nodeid=[_0x49ebxc[_0x1bcc[14]]],d3[_0x1bcc[39]](_0x1bcc[116])[_0x1bcc[33]](_0x1bcc[112],null),d3[_0x1bcc[34]](_0x1bcc[113]+_0x49ebxc[_0x1bcc[14]])[_0x1bcc[33]](_0x1bcc[112],_0x1bcc[115])};updateFilter();drawLine($(_0x1bcc[118])[_0x1bcc[117]]())})[_0x1bcc[51]](_0x1bcc[103],function(_0x49ebxc){_0x49ebx7(_0x49ebxc[_0x1bcc[14]],d3[_0x1bcc[34]](_0x1bcc[104]+_0x49ebxc[_0x1bcc[14]])[_0x1bcc[33]](_0x1bcc[60]))})[_0x1bcc[51]](_0x1bcc[102],function(_0x49ebxc){_0x49ebx14[_0x1bcc[39]](_0x1bcc[38])[_0x1bcc[33]](_0x1bcc[32],null);_0x49ebx14[_0x1bcc[39]](_0x1bcc[38])[_0x1bcc[33]](_0x1bcc[35],null)})}function overlayAfteradd(){var _0x49ebx6= new OpenLayers[_0x1bcc[127]].Vector(_0x1bcc[126]);_0x49ebx6[_0x1bcc[128]]=function(){function _0x49ebx7(){var _0x49ebxc=_0x49ebx9(_0x49ebx14[0]),_0x49ebxd=_0x49ebx9(_0x49ebx14[1]);_0x49ebx12[_0x1bcc[50]](_0x1bcc[40],_0x49ebxd[0]-_0x49ebxc[0]+roseSettings[_0x1bcc[130]])[_0x1bcc[50]](_0x1bcc[42],_0x49ebxc[1]-_0x49ebxd[1]+roseSettings[_0x1bcc[130]])[_0x1bcc[33]](_0x1bcc[132],_0x49ebxc[0]-roseSettings[_0x1bcc[130]]+_0x1bcc[131])[_0x1bcc[33]](_0x1bcc[129],_0x49ebxd[1]-roseSettings[_0x1bcc[130]]+_0x1bcc[131]);_0x49ebx13[_0x1bcc[50]](_0x1bcc[44],_0x1bcc[45]+-(_0x49ebxc[0]-roseSettings[_0x1bcc[130]])+_0x1bcc[133]+-(_0x49ebxd[1]-roseSettings[_0x1bcc[130]])+_0x1bcc[49]);_0x49ebx11[_0x1bcc[50]](_0x1bcc[44],_0x49ebx8)}function _0x49ebx8(_0x49ebxc){_0x49ebxc=_0x49ebx9([_0x49ebxc[_0x1bcc[68]],_0x49ebxc[_0x1bcc[69]]]);return _0x1bcc[45]+_0x49ebxc[0]+_0x1bcc[133]+_0x49ebxc[1]+_0x1bcc[49]}function _0x49ebx9(_0x49ebxc){_0x49ebxc=map[_0x1bcc[136]](( new OpenLayers.LonLat(_0x49ebxc[0],_0x49ebxc[1]))[_0x1bcc[44]](_0x1bcc[134],_0x1bcc[135]));return [_0x49ebxc[_0x1bcc[26]],_0x49ebxc[_0x1bcc[27]]]}var _0x49ebxa=d3[_0x1bcc[39]](_0x1bcc[57]+_0x49ebx6[_0x1bcc[137]][_0x1bcc[14]]);_0x49ebxa[_0x1bcc[39]](_0x1bcc[55])[_0x1bcc[138]]();var _0x49ebx12=_0x49ebxa[_0x1bcc[56]](_0x1bcc[55])[_0x1bcc[50]](_0x1bcc[72],_0x1bcc[139]),_0x49ebx13=_0x49ebx12[_0x1bcc[39]](_0x1bcc[63])[_0x1bcc[76]](graphdata[_0x1bcc[10]])[_0x1bcc[75]]()[_0x1bcc[56]](_0x1bcc[63])[_0x1bcc[50]](_0x1bcc[72],_0x1bcc[140]),_0x49ebx14=[[graphdata[_0x1bcc[26]][0],graphdata[_0x1bcc[27]][0]],[graphdata[_0x1bcc[26]][1],graphdata[_0x1bcc[27]][1]]];d3[_0x1bcc[143]][_0x1bcc[142]]()[_0x1bcc[141]](_0x49ebx9);var _0x49ebx11=_0x49ebx13[_0x1bcc[56]](_0x1bcc[63])[_0x1bcc[50]](_0x1bcc[72],_0x1bcc[151])[_0x1bcc[50]](_0x1bcc[14],function(_0x49ebxc){return _0x1bcc[146]+_0x49ebxc[_0x1bcc[14]]})[_0x1bcc[54]](function(_0x49ebxc){roseCharts=[];_0x49ebxc[_0x1bcc[37]](function(_0x49ebxc){for(var _0x49ebx6=[],_0x49ebx9=d3[_0x1bcc[2]](_0x49ebxc[_0x1bcc[11]][_0x1bcc[3]][_0x1bcc[144]]),_0x49ebx9=d3[_0x1bcc[145]](_0x49ebx9,_0x49ebxc[_0x1bcc[11]][_0x1bcc[3]]),_0x49ebxa=0;_0x49ebxa<_0x49ebx9[_0x1bcc[144]];++_0x49ebxa){_0x49ebx6[_0x1bcc[114]]({t:_0x49ebx9[_0x49ebxa][0],rank:_0x49ebx9[_0x49ebxa][1]})};_0x49ebxc=roseplot(_0x49ebx6,_0x1bcc[146]+_0x49ebxc[_0x1bcc[14]],roseSettings[_0x1bcc[147]],roseSettings[_0x1bcc[148]],nodeColor(_0x49ebxc[_0x1bcc[3]]));_0x49ebxc[_0x1bcc[150]](_0x1bcc[149]);roseCharts[_0x1bcc[114]](_0x49ebxc)})});map[_0x1bcc[154]][_0x1bcc[153]](_0x1bcc[152],map,_0x49ebx7);_0x49ebx7();$(_0x1bcc[158])[_0x1bcc[157]](function(){var _0x49ebxc=this[_0x1bcc[155]],_0x49ebx6=_0x1bcc[7]==$(_0x1bcc[156])[_0x1bcc[117]]();if(_0x49ebx6){nodeColor[_0x1bcc[4]]([graphdata[_0x49ebxc][0],(graphdata[_0x49ebxc][0]+graphdata[_0x49ebxc][1])/2,graphdata[_0x49ebxc][1]])}else {var _0x49ebx9=d3[_0x1bcc[12]](graphdata[_0x1bcc[10]],function(_0x49ebx6){return _0x49ebx6[_0x1bcc[11]][_0x49ebxc][$(_0x1bcc[156])[_0x1bcc[117]]()/2]});nodeColor[_0x1bcc[4]]([_0x49ebx9[0],(_0x49ebx9[0]+_0x49ebx9[1])/2,_0x49ebx9[1]])};routeNode[_0x1bcc[33]](_0x1bcc[60],function(_0x49ebx9){return _0x49ebx6?nodeColor(_0x49ebx9[_0x49ebxc]):nodeColor(_0x49ebx9[_0x1bcc[11]][_0x49ebxc][$(_0x1bcc[156])[_0x1bcc[117]]()/2])})});$(_0x1bcc[118])[_0x1bcc[51]](_0x1bcc[157],function(){drawLine(this[_0x1bcc[155]])});$(_0x1bcc[162])[_0x1bcc[51]](_0x1bcc[157],function(){var _0x49ebxc=this[_0x1bcc[155]];nodeColor[_0x1bcc[4]]([graphdata[_0x49ebxc][0],(graphdata[_0x49ebxc][0]+graphdata[_0x49ebxc][1])/2,graphdata[_0x49ebxc][1]]);roseCharts[_0x1bcc[64]](function(_0x49ebx6){for(var _0x49ebx9=d3[_0x1bcc[34]](_0x1bcc[57]+_0x49ebx6[_0x1bcc[160]])[_0x1bcc[159]](),_0x49ebxa=[],_0x49ebx7=d3[_0x1bcc[2]](_0x49ebx9[_0x1bcc[11]][_0x49ebxc][_0x1bcc[144]]),_0x49ebx7=d3[_0x1bcc[145]](_0x49ebx7,_0x49ebx9[_0x1bcc[11]][_0x49ebxc]),_0x49ebx8=0;_0x49ebx8<_0x49ebx7[_0x1bcc[144]];++_0x49ebx8){_0x49ebxa[_0x1bcc[114]]({t:_0x49ebx7[_0x49ebx8][0],rank:_0x49ebx7[_0x49ebx8][1]})};_0x49ebx6[_0x1bcc[161]](_0x49ebxa,nodeColor(_0x49ebx9[_0x49ebxc]),_0x49ebxc)})});$(_0x1bcc[165])[_0x1bcc[51]](_0x1bcc[157],function(){routesVector_layer[_0x1bcc[163]]=getStyleMap(this[_0x1bcc[155]],$(_0x1bcc[156])[_0x1bcc[117]]());routesVector_layer[_0x1bcc[164]]()});$(_0x1bcc[156])[_0x1bcc[51]](_0x1bcc[157],function(){var _0x49ebxc=this[_0x1bcc[155]],_0x49ebx6=$(_0x1bcc[166])[_0x1bcc[117]](),_0x49ebx9=_0x1bcc[7]==_0x49ebxc;if(_0x49ebx9){nodeColor[_0x1bcc[4]]([graphdata[_0x49ebx6][0],(graphdata[_0x49ebx6][0]+graphdata[_0x49ebx6][1])/2,graphdata[_0x49ebx6][1]])}else {var _0x49ebxa=d3[_0x1bcc[12]](graphdata[_0x1bcc[10]],function(_0x49ebx9){return _0x49ebx9[_0x1bcc[11]][_0x49ebx6][_0x49ebxc/2]});nodeColor[_0x1bcc[4]]([_0x49ebxa[0],(_0x49ebxa[0]+_0x49ebxa[1])/2,_0x49ebxa[1]])};routeNode[_0x1bcc[33]](_0x1bcc[60],function(_0x49ebxa){return _0x49ebx9?nodeColor(_0x49ebxa[_0x49ebx6]):nodeColor(_0x49ebxa[_0x1bcc[11]][_0x49ebx6][_0x49ebxc/2])});roseCharts[_0x1bcc[64]](function(_0x49ebxc){for(var _0x49ebx9=d3[_0x1bcc[34]](_0x1bcc[57]+_0x49ebxc[_0x1bcc[160]])[_0x1bcc[159]](),_0x49ebxa=[],_0x49ebx7=d3[_0x1bcc[2]](_0x49ebx9[_0x1bcc[11]][_0x49ebx6][_0x1bcc[144]]),_0x49ebx7=d3[_0x1bcc[145]](_0x49ebx7,_0x49ebx9[_0x1bcc[11]][_0x49ebx6]),_0x49ebx8=0;_0x49ebx8<_0x49ebx7[_0x1bcc[144]];++_0x49ebx8){_0x49ebxa[_0x1bcc[114]]({t:_0x49ebx7[_0x49ebx8][0],rank:_0x49ebx7[_0x49ebx8][1]})};_0x49ebxc[_0x1bcc[161]](_0x49ebxa,nodeColor(_0x49ebx9[_0x49ebx6]),_0x49ebx6)});_0x49ebx9||d3[_0x1bcc[39]](_0x1bcc[170])[_0x1bcc[33]](_0x1bcc[60],function(_0x49ebx6){return _0x49ebx6[_0x1bcc[167]]==_0x49ebxc/2?d3[_0x1bcc[34]](this)[_0x1bcc[50]](_0x1bcc[168]):_0x1bcc[169]});routesVector_layer[_0x1bcc[163]]=getStyleMap($(_0x1bcc[165])[_0x1bcc[117]](),_0x49ebxc);routesVector_layer[_0x1bcc[164]]()})};map[_0x1bcc[171]](_0x49ebx6)}function updateFilter(){var _0x49ebx6= new OpenLayers[_0x1bcc[174]].Logical({type:OpenLayers[_0x1bcc[174]][_0x1bcc[173]][_0x1bcc[172]],filters:getAttrFilters()});filterStrategy[_0x1bcc[175]](_0x49ebx6);d3[_0x1bcc[39]](_0x1bcc[176])[_0x1bcc[37]](function(_0x49ebx6){d3[_0x1bcc[34]](this)[_0x1bcc[33]](_0x1bcc[112],-1!=nodeid[_0x1bcc[110]](_0x49ebx6[_0x1bcc[14]])?_0x1bcc[115]:_0x1bcc[61])})}function getAttrFilters(){for(var _0x49ebx6=[],_0x49ebx7=0;_0x49ebx7<nodeid[_0x1bcc[144]];++_0x49ebx7){_0x49ebx6[_0x1bcc[114]]( new OpenLayers[_0x1bcc[174]].Comparison({type:OpenLayers[_0x1bcc[174]][_0x1bcc[178]][_0x1bcc[177]],property:_0x1bcc[15],value:nodeid[_0x49ebx7]}))};return _0x49ebx6}
+	graphdata.links.forEach(function(d) {
+    	d.source = graphdata.nodes[d.source];
+    	d.target = graphdata.nodes[d.target];
+    })
+
+    graphdata.nodes.forEach(function(d) {
+    	d.rank = {
+    		'pagerank': d.rank.pagerank,
+    		'betweenness': d.rank.betweenness, 
+    		'closeness': d.rank.closeness, 
+    		'averageSpeed': d.trafficInformation.averageSpeed, 
+    		'travelTime': d.trafficInformation.travelTime,
+    		'flow': d.trafficInformation.flow
+       	}
+       	d.r = fixedRadius;
+       	d.xx = d.x;
+       	d.yy = d.y;
+       	d.x = xScale(d.x);
+       	d.y = yScale(d.y);
+       	//take an average of 12-val array
+       	d.flow = d3.mean(d.trafficInformation.flow);
+       	d.travelTime = d3.mean(d.trafficInformation.travelTime);
+       	d.averageSpeed = d3.mean(d.trafficInformation.averageSpeed);
+       	delete d.trafficInformation;
+    })
+
+    graphdata.flow = d3.extent(graphdata.nodes, function(d){ return d.flow});
+    graphdata.travelTime = d3.extent(graphdata.nodes, function(d){ return d.travelTime});
+    graphdata.averageSpeed = d3.extent(graphdata.nodes, function(d){ return d.averageSpeed});
+
+	var links = container.append("g")
+        .selectAll("line")
+        .data(graphdata.links)
+        .enter().append("line")
+        .attr('class', 'node_line')
+        .attr("id", function(d) { return 'from_' + d.source.id + '_to_' + d.target.id})
+        //.attr("x1", function(d) { return xScale(d.source.x); })
+        //.attr("y1", function(d) { return yScale(d.source.y); })
+        //.attr("x2", function(d) { return xScale(d.target.x); })
+        //.attr("y2", function(d) { return yScale(d.target.y); })
+     
+
+    var force = d3.layout.force()
+		.nodes(graphdata.nodes)
+		.size([width, height])
+    	.gravity(0)
+    	.charge(0)
+    	.on("tick", tick)
+    	.start();
+
+    var labelg = container.append("g").attr("class", "label");
+
+    var outlineNode = labelg
+        .selectAll("circle")
+        .data(graphdata.nodes)
+        .enter()
+        .append("circle")
+        .attr("class", "nodeoutline")
+        .attr("id", function(d) { return 'nodeline_' + d.id})
+        .attr("r", nodelinkgraph.nodeshadow)
+        //.attr("cx", function(d) { return xScale(d.x) })
+        //.attr("cy", function(d) { return yScale(d.y) })
+
+    routeNode = labelg
+	    .selectAll("rect")
+	    .data(graphdata.nodes)
+	    .enter().append("rect") //outline rectangle	
+	    .attr("class", "node")
+	    .attr("id", function(d) { return 'node_' + d.id})
+	    .style("fill", function(d) { return nodeColor(d["pagerank"]) })
+	    //.attr("x", function(d) { return xScale(d.x) - nodelinkgraph.outline_rect_w/2 })
+        //.attr("y", function(d) { return yScale(d.y) - nodelinkgraph.outline_rect_h/2 })    
+	    .attr("ry", 4)
+	    .attr("rx", 4)	    
+	    .attr("height", nodelinkgraph.outline_rect_w)
+	    .attr("width", nodelinkgraph.outline_rect_h)
+	  
+       
+        
+
+    var nodeLabel = labelg
+	    .selectAll("text")
+	    .data(graphdata.nodes)
+	    .enter()
+	    .append("text")
+	    .text(function(d) { return d.id }) 	   
+        //.attr("x", function(d) { return xScale(d.x) - this.getComputedTextLength()/2.0 })
+        //.attr("y", function(d) { return yScale(d.y) }) 
+        .attr("dy", ".35em")
+        .attr("dx", ".3em")
+        .attr("font-size", nodelinkgraph.textfontsize)
+        .attr("fill", "#fff")
+        .on("click", function(d) {
+        	d3.event.stopPropagation();
+        	//console.log("node clicked");
+        	if ($('#mulsel').is(':checked') ){
+        		if (!~nodeid.indexOf(d.id)){
+        			nodeid.push(d.id);
+        			d3.select("#nodeline_"+d.id).style("display", 'block');	
+        		} else {
+        			var index = nodeid.indexOf(d.id);
+        			nodeid.splice(index, 1);
+        			d3.select("#nodeline_"+d.id).style("display", null);	
+        		}
+        	} else {
+        		nodeid = [d.id];
+        		d3.selectAll(".nodeoutline").style("display", null);
+        		d3.select("#nodeline_"+d.id).style("display", 'block');
+        	}    
+        	
+        	updateFilter();
+        	drawLine($('#lineSelect').val());
+        })
+        .on("mouseover", function(d) {
+        	highlightlines(d.id, d3.select('#node_' + d.id).style("fill"));
+        })
+        .on("mouseout", function(d) {
+        	clearlinelight();
+        });   
+
+    
+
+    function tick(e) {
+    	
+    	links
+    		.each(collide(.01))
+    		.attr("x1", function(d) { return d.source.x })
+        	.attr("y1", function(d) { return d.source.y })
+        	.attr("x2", function(d) { return d.target.x })
+        	.attr("y2", function(d) { return d.target.y })
+        
+
+        outlineNode
+        	.each(collide(.01))
+        	.attr("cx", function(d) { return d.x })
+        	.attr("cy", function(d) { return d.y })
+
+        routeNode
+        	.each(collide(.01))
+        	.attr("x", function(d) { return d.x- nodelinkgraph.outline_rect_w/2 })
+        	.attr("y", function(d) { return d.y - nodelinkgraph.outline_rect_h/2 })    
+
+        nodeLabel
+        	.each(collide(.01))
+        	.attr("x", function(d) { return d.x - this.getComputedTextLength()/2.0 -4})
+        	.attr("y", function(d) { return d.y }) 
+    }
+ 
+	// Resolves collisions between d and all other circles.
+	function collide(alpha) {
+	  var quadtree = d3.geom.quadtree(graphdata.nodes);
+	  return function(d) {
+	    var r = d.r + 16
+	        nx1 = d.x - r,
+	        nx2 = d.x + r,
+	        ny1 = d.y - r,
+	        ny2 = d.y + r;
+	    quadtree.visit(function(quad, x1, y1, x2, y2) {
+	      if (quad.point && (quad.point !== d)) {
+	        var x = d.x - quad.point.x,
+	            y = d.y - quad.point.y,
+	            l = Math.sqrt(x * x + y * y),
+	            r = d.r + quad.point.r ;
+	        if (l < r) {
+	          l = (l - r) / l * alpha;
+	          d.x -= x *= l;
+	          d.y -= y *= l;
+	          quad.point.x += x;
+	          quad.point.y += y;
+	        }
+	      }
+	      return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+	    });
+	  };
+	}
+
+    function highlightlines(srcortarid, linecolor) {
+		svg.selectAll('.node_line').each(function(d) {
+			if (d.source.id == srcortarid) {
+				d3.select(this).style("stroke", linecolor);
+				d3.select(this).style("stroke-width", 3);
+			} else if (d.target.id == srcortarid) {
+				d3.select(this).style("stroke", linecolor);
+				d3.select(this).style("stroke-width", 3);
+			}
+		})
+		
+    }
+    function clearlinelight() {
+    	svg.selectAll('.node_line').style('stroke', null);
+    	svg.selectAll('.node_line').style("stroke-width", null);
+    }
+
+         
+
+}
+
+function makeSepGraph(gid)	{
+	// by default
+	nodeColor.domain([graphdata.pagerank[0], (graphdata.pagerank[0] + graphdata.pagerank[1])/2 , graphdata.pagerank[1]]);
+
+	var padding = 30,
+		width = $(".topLeft").width(),
+		height = $(".topLeft").height() -30; // minus menu height
+	
+
+    // code from Xiaoke with my edits
+    var xScale = d3.scale.linear()
+		.domain(graphdata.x).range([0+padding, width-padding]);
+
+	var yScale = d3.scale.linear()
+		.domain([graphdata.y[1], graphdata.y[0]]).range([padding, height-padding]);
+
+	var zoom = d3.behavior.zoom()
+	    .scaleExtent([1, 10])
+	    .on("zoom", zoomed);
+
+	var svg = d3.select("#" + gid).append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .call(zoom);
+
+    var rect = svg.append("rect")
+	    .attr("width", width)
+	    .attr("height", height)
+	    .style("fill", "none")
+	    .style("pointer-events", "all");
+	var container = svg.append("g");
+    function zoomed() {
+  		container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	}
+
+
+	graphdata.links.forEach(function(d) {
+    	d.source = graphdata.nodes[d.source];
+    	d.target = graphdata.nodes[d.target];
+    })
+
+    graphdata.nodes.forEach(function(d) {
+    	d.rank = {
+    		'pagerank': d.rank.pagerank,
+    		'betweenness': d.rank.betweenness, 
+    		'closeness': d.rank.closeness, 
+    		'averageSpeed': d.trafficInformation.averageSpeed, 
+    		'travelTime': d.trafficInformation.travelTime,
+    		'flow': d.trafficInformation.flow
+       	}
+       	//take an average of 12-val array
+       	d.flow = d3.mean(d.trafficInformation.flow);
+       	d.travelTime = d3.mean(d.trafficInformation.travelTime);
+       	d.averageSpeed = d3.mean(d.trafficInformation.averageSpeed);
+       	delete d.trafficInformation;
+    })
+
+    graphdata.flow = d3.extent(graphdata.nodes, function(d){ return d.flow});
+    graphdata.travelTime = d3.extent(graphdata.nodes, function(d){ return d.travelTime});
+    graphdata.averageSpeed = d3.extent(graphdata.nodes, function(d){ return d.averageSpeed});
+
+	var links = container.append("g")
+        .selectAll("line")
+        .data(graphdata.links)
+        .enter().append("line")
+        .attr('class', 'node_line')
+        .attr("id", function(d) { return 'from_' + d.source.id + '_to_' + d.target.id})
+        .attr("x1", function(d) { return xScale(d.source.x); })
+        .attr("y1", function(d) { return yScale(d.source.y); })
+        .attr("x2", function(d) { return xScale(d.target.x); })
+        .attr("y2", function(d) { return yScale(d.target.y); })
+     
+
+    /*
+	routeNode = container.append("g")
+        .selectAll("circle")
+        .data(graphdata.nodes)
+        .enter()
+        .append("circle")
+        .attr("class", "node")
+        .attr("r", 10)
+        .attr("cx", function(d) { return xScale(d.x) })
+        .attr("cy", function(d) { return yScale(d.y) })
+        .attr("fill", function(d) { return nodeColor(d["pagerank"]) })
+        .attr("stroke", "#aaa")
+        .attr("stroke-width", 1)
+        .on("click", function(d) {
+        	//console.log("node clicked");
+        	updateFilter(d.id);
+        })
+    */
+    
+
+    var labelg = container.append("g").attr("class", "label");
+
+    var outlineNode = labelg
+        .selectAll("circle")
+        .data(graphdata.nodes)
+        .enter()
+        .append("circle")
+        .attr("class", "nodeoutline")
+        .attr("id", function(d) { return 'nodeline_' + d.id})
+        .attr("r", nodelinkgraph.nodeshadow)
+        .attr("cx", function(d) { return xScale(d.x) })
+        .attr("cy", function(d) { return yScale(d.y) })
+
+    routeNode = labelg
+	    .selectAll("rect")
+	    .data(graphdata.nodes)
+	    .enter().append("rect") //outline rectangle	
+	    .attr("class", "node")
+	    .attr("id", function(d) { return 'node_' + d.id})
+	    .style("fill", function(d) { return nodeColor(d["pagerank"]) })
+	    .attr("x", function(d) { return xScale(d.x) - nodelinkgraph.outline_rect_w/2 })
+        .attr("y", function(d) { return yScale(d.y) - nodelinkgraph.outline_rect_h/2 })    
+	    .attr("ry", 4)
+	    .attr("rx", 4)	    
+	    .attr("height", nodelinkgraph.outline_rect_w)
+	    .attr("width", nodelinkgraph.outline_rect_h)
+	  
+       
+        
+
+    var nodeLabel = labelg
+	    .selectAll("text")
+	    .data(graphdata.nodes)
+	    .enter()
+	    .append("text")
+	    .text(function(d) { return d.id }) 
+	    //.attr('transform', function(d) { return 'translate(' + (xScale(d.x) - this.getComputedTextLength()/2.0  ) + ',' + yScale(d.y)+')' })
+        .attr("x", function(d) { return xScale(d.x) - this.getComputedTextLength()/2.0 })
+        .attr("y", function(d) { return yScale(d.y) }) 
+        .attr("dy", ".35em")
+        .attr("dx", ".3em")
+        .attr("font-size", nodelinkgraph.textfontsize)
+        .attr("fill", "#fff")
+        .on("click", function(d) {
+        	d3.event.stopPropagation();
+        	//console.log("node clicked");
+        	if ($('#mulsel').is(':checked') ){
+        		if (!~nodeid.indexOf(d.id)){
+        			nodeid.push(d.id);
+        			d3.select("#nodeline_"+d.id).style("display", 'block');	
+        		} else {
+        			var index = nodeid.indexOf(d.id);
+        			nodeid.splice(index, 1);
+        			d3.select("#nodeline_"+d.id).style("display", null);	
+        		}
+        	} else {
+        		nodeid = [d.id];
+        		d3.selectAll(".nodeoutline").style("display", null);
+        		d3.select("#nodeline_"+d.id).style("display", 'block');
+        	}    
+        	
+        	updateFilter();
+        	drawLine($('#lineSelect').val());
+        })
+        .on("mouseover", function(d) {
+        	highlightlines(d.id, d3.select('#node_' + d.id).style("fill"));
+        })
+        .on("mouseout", function(d) {
+        	clearlinelight();
+        });            
+ 
+	/*
+	var label = container.append("g")
+        .selectAll("text")
+        .data(graphdata.nodes)
+        .enter()
+        .append("text")            
+        .attr("x", function(d) { return xScale(d.x) })
+        .attr("y", function(d) { return yScale(d.y) })             
+        .attr("font-size", 20)
+        .attr("fill", "#777")
+        .attr("opacity", 0.5)
+        .text(function(d) { return d.id })
+    */
+
+    function highlightlines(srcortarid, linecolor) {
+		svg.selectAll('.node_line').each(function(d) {
+			if (d.source.id == srcortarid) {
+				d3.select(this).style("stroke", linecolor);
+				d3.select(this).style("stroke-width", 3);
+			} else if (d.target.id == srcortarid) {
+				d3.select(this).style("stroke", linecolor);
+				d3.select(this).style("stroke-width", 3);
+			}
+		})
+		
+    }
+    function clearlinelight() {
+    	svg.selectAll('.node_line').style('stroke', null);
+    	svg.selectAll('.node_line').style("stroke-width", null);
+    }
+
+         
+
+}
+function overlayAfteradd() {
+	// Simple style
+	// we can have complex style based on rule
+	/*
+	var featureLinksStyle = {
+    	strokeColor: colorSettings.groupLinksStroke,
+    	//strokeColor: 'rgba(44, 123, 182, 0.6)',    	
+      	storkeWidth: 1
+    }
+	var featureLinksCollection = {"type": "FeatureCollection"},
+		featureLinks = [];
+	graphdata.links.forEach(function(d) {
+    	d.source = graphdata.nodes[d.source];
+    	d.target = graphdata.nodes[d.target];
+
+    	
+    	featureLinks.push({
+    		"type": "Feature", 
+    		"geometry": {"type": "LineString", "coordinates": [ [d.source.x, d.source.y], [d.target.x, d.target.y] ]},
+        	"properties": {"sid": d.source.id, "tid": d.target.id}
+        })
+	});
+	featureLinksCollection["features"] = featureLinks;
+
+	var geojson_format = new OpenLayers.Format.GeoJSON({
+		'internalProjection': map.baseLayer.projection,
+        'externalProjection': new OpenLayers.Projection("EPSG:4326")
+	});
+	var linksVector_layer = new OpenLayers.Layer.Vector("GroupLinks", {style: featureLinksStyle});
+	map.addLayer(linksVector_layer);
+	linksVector_layer.addFeatures(geojson_format.read(featureLinksCollection));
+	*/
+
+
+
+	var overlay = new OpenLayers.Layer.Vector("RoseChart");
+	
+	overlay.afterAdd = function() {
+		var div = d3.selectAll("#" + overlay.div.id);
+		div.selectAll("svg").remove();
+		var svg = div.append("svg").attr("class", "graph");
+		
+		var g = svg.selectAll("g")
+			//.data(collection.features)
+			.data(graphdata.nodes)
+			.enter()
+			.append("g")
+			.attr("class", "route");
+		
+		/*
+		var bounds = d3.geo.bounds(collection),
+			path = d3.geo.path().projection(project);
+		*/
+		var bounds = [[graphdata.x[0], graphdata.y[0]], [graphdata.x[1], graphdata.y[1]]],
+			path = d3.geo.path().projection(project);
+		
+		//var centroids = {};	
+
+		/*
+		{ "type": "Feature",
+		        "geometry": {"type": "Point", "coordinates": [102.0, 0.5]},
+		        "properties": {"prop0": "value0"}
+		        },
+				
+		{ "type": "Feature",
+		        "geometry": {
+		          "type": "LineString",
+		          "coordinates": [
+		            [113.81529, 22.649702], [113.81549, 22.649796]
+		            ]
+		          },
+		        "properties": {
+		      "name": "test2", "test": 42,
+		          "speed": [180, 120,113,159,67,89,96,69,87,120,130,140,150,160,170,180,190,200,210,220,186,156,145,123],
+		          "flow": [0.8,0.6,0.8,0.9,0.56,0.20,0.11,0.9,0.96,0.99,0.5,0.4,0.36,0.89,0.96,0.93,0.82,0.4,0.36,0.89,0.96,0.93,0.82,0.23]
+		          }
+		        },
+		*/	
+		/*
+		{"closeness": 0.2920634920634921, "degree": 0.05434782608695652, "rank": [0.8, 0.6, 0.8, 0.9, 0.56, 0.2, 0.11, 0.9, 0.96, 0.99, 0.5, 0.4, 0.36, 0.89, 0.96, 0.93, 0.82, 0.4, 0.36, 0.89, 0.96, 0.93, 0.82, 0.23], "pagerank": 0.006814110659093795, "y": 22.730768, "x": 114.028605, "id": "53", "betweenness": 0.00012124693801712434}
+		*/	
+		/*
+		var featureNode = g.append("path")									
+			.attr("d", function(d){ 
+				var dobj = {"type": "Feature", "properties": d, "geometry": {"type": "Point", "coordinates": [d.x, d.y]}}; 
+				return path(dobj)
+			})
+			//.attr("class", "feature")
+			.style("stroke", function(d){ return nodeColor(d.pagerank)})
+			.style("stroke-width", "5px")			
+			.on("click", function (d) {
+				//console.log(d.id);				
+				//updateFilter(d.id);
+				// need prevent OL click propagation, is there a function to do it?
+
+				//updateFilter(""); // result in blank layer
+
+			})
+		*/
+		
+		// @param {array},  [{"t":"1", "speed": 125, "flow": 2365}, {}, ...,{"t": 0, ...}],
+		var rosemap = function (d3sel) {
+			roseCharts = [];			
+			d3sel.each(function(d) {
+				var rosed = [];
+				var t = d3.range(d.rank.pagerank.length),
+					zd = d3.zip(t, d.rank.pagerank);
+				for(var i = 0; i < zd.length; ++i){
+					rosed.push({"t": zd[i][0], "rank": zd[i][1]});
+				}
+				
+				var vis = roseplot(rosed, 'rose_'+d.id, roseSettings.innersize, roseSettings.rosesize, nodeColor(d.pagerank));				
+				vis.draw('Pagerank'); 				
+				roseCharts.push(vis);
+				
+			})
+			
+		}
+		
+		
+			  
+		var roseg = g.append("g")
+			.attr("class", "roseg")
+			//.attr("id", function(d) {return d.properties.name})
+			.attr("id", function(d) {return 'rose_'+d.id})
+		// uncomment it to draw rosegraph on map
+			.call(rosemap)
+		
+		/*
+		 Make a node-link graph on the map
+		*/
+		/*
+		graphdata.links.forEach(function(d) {
+    		d.source = graphdata.nodes[d.source];
+    		d.target = graphdata.nodes[d.target];
+		});
+
+
+		var featureLinks = svg.append("g").attr("class", "featureLinks")
+            .selectAll("line")
+            .data(graphdata.links)
+            .enter().append("line")
+            //project(cent);
+            .attr("x1", function(d) { return project([d.target.x, d.target.y])[0] })
+            .attr("y1", function(d) { return project([d.target.x, d.target.y])[1] })
+            .attr("x2", function(d) { return project([d.source.x, d.source.y])[0] })
+            .attr("y2", function(d) { return project([d.source.x, d.source.y])[1] })
+            .attr("stroke", "#999")
+            .attr("stroke-width", 1)
+            .attr("opacity", 0.5)
+		*/
+
+		map.events.register("moveend", map, reset);
+
+		reset();
+
+		$('#graphpart input[type=radio]').change(function() {
+			//console.log(this.id);     
+			var attr = this.value,
+				isAllDay = $('#timeSelect').val() == 'allday';
+			if (isAllDay) {
+				nodeColor.domain([graphdata[attr][0], (graphdata[attr][0] + graphdata[attr][1])/2, graphdata[attr][1]]);
+			} else {
+				var minmaxSpecTime = d3.extent(graphdata.nodes, function(d) { return d.rank[attr][$('#timeSelect').val()/2] });
+				nodeColor.domain([minmaxSpecTime[0], (minmaxSpecTime[0] + minmaxSpecTime[1])/2, minmaxSpecTime[1]]);
+			}
+     		
+     		// change nodes of group
+     		routeNode.style("fill", function(d){ return isAllDay ? nodeColor(d[attr]) : nodeColor(d.rank[attr][$('#timeSelect').val()/2]) });
+     		
+     		/*
+     		// change RoseChart on the map
+     		roseCharts.forEach(function(rose) {
+     			var d = d3.select('#'+rose.getID).datum();
+     			var rosed = [];
+				var t = d3.range(d.rank[attr].length),
+					zd = d3.zip(t, d.rank[attr]);
+				for(var i = 0; i < zd.length; ++i){
+					rosed.push({"t": zd[i][0], "rank": zd[i][1]});
+				}
+				//console.log('roseid: '+rose.getID);
+     			rose.update(rosed, nodeColor(d[attr]), attr);
+     		}) 
+     		if (!isAllDay) {
+     			d3.selectAll('.rosearcs path').style("fill", function(da){ return da.t == $('#timeSelect').val()/2 ? d3.select(this).attr('fillcolor') : '#E5E5E5'});    //'#E5E5E5'
+     		}	
+     		*/
+
+  		})
+
+  		$('#lineSelect').on('change', function() {
+            //console.log(this.value);     
+            var attr = this.value;
+            drawLine (attr);           
+
+        })
+
+        $('#roseSelect').on('change', function() {
+            //console.log(this.value);     
+            var attr = this.value;
+            nodeColor.domain([graphdata[attr][0], (graphdata[attr][0] + graphdata[attr][1])/2, graphdata[attr][1]]);
+            roseCharts.forEach(function(rose) {
+     			var d = d3.select('#'+rose.getID).datum();
+     			var rosed = [];
+				var t = d3.range(d.rank[attr].length),
+					zd = d3.zip(t, d.rank[attr]);
+				for(var i = 0; i < zd.length; ++i){
+					rosed.push({"t": zd[i][0], "rank": zd[i][1]});
+				}
+     			rose.update(rosed, nodeColor(d[attr]), attr);
+     		})     	         
+
+        })
+
+        $('#roadSelect').on('change', function() {
+            //console.log(this.value);     
+            var attr = this.value;
+            // change detailed routes
+     		routesVector_layer["styleMap"] = getStyleMap(attr, $('#timeSelect').val());
+			routesVector_layer.redraw();      
+
+        })
+
+        $('#timeSelect').on('change', function() {
+        	var time = this.value,
+            	attr = $('input[name=nlradio]:checked').val(),
+				isAllDay = time == 'allday';
+			if (isAllDay) {
+				nodeColor.domain([graphdata[attr][0], (graphdata[attr][0] + graphdata[attr][1])/2, graphdata[attr][1]]);
+			} else {
+				var minmaxSpecTime = d3.extent(graphdata.nodes, function(d) { return d.rank[attr][time/2] });
+				nodeColor.domain([minmaxSpecTime[0], (minmaxSpecTime[0] + minmaxSpecTime[1])/2, minmaxSpecTime[1]]);
+			}
+     		
+     		// change nodes of group
+     		routeNode.style("fill", function(d){ return isAllDay ? nodeColor(d[attr]) : nodeColor(d.rank[attr][time/2]) });
+     		// change RoseChart on the map
+     		roseCharts.forEach(function(rose) {
+     			var d = d3.select('#'+rose.getID).datum();
+     			var rosed = [];
+				var t = d3.range(d.rank[attr].length),
+					zd = d3.zip(t, d.rank[attr]);
+				for(var i = 0; i < zd.length; ++i){
+					rosed.push({"t": zd[i][0], "rank": zd[i][1]});
+				}
+				//console.log('roseid: '+rose.getID);
+     			rose.update(rosed, nodeColor(d[attr]), attr);
+     		}) 
+     		if (!isAllDay) {
+     			d3.selectAll('.rosearcs path').style("fill", function(da){ return da.t == time/2 ? d3.select(this).attr('fillcolor') : '#E5E5E5'});    //'#E5E5E5'
+     		}	
+
+     		
+     		// change detailed routes
+     		routesVector_layer["styleMap"] = getStyleMap($('#roadSelect').val(), time);
+			routesVector_layer.redraw();
+
+        })
+
+
+        
+
+
+		function reset() {
+			//Here we can check the zoom level and decide if rosegraph to be drawn, Chong
+			/*
+			if (map.zoom < roseSettings.displayZoom) {
+				d3.selectAll('.roseg').style('display', 'none');
+			} else {
+				d3.selectAll('.roseg').style('display', null);
+			}
+			*/
+
+			var bottomLeft = project(bounds[0]),
+				topRight = project(bounds[1]) ;
+
+			svg.attr("width", topRight[0] - bottomLeft[0] + roseSettings.graphmargin) // + rose width
+				.attr("height", bottomLeft[1] - topRight[1] + roseSettings.graphmargin) // + rose height
+				.style("margin-left", (bottomLeft[0] - roseSettings.graphmargin) + "px")
+				.style("margin-top", (topRight[1] - roseSettings.graphmargin) + "px");
+
+			g.attr("transform", "translate(" + -(bottomLeft[0] - roseSettings.graphmargin) + "," + -(topRight[1] - roseSettings.graphmargin) + ")");
+			
+			
+			roseg.attr("transform", transform);
+			
+			/*roseg.style("display", function(d) {
+				return d3.select(this).style("display");
+			});
+			*/
+			/*
+			featureNode.attr("d", function(d){ 
+				var dobj = {"type": "Feature", "properties": d, "geometry": {"type": "Point", "coordinates": [d.x, d.y]}}; 
+				return path(dobj)
+			})
+			*/			
+            
+		}
+		
+		// make it better? move to centroid of line?
+		function transform(d) {
+			//var cent = centroids[d.properties.name];
+			var cent = [d.xx, d.yy];
+			d = project(cent);
+			return "translate(" + d[0] + "," + d[1] + ")";
+		}
+
+		function project(x) {
+			var point = map.getViewPortPxFromLonLat(new OpenLayers.LonLat(x[0], x[1])
+				.transform("EPSG:4326", "EPSG:900913"));
+			return [point.x, point.y];
+		}
+	}
+	map.addLayer(overlay);
+}
+
+/*
+ Global array nodeid will be used
+*/
+function updateFilter() {
+	//Put the logical filter there  
+    var filter = new OpenLayers.Filter.Logical({
+        type: OpenLayers.Filter.Logical.OR,
+        filters: getAttrFilters()
+    });
+    filterStrategy.setFilter(filter);  
+
+    d3.selectAll('.roseg').each(function(d) {
+    	d3.select(this).style('display', nodeid.indexOf(d.id) != -1 ? 'block' : 'none');
+    });
+    
+}
+
+function getAttrFilters() {
+	var _filters = [];
+	for (var i = 0; i < nodeid.length; ++i) {
+		_filters.push(
+                    new OpenLayers.Filter.Comparison({
+                        type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                        property: "partitionID",
+                        value: nodeid[i]
+                    })
+                );
+	}
+	return _filters;	
+}
+
+	

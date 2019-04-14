@@ -13,7 +13,7 @@ define([
     "dojo/_base/lang",
     "esri/geometry/webMercatorUtils",
     "esri/layers/GraphicsLayer",
-    "js/lib/d3.js"
+    "/share/js/d3.v3.min.js"
   ],
   function(
     declare,

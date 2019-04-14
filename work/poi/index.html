@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8">
     <title>Interactive Exploration of POI</title>
-    <link type="text/css" rel="stylesheet" href="css/layout-default-latest.css" />
-    <link rel="stylesheet" href="https://js.arcgis.com/3.13/esri/css/esri.css">
-    <link rel="stylesheet" href="css/jquery-ui_smoothness.css">
+    <link type="text/css" rel="stylesheet" href="../../share/css/layout-default-latest.css" />
+    <link rel="stylesheet" href="../../share/css/esri-3.13.css">
+    <link rel="stylesheet" href="../../share/css/jquery-ui_smoothness.css">
     <style type="text/css">
         html,
         body {
@@ -203,9 +203,9 @@
             cursor: pointer;
         }
     </style>
-    <script type="text/javascript" src="js/lib/jquery-latest.js"></script>
-    <script type="text/javascript" src="js/lib/jquery-ui-latest.js"></script>
-    <script type="text/javascript" src="js/lib/jquery.layout-latest.js"></script>
+    <script type="text/javascript" src="../../share/js/jquery-latest.js"></script>
+    <script type="text/javascript" src="../../share/js/jquery-ui-latest.js"></script>
+    <script type="text/javascript" src="../../share/js/jquery.layout-latest.js"></script>
     <script src="https://js.arcgis.com/3.13/"></script>
     <script>
         var map,
@@ -615,7 +615,7 @@
             }
 
 
-            hotel_layer = new d3Layer('data/DC_hotels_new.json', {
+            hotel_layer = new d3Layer('../../share/data/DC_hotels_new.json', {
                 id: 'layer_hotel_pt',
                 // attr: [{name: 'r', value: function }, {name: 'class', value: 'classname'}]
                 // style: [{name: 'stroke', value: }, {name: 'fill', value: }]
@@ -654,7 +654,7 @@
             });
 
 
-            attraction_layer = new d3Layer('data/DC_attractions_new.json', {
+            attraction_layer = new d3Layer('../../share/data/DC_attractions_new.json', {
                 id: 'layer_attractions_pt',
                 // attr: [{name: 'r', value: function }, {name: 'class', value: 'classname'}]
                 // style: [{name: 'stroke', value: }, {name: 'fill', value: }]

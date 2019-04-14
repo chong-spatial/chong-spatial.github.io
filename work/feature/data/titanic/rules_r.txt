@@ -1,8 +1,0 @@
-1  {Class=2nd,Age=Child}          => {Survived=Yes} 0.010904134 1.0000000  3.095640
-4  {Class=1st,Sex=Female}         => {Survived=Yes} 0.064061790 0.9724138  3.010243
-9  {Class=2nd,Sex=Male,Age=Adult} => {Survived=No}  0.069968196 0.9166667  1.354083
-2  {Class=2nd,Sex=Female}         => {Survived=Yes} 0.042253521 0.8773585  2.715986
-5  {Class=Crew,Sex=Female}        => {Survived=Yes} 0.009086779 0.8695652  2.691861
-3  {Class=2nd,Sex=Male}           => {Survived=No}  0.069968196 0.8603352  1.270871
-12 {Class=3rd,Sex=Male,Age=Adult} => {Survived=No}  0.175829169 0.8376623  1.237379
-6  {Class=3rd,Sex=Male}           => {Survived=No}  0.191731031 0.8274510  1.222295

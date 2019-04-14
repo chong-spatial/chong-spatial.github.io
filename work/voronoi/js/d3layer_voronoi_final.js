@@ -14,8 +14,8 @@ define([
     "dojo/_base/lang",
     "esri/geometry/webMercatorUtils",
     "esri/layers/GraphicsLayer",
-    "js/lib/d3.js",
-    "js/lib/d3.helper.js"
+    "/share/js/d3.v3.min.js",
+    "js/d3.helper.js"
   ],
   function(
     declare,

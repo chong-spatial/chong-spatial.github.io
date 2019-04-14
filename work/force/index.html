@@ -1,15 +1,480 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-   <!-- HTML meta refresh URL redirection -->
-   <meta http-equiv="refresh"
-   content="5; url=1/">
+  <meta charset="utf-8">
+  <title>Green Energy</title>
+	<link type="text/css" rel="stylesheet" href="../../share/css/layout-default-latest.css" />
+	<link rel="stylesheet" href="../../share/css/esri-3.13.css">
+  <link rel="stylesheet" href="../../share/css/jquery-ui_smoothness.css">
+
+	<style type="text/css">
+    html, body {
+    	background:	#666;
+			width:		100%;
+			height:		100%;
+			padding:	0;
+			margin:		0;
+			overflow:	auto; /* when page gets too small */
+
+    }
+
+    #mapviewDiv {
+    	width:		100%;
+			height:		100%;
+			padding:	0;
+			margin:		0;
+    }
+
+    #container {
+			background:	#999;
+			height:		100%;
+			margin:		0 auto;
+			width:		100%;
+			min-width:	900px;
+			_width:		700px; /* min-width for IE6 */
+		}
+
+		.pane {
+			display:	none; /* will appear when layout inits */
+		}
+
+
+    #btnDiv div {
+      margin-top: 15px;
+      margin-bottom: 15px;
+
+    }
+
+    #btnDiv input{
+      font-size: 1.4em;
+    }
+
+    #dataDiv{
+      border-top: 1px solid #ccc;
+    }
+    #dataDiv div {
+      padding: 10px;
+    }
+
+
+
+  #selectable .ui-selecting { background: #FECA40; }
+  #selectable .ui-selected { border: 4px solid #000; color: white}
+  #selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+  #selectable li { margin: 6px; padding: 0.4em; font-size: 1.4em; height: 18px; text-align: center;}
+
+
+
+
+  </style>
+  <script type="text/javascript" src="../../share/js/d3.v3.min.js"></script>
+  <script type="text/javascript" src="../../share/js/jquery-latest.js"></script>
+	<script type="text/javascript" src="../../share/js/jquery-ui-latest.js"></script>
+	<script type="text/javascript" src="../../share/js/jquery.layout-latest.js"></script>
+  <script type="text/javascript" src="../../share/js/terraformer.js"></script>
+  <script type="text/javascript" src="../../share/js/terraformer-arcgis-parser.js"></script>
+  <script src="../../share/js/tinycolor.min.js"></script>
+  <script src="../../share/js/shadow.js"></script>
+  <script type="text/javascript" src="js/autosorting.js"></script>
+
+
+	<script src="https://js.arcgis.com/3.13/"></script>
+
+
+  <script>
+    var map, geoJsonLayer;
+    var multiDimensions;
+    var colors;
+    var selectedDims = [];
+
+
+    require(["esri/map",
+        "../../share/js/geojsonLayer.js",
+        "esri/renderers/SimpleRenderer",
+        "dojo/on",
+        "dojo/query",
+        "dojo/dom",
+        "dojo/domReady!"],
+        function (Map, GeoJsonLayer, SimpleRenderer, on, query, dom) {
+
+    // Create map
+    map = new Map("mapviewDiv", {
+        basemap: "dark-gray",
+        center: [-95.7129, 37.0902],
+        zoom: 4
+    });
+
+    map.infoWindow.domNode.className += " light";
+
+    map.on("load", function () {
+        addGeoJsonLayer("../../share/data/2010Clean_ordinal.geojson", afterGeoJsonLoad);
+
+    });
+
+    function afterGeoJsonLoad(arcgisJson, geoJson){
+      var svg = d3.select("#myd3");
+
+      generateVariableList(geoJson);
+
+      var circleGroup = svg.selectAll('g').data(arcgisJson)
+        .enter().append('g')
+        .attr('id', function(d){ return 'g_' + d.attributes.name})
+        .attr("transform", function(d) {
+          var poly = new esri.geometry.Polygon({"rings": d.geometry.rings, "spatialReference": d.spatialReference}),
+              pExt = poly.getExtent(),
+              screenExt = [[pExt.xmin, pExt.ymin], [pExt.xmax, pExt.ymax]].map(function(d){var so = esri.geometry.toScreenPoint(map.extent, map.width, map.height, new esri.geometry.Point(d[0], d[1])); return [so.x, so.y] });
+
+          var centroidScreen = esri.geometry.toScreenPoint(map.extent, map.width, map.height, poly.getCentroid());
+
+          d.agsPolygon = poly;
+          d.agsExt = pExt;
+          d.screenExt = screenExt;
+          //console.log(poly.getCentroid())
+          var geoJsond = Terraformer.ArcGIS.toGeoJSON(d.geometry);
+          var geoPoly = {
+            "type": "Feature",
+            "geometry": {
+                "type": geoJsond.type,
+                "coordinates": geoJsond.coordinates
+            }
+        };
+
+          //console.log('geoJsond:',geoJsond)
+          //console.log('geoPoly:',geoPoly)
+          //console.log(maxInscribedCircle(geoPoly));
+          return "translate(" + centroidScreen.x + "," + centroidScreen.y+")";
+        })
+        .each(createForce);
+
+      /*
+      circleGroup.append('circle')
+        .attr('r', function(d){ return Math.min(Math.abs(d.screenExt[1][0] - d.screenExt[0][0]), Math.abs(d.screenExt[1][1] - d.screenExt[0][1]))/2 })
+        .attr('class', 'pack')
+      */
+
+      //console.log(arcgisJson);
+
+      /*
+      arcgisJson.forEach(function(a){
+        //console.log(a.attributes.NAME,':')
+        var p = new esri.geometry.Polygon({"rings": a.geometry.rings, "spatialReference": a.spatialReference});
+        //console.log(p.getExtent())
+        //esri.geometry.toScreenPoint(map.extent, map.width, map.height, _point);
+        //console.log(p.rings)
+        p.rings.forEach(function(r,ridx){
+          for(var i = 0; i < r.length; i++){
+            var pt = p.getPoint(ridx, i);
+            //console.log(esri.geometry.toScreenPoint(map.extent, map.width, map.height, pt))
+          }
+        })
+      })
+      */
+    }
+
+    function addGeoJsonLayer(url, callback) {
+        // Create the layer
+        geoJsonLayer = new GeoJsonLayer({
+            url: url, // ./data/dc-schools.json
+            id: 'stateGeoJson',
+            callback, callback
+        });
+
+        //Optional SimpleRenderer if you don't want a random symbol and color
+        // var simpleJson = {
+        //     "type": "simple",
+        //     "label": "",
+        //     "description": "",
+        //     "symbol": {
+        //         "color": [210,105,30,191],
+        //         "size": 10,
+        //         "angle": 0,
+        //         "xoffset": 0,
+        //         "yoffset": 0,
+        //         "type": "esriSLS" // esriSMS, esriSLS
+        //     }
+        // };
+        // geoJsonLayer.renderer = new SimpleRenderer(simpleJson);
+
+        // Zoom to layer
+
+        geoJsonLayer.on("update-end", function (e) {
+            //map.setExtent(e.target.extent.expand(1.2));
+            //console.log('update-end')
+
+            d3.select("#mapviewDiv_gc").append('g').attr('id', 'myd3');
+        });
+
+        map.on("pan", function (e) {
+            //map.setExtent(e.target.extent.expand(1.2));
+            //console.log('pan')
+            translateForceGraph(e.extent);
+
+        });
+
+        map.on("zoom", function (e) {
+            //map.setExtent(e.target.extent.expand(1.2));
+            //console.log('extent-change')
+            translateForceGraph(e.extent);
+            updateForceGraph(e.extent, map.width, map.height);
+
+        });
+
+
+        $("button" )
+      .button()
+      .click(function( event ) {
+        if(this.value == 'heat'){
+            heatForce();
+          } else if(this.value == 'bigger'){
+            changeForeCirceRadius(2);
+          } else {
+            changeForeCirceRadius(-2);
+          }
+      })
+
+
+        function translateForceGraph(mapExt){
+          var graphGroups = d3.select('#myd3').selectAll('g');
+
+          graphGroups.attr("transform", function(d) {
+              var poly = new esri.geometry.Polygon({"rings": d.geometry.rings, "spatialReference": d.spatialReference}),
+                  pExt = poly.getExtent(),
+                  screenExt = [[pExt.xmin, pExt.ymin], [pExt.xmax, pExt.ymax]].map(function(d){var so = esri.geometry.toScreenPoint(mapExt, map.width, map.height, new esri.geometry.Point(d[0], d[1])); return [so.x, so.y] });
+
+              var centroidScreen = esri.geometry.toScreenPoint(mapExt, map.width, map.height, poly.getCentroid());
+
+              d.agsPolygon = poly;
+              d.agsExt = pExt;
+              d.screenExt = screenExt;
+
+              return "translate(" + centroidScreen.x + ","+centroidScreen.y+")";
+            })
+
+        }
+
+        function updateForceGraph(mapExt, mapWidth, mapHeight){
+          var graphGroups = d3.select('#myd3').selectAll('g');
+
+          graphGroups.each(function(d){
+              var poly = new esri.geometry.Polygon({"rings": d.geometry.rings, "spatialReference": d.spatialReference}),
+                  pExt = poly.getExtent(),
+                  screenExt = [[pExt.xmin, pExt.ymin], [pExt.xmax, pExt.ymax]].map(function(d){var so = esri.geometry.toScreenPoint(mapExt, map.width, map.height, new esri.geometry.Point(d[0], d[1])); return [so.x, so.y] });
+
+              var centroidScreen = esri.geometry.toScreenPoint(mapExt, map.width, map.height, poly.getCentroid());
+
+              d.agsPolygon = poly;
+              d.agsExt = pExt;
+              d.screenExt = screenExt;
+
+              d.graph.updateForce(mapExt, mapWidth, mapHeight);
+            })
+
+        }
+
+        function heatForce(){
+          var graphGroups = d3.select('#myd3').selectAll('g');
+
+          graphGroups.each(function(d){
+            d.graph.force.alpha(.5);
+            })
+
+        }
+
+        function changeForeCirceRadius(sizeChanges){
+          var graphGroups = d3.select('#myd3').selectAll('g');
+          var validNumer = +sizeChanges;
+          graphGroups.each(function(d){
+
+            d3.select(this).selectAll('circle').attr('r', function(c){
+              var newr = c.radius + validNumer;
+              //console.log('d.radius', c.radius, ', new: ', newr )
+
+              return newr })
+            d3.select(this).selectAll('circle').each(function(c){
+              var newr = c.radius + validNumer;
+              c.radius = newr;
+            })
+
+          })
+
+
+        }
+
+
+        // Add to map
+        map.addLayer(geoJsonLayer);
+
+    }
+
+    function generateVariableList(featureCollection){
+      var nameMapping = {'OrdinalHyd': 'Hydro', 'OrdinalSol': 'Solar', 'OrdinalWin': 'Wind', 'OrdinalWoo': 'Wood', 'OrdinalGas': 'Gas'};
+
+      //selectable
+      multiDimensions = [];
+      var f = featureCollection.features[0],
+          all = f.properties;
+      for(var i in all){
+        if(!isNaN(all[i])){
+          multiDimensions.push(i);
+        }
+      }
+
+      var myd3group = d3.select('#myd3')
+
+      var d3color = d3.range(multiDimensions.length).map(d3.scale.category10());
+      var sphereColors = d3color.map(function(d) {
+          return filters.sphere(myd3group, d, 1)
+      });
+
+      colors = d3.scale.ordinal().domain(multiDimensions).range(sphereColors);
+
+      var tempColors = d3.scale.ordinal().domain(multiDimensions).range(d3color);
+
+      //console.log(multiDimensions)
+      d3.select('#selectable').selectAll('li').data(multiDimensions)
+        .enter().append('li')
+        .attr('class', 'ui-widget-content')
+        .style('background', function(d){ return tempColors(d)})
+        .text(function(d){ return nameMapping[d] })
+
+
+      d3.select('#dataDiv').on('click', function(){
+        //d3.event.stop
+        d3.select("#myd3").selectAll('circle').style('display', 'block');
+        selectedDims = [];
+
+        $(".ui-selected").each(function () {
+           $(this).removeClass('ui-selected')
+        })
+      })
+       $( "#selectable" ).selectable({
+          selecting: function(){
+            //selectedDims = [];
+            d3.select("#myd3").selectAll('circle').style('display', 'none');
+          },
+
+          selected: function( event, ui ) {
+            selectedDims.push(d3.select(ui.selected).datum())
+
+            //console.log(selectedDims)
+
+            selectedDims.forEach(function(dim){
+              d3.select("#myd3").selectAll('.' + dim).style('display', 'block')
+            })
+
+
+
+          },
+
+          unselecting: function(e, ui){
+            var toRemove = d3.select(ui.unselecting).datum();
+            var toRemoveIdx = selectedDims.indexOf(toRemove);
+            if(toRemoveIdx != -1){
+              selectedDims.splice(toRemoveIdx, 1);
+              d3.select("#myd3").selectAll('circle').style('display', 'none');
+            }
+
+          },
+
+          unselected: function(e, ui){
+            selectedDims.forEach(function(dim){
+              d3.select("#myd3").selectAll('.' + dim).style('display', 'block')
+            })
+          }
+
+        });
+
+    }
+
+
+
+
+});
+  </script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('#container').layout({
+
+				center__childOptions: {
+						west__size: "20%"
+					,	center__enableCursorHotkey: false
+    			, center__closable: false
+    			, center__resizable: true
+    			, center__slidable: false
+    			, center__spacing_open: 1
+    			, center__spacing_closed: 1
+          , west__onresize: function(){ console.log('resized') }
+        }
+				, north__enableCursorHotkey: false
+    		, north__closable: false
+    		, north__resizable: false
+    		, north__slidable: false
+    		, north__spacing_open: 1
+    		, north__spacing_closed: 1
+
+			});
+
+
+
+
+
+
+    });
+	</script>
+
 </head>
 <body>
-   <p>You will be automatically directed to the :
-   <a href="1/">Technical prototype page</a><span> in 5 seconds.</span></p>
+	<div id="container">
+		<div class="pane ui-layout-center">
+			<div class="pane ui-layout-center" id="mapviewDiv">
 
-   <!-- Start of StatCounter Code for Default Guide -->
+        <div id="mapInfo">
+          <!-- <div id="mapSearch"></div> -->
+         <div id="legendDiv"></div>
+        </div>
+
+			</div>
+      <div class="pane ui-layout-west">
+				<div id='btnDiv' style="margin-top: -10px;">
+          <div><button type='button' value = 'heat' id = 'btn_heat'> Heat the force graph</button></div>
+          <div><button type='button' value = 'bigger' id = 'btn_big'>Make bubbles bigger</button></div>
+          <div><button type='button' value = 'smaller' id = 'btn_small'> Make bubbles smaller</button></div>
+          <div id='dataDiv'>
+            <div style="font-size: 1.4em">Available variables in this layer:</div>
+            <ol id="selectable">
+              <!--
+              <li class="ui-widget-content">Item 1</li>
+              <li class="ui-widget-content">Item 2</li>
+              <li class="ui-widget-content">Item 3</li>
+              <li class="ui-widget-content">Item 4</li>
+              <li class="ui-widget-content">Item 5</li>
+              <li class="ui-widget-content">Item 6</li>
+              <li class="ui-widget-content">Item 7</li>
+            -->
+            </ol>
+            <!--<div> <input type="button" value="Create graph" id='createForce'></div>-->
+          </div>
+
+
+
+  			</div>
+  		</div>
+
+		</div>
+		<div class="pane ui-layout-north" style="overflow:hidden">
+      <div style="float:left"></div>
+      <div align="center"><font size='5'><strong>
+          Do you use green energy?
+        </strong></font>
+      </div>
+      <div style="float:right">
+
+       <a href="../1/index.html" target="_blank">Technique prototype page</a>
+     </div>
+    </div>
+
+	</div>
+<!-- Start of StatCounter Code for Default Guide -->
     <script type="text/javascript">
     var sc_project=10227952; 
     var sc_invisible=1; 

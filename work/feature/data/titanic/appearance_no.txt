@@ -1,2 +1,0 @@
-in
-Survived=0 out

@@ -4,10 +4,10 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <title>Rose Plot</title>   
   	<style type="text/css">
-    	.tooltip{
+    	.mytooltip {
     		position:absolute;	
     		z-index:10;
-    		visibility:hidden;
+    		opacity: .8 !important;
     		border: 1px solid #8F00FF;
     		color: #FFFF00;
     		background-color: #000000;
@@ -36,10 +36,10 @@
       }
     </style>
 	
-  	<link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.sm.css">
-  	<script type="text/javascript" src="jquery-1.10.2.min.js"></script>
-  	<script type="text/javascript" src="jquery-ui-1.10.3.custom.js"></script>
-  	<script src="https://d3js.org/d3.v3.min.js"></script>
+  	<link rel="stylesheet" type="text/css" href="../../share/css/jquery-ui_smoothness.css">
+  	<script type="text/javascript" src="../../share/js/jquery-latest.js"></script>
+  	<script type="text/javascript" src="../../share/js/jquery-ui-latest.js"></script>
+  	<script src="../../share/js/d3.v3.min.js"></script>
   	<script type="text/javascript" src="rose.js"></script>
 	
 
@@ -56,7 +56,7 @@
     <script >
       var tooltip = d3.select("body")
       	.append("div")
-      	.attr("class", "tooltip")
+      	.attr("class", "mytooltip")
       	.text("a simple tooltip");
       	
       var cateLabel = {	

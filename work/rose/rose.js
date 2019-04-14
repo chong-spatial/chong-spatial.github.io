@@ -3,4 +3,499 @@
 * @author: C. Zhang
 */
 
-var _0x612b=["\x74\x72\x61\x6E\x73\x66\x6F\x72\x6D","\x74\x72\x61\x6E\x73\x6C\x61\x74\x65\x28","\x2C","\x29","\x61\x74\x74\x72","\x73\x76\x67\x3A\x67","\x61\x70\x70\x65\x6E\x64","\x72\x61\x6E\x67\x65","\x72","\x63\x79","\x63\x78","\x73\x76\x67\x3A\x63\x69\x72\x63\x6C\x65","\x65\x6E\x74\x65\x72","\x64\x61\x74\x61","\x63\x69\x72\x63\x6C\x65","\x73\x65\x6C\x65\x63\x74\x41\x6C\x6C","\x63\x6C\x61\x73\x73","\x72\x6F\x73\x65\x74\x69\x63\x6B\x73","\x72\x6F\x73\x65\x61\x72\x63\x73","\x64\x61\x74","\x67\x2E\x72\x6F\x73\x65\x61\x72\x63\x73","\x74\x69\x74\x6C\x65","\x63\x75\x73\x74\x6F\x6D\x5F\x74\x6F\x6F\x6C\x74\x69\x70\x5F\x73\x74\x79\x6C\x69\x6E\x67","\x74\x6F\x6F\x6C\x74\x69\x70","\x23\x72\x6F\x73\x65\x73\x76\x67\x20\x70\x61\x74\x68","","\x68\x74\x6D\x6C","\x23\x63\x61\x74\x65\x4C\x76\x4C\x69\x73\x74","\x73\x65\x6C\x65\x63\x74","\x6C\x76","\x72\x65\x66\x6C\x76","\x6F\x72","\x23\x43\x44\x43\x44\x43\x44","\x3C\x73\x70\x61\x6E\x20\x73\x74\x79\x6C\x65\x3D\x27\x62\x61\x63\x6B\x67\x72\x6F\x75\x6E\x64\x3A","\x27\x3E\x3C\x2F\x73\x70\x61\x6E\x3E","\x3A\x20","\x76\x61\x72","\x5F","\x3C\x62\x72\x2F\x3E","\x65\x61\x63\x68","\x2E\x72\x6F\x73\x65\x61\x72\x63\x73","\x23\x72\x6F\x73\x65\x73\x76\x67","\x63\x6C\x69\x63\x6B","\x6F\x6E","\x6D\x6F\x75\x73\x65\x6F\x75\x74","\x69\x64","\x6D\x6F\x75\x73\x65\x6D\x6F\x76\x65","\x6D\x6F\x75\x73\x65\x6F\x76\x65\x72","\x66\x69\x6C\x6C\x2D\x6F\x70\x61\x63\x69\x74\x79","\x30\x2E\x37","\x73\x74\x79\x6C\x65","\x66\x69\x6C\x6C","\x43\x61\x74\x65\x67\x6F\x72\x79\x3A\x20","\x3C\x2F\x62\x72\x3E\x41\x6E\x67\x6C\x65\x3A\x20","\x74\x6F\x46\x69\x78\x65\x64","\x63\x6F\x6C\x4D\x61\x72\x46\x72\x65\x71","\x25\x3C\x2F\x62\x72\x3E\x52\x61\x64\x69\x75\x73\x3A\x20","\x72\x6F\x77\x4D\x61\x72\x46\x72\x65\x71","\x25\x3C\x2F\x62\x72\x3E\x4F\x64\x64\x73\x20\x52\x61\x74\x69\x6F\x3A\x20","\x2C\x20\x39\x35\x25\x20\x43\x2E\x49\x2E\x20\x5B","\x6F\x72\x6C\x62","\x2C\x20","\x6F\x72\x75\x62","\x5D","\x43\x61\x74\x65\x67\x6F\x72\x79\x20\x28\x52\x65\x66\x2E\x29\x3A\x20","\x25","\x6C\x65\x6E\x67\x74\x68","\x74\x72\x69\x6D","\x63\x61\x74\x65\x5F\x6C\x76\x5F\x6E\x75\x6C\x6C","\x63\x61\x74\x65\x5F\x6C\x76\x5F","\x64","\x73\x76\x67\x3A\x70\x61\x74\x68","\x74\x65\x78\x74","\x74\x65\x78\x74\x2D\x61\x6E\x63\x68\x6F\x72","\x6D\x69\x64\x64\x6C\x65","\x63\x65\x6E\x74\x72\x6F\x69\x64","\x73\x71\x72\x74","\x63\x61\x74\x65\x5F\x6C\x76\x74\x78\x74\x5F","\x73\x76\x67\x3A\x74\x65\x78\x74","\x73\x74\x72\x6F\x6B\x65\x2D\x64\x61\x73\x68\x61\x72\x72\x61\x79","\x32\x2C\x20\x32","\x73\x74\x72\x6F\x6B\x65","\x23\x61\x61\x61","\x79\x32","\x78","\x79","\x78\x32","\x79\x31","\x78\x31","\x63\x61\x74\x65\x5F\x6C\x69\x6E\x65\x5F","\x73\x76\x67\x3A\x6C\x69\x6E\x65","\x72\x6F\x73\x65\x63\x61\x70\x74\x69\x6F\x6E","\x73\x70\x6C\x69\x74","\x73\x75\x62\x73\x74\x72","\x52\x65\x66\x65\x72\x65\x6E\x63\x65\x20\x67\x72\x6F\x75\x70\x3A","\x74\x65\x78\x74\x70","\x74\x72\x61\x6E\x73\x6C\x61\x74\x65\x28\x30\x2C\x20\x32\x30\x29","\x63\x75\x72\x73\x6F\x72","\x64\x65\x66\x61\x75\x6C\x74","\x23\x6D\x6F\x64\x65\x6C\x65\x76\x61","\x73\x65\x6C\x65\x63\x74\x65\x64","\x73\x65\x6C\x65\x63\x74\x65\x64\x74\x6F\x45\x78\x69\x73\x74\x69\x6E\x67\x54\x61\x72\x67\x65\x74","\x74\x72\x69\x67\x67\x65\x72\x53\x76\x67\x4D\x6F\x64\x65\x6C","\x6E\x61\x6D\x65","\x70\x75\x73\x68","\x2E\x66\x61\x63\x74\x6F\x72\x4E\x61\x6D\x65","\x23\x6D\x6F\x64\x65\x6C\x73\x72\x6F\x6F\x74","\x2D","\x6A\x6F\x69\x6E","\x2F","\x74\x6F\x4C\x6F\x77\x65\x72\x43\x61\x73\x65","\x2F\x6C\x6F\x67\x69\x73\x74\x69\x63\x72\x65\x67\x30\x2F","\x47\x45\x54","\x6A\x73\x6F\x6E","\x63\x61\x74\x65\x46\x61\x63\x74\x6F\x72","\x61\x6A\x61\x78","\x63\x61\x73\x65","\x63\x74\x72\x6C","\x73\x6F\x72\x74","\x6D\x61\x78\x43\x6F\x6C\x4D\x46","\x6D\x69\x6E\x4F\x52","\x6D\x61\x78\x4F\x52","\x6D\x69\x6E\x52\x6F\x77\x4D\x46","\x6D\x61\x78\x52\x6F\x77\x4D\x46","\x6D\x69\x6E\x43\x6F\x6C\x4D\x46","\x6D\x61\x72\x67\x69\x6E\x61\x6C\x54\x6F\x74\x61\x6C","\x63\x61\x73\x65\x73\x54\x6F\x74\x61\x6C","\x63\x6F\x6E\x74\x72\x6F\x6C\x73\x54\x6F\x74\x61\x6C","\x6C\x69\x6E\x65","\x6E\x6F\x64\x65\x4E\x61\x6D\x65","\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64","\x73\x74\x72\x6F\x6B\x65\x2D\x77\x69\x64\x74\x68","\x23","\x79\x65\x6C\x6C\x6F\x77","\x23\x70\x61\x74\x68","\x69\x6E\x64\x65\x78\x4F\x66","\x23\x74\x65\x78\x74","\x23\x6C\x69\x6E\x65","\x72\x65\x6D\x6F\x76\x65","\x67","\x73\x76\x67","\x6D\x69\x6E","\x68\x65\x69\x67\x68\x74","\x77\x69\x64\x74\x68","\x23\x46\x35\x37\x45\x37\x45","\x23\x64\x37\x33\x30\x32\x37","\x69\x6E\x74\x65\x72\x70\x6F\x6C\x61\x74\x65\x52\x67\x62","\x69\x6E\x74\x65\x72\x70\x6F\x6C\x61\x74\x65","\x64\x6F\x6D\x61\x69\x6E","\x6C\x69\x6E\x65\x61\x72","\x73\x63\x61\x6C\x65","\x23\x31\x61\x39\x36\x34\x31","\x23\x62\x61\x65\x34\x62\x33","\x63\x6C\x61\x6D\x70","\x6F\x75\x74\x65\x72\x52\x61\x64\x69\x75\x73","\x69\x6E\x6E\x65\x72\x52\x61\x64\x69\x75\x73","\x50\x49","\x65\x6E\x64\x41\x6E\x67\x6C\x65","\x73\x74\x61\x72\x74\x41\x6E\x67\x6C\x65","\x61\x72\x63"];var roseplot=function(_0x2baax2,_0x2baax3,_0x2baax4,_0x2baax5,_0x2baax6,_0x2baax7,_0x2baax8){function _0x2baax9(_0x2baaxa){_0x2baax16= _0x2baaxa}function _0x2baaxb(){var _0x2baaxa=_0x2baax20[_0x612b[6]](_0x612b[5])[_0x612b[4]](_0x612b[0],_0x612b[1]+ (_0x2baax18/ 4+ 20)+ _0x612b[2]+ _0x2baax1f/ 2+ _0x612b[3]),_0x2baaxc=d3[_0x612b[7]](0.2,1.2,0.2);_0x2baaxa[_0x612b[6]](_0x612b[5])[_0x612b[4]](_0x612b[16],_0x612b[17])[_0x612b[15]](_0x612b[14])[_0x612b[13]](_0x2baaxc)[_0x612b[12]]()[_0x612b[6]](_0x612b[11])[_0x612b[4]](_0x612b[10],0)[_0x612b[4]](_0x612b[9],0)[_0x612b[4]](_0x612b[8],function(_0x2baaxc){return _0x2baax25(_0x2baaxc)});var _0x2baaxc=_0x2baax26(0),_0x2baaxd=_0x2baaxa[_0x612b[15]](_0x612b[20])[_0x612b[13]](_0x2baax10[_0x612b[19]])[_0x612b[12]]()[_0x612b[6]](_0x612b[5])[_0x612b[4]](_0x612b[16],_0x612b[18]);_0x2baaxf(_0x2baaxa,_0x2baaxd,_0x2baaxc);$(_0x612b[24])[_0x612b[23]]({content:function(){return $(this)[_0x612b[4]](_0x612b[21])},tooltipClass:_0x612b[22],track:!0});_0x2baaxe()}function _0x2baaxe(){d3[_0x612b[28]](_0x612b[27])[_0x612b[26]](_0x612b[25]);var _0x2baaxa=_0x612b[25];d3[_0x612b[28]](_0x612b[41])[_0x612b[15]](_0x612b[40])[_0x612b[39]](function(_0x2baaxc){var _0x2baaxd=_0x2baaxc[_0x612b[29]]!= _0x2baax10[_0x612b[30]]?_0x2baax23(_0x2baaxc[_0x612b[31]]):_0x612b[32];_0x2baaxa+= _0x612b[33]+ _0x2baaxd+ _0x612b[34]+ _0x2baaxc[_0x612b[29]]+ _0x612b[35]+ cateLabel[_0x2baaxc[_0x612b[36]]+ _0x612b[37]+ _0x2baaxc[_0x612b[29]]]+ _0x612b[38]});d3[_0x612b[28]](_0x612b[27])[_0x612b[26]](_0x2baaxa)}function _0x2baaxf(_0x2baaxa,_0x2baaxc,_0x2baaxd){_0x2baaxc[_0x612b[6]](_0x612b[71])[_0x612b[4]](_0x612b[70],_0x2baaxd)[_0x612b[4]](_0x612b[45],function(_0x2baaxc){return 0=== _0x2baaxc[_0x612b[29]][_0x612b[67]]()[_0x612b[66]]?_0x612b[68]:_0x612b[69]+ _0x2baaxc[_0x612b[29]]})[_0x612b[4]](_0x612b[21],function(_0x2baaxc){return _0x2baaxc[_0x612b[29]]!= _0x2baax10[_0x612b[30]]?_0x612b[52]+ cateLabel[_0x2baaxc[_0x612b[36]]+ _0x612b[37]+ _0x2baaxc[_0x612b[29]]]+ _0x612b[53]+ (100* _0x2baaxc[_0x612b[55]])[_0x612b[54]](2)+ _0x612b[56]+ (100* _0x2baaxc[_0x612b[57]])[_0x612b[54]](2)+ _0x612b[58]+ (+_0x2baaxc[_0x612b[31]])[_0x612b[54]](2)+ _0x612b[59]+ (+_0x2baaxc[_0x612b[60]])[_0x612b[54]](2)+ _0x612b[61]+ (+_0x2baaxc[_0x612b[62]])[_0x612b[54]](2)+ _0x612b[63]:_0x612b[64]+ cateLabel[_0x2baaxc[_0x612b[36]]+ _0x612b[37]+ _0x2baaxc[_0x612b[29]]]+ _0x612b[53]+ (100* _0x2baaxc[_0x612b[55]])[_0x612b[54]](2)+ _0x612b[56]+ (100* _0x2baaxc[_0x612b[57]])[_0x612b[54]](2)+ _0x612b[65]})[_0x612b[50]](_0x612b[51],function(_0x2baaxc){return _0x2baaxc[_0x612b[29]]!= _0x2baax10[_0x612b[30]]?_0x2baax23(_0x2baaxc[_0x612b[31]]):_0x612b[32]})[_0x612b[50]](_0x612b[48],_0x612b[49])[_0x612b[43]](_0x612b[47],function(_0x2baaxc){_0x2baax1d(_0x2baaxc,this[_0x612b[45]])})[_0x612b[43]](_0x612b[46],function(_0x2baaxc){_0x2baax1d(_0x2baaxc,this[_0x612b[45]])})[_0x612b[43]](_0x612b[44],function(_0x2baaxc){_0x2baax1e(_0x2baaxc,this[_0x612b[45]])})[_0x612b[43]](_0x612b[42],function(_0x2baaxc){_0x2baax11(_0x2baaxc)});_0x2baaxd= _0x2baax26(0);_0x2baaxc[_0x612b[6]](_0x612b[78])[_0x612b[4]](_0x612b[45],function(_0x2baaxc){return _0x612b[77]+ _0x2baaxc[_0x612b[29]]})[_0x612b[4]](_0x612b[0],function(_0x2baaxc){var _0x2baaxa=_0x2baaxd[_0x612b[75]](_0x2baaxc),_0x2baax10=_0x2baaxa[0],_0x2baaxa=_0x2baaxa[1],_0x2baax5=Math[_0x612b[76]](_0x2baax10* _0x2baax10+ _0x2baaxa* _0x2baaxa);_0x2baax13[_0x2baaxc[_0x612b[29]]]= {x:_0x2baax10,y:_0x2baaxa};return _0x612b[1]+ _0x2baax10/ _0x2baax5* _0x2baax14+ _0x612b[2]+ _0x2baaxa/ _0x2baax5* _0x2baax14+ _0x612b[3]})[_0x612b[4]](_0x612b[73],_0x612b[74])[_0x612b[72]](function(_0x2baaxc,_0x2baaxa){return _0x2baaxc[_0x612b[29]]})[_0x612b[43]](_0x612b[47],function(_0x2baaxc){_0x2baax1d(_0x2baaxc,this[_0x612b[45]])})[_0x612b[43]](_0x612b[46],function(_0x2baaxc){_0x2baax1d(_0x2baaxc,this[_0x612b[45]])})[_0x612b[43]](_0x612b[44],function(_0x2baaxc){_0x2baax1e(_0x2baaxc,this[_0x612b[45]])})[_0x612b[43]](_0x612b[42],function(_0x2baaxc){_0x2baax11(_0x2baaxc)});_0x2baaxc[_0x612b[6]](_0x612b[90])[_0x612b[4]](_0x612b[45],function(_0x2baaxc){return _0x612b[89]+ _0x2baaxc[_0x612b[29]]})[_0x612b[4]](_0x612b[88],function(_0x2baaxc){var _0x2baaxa=_0x2baax13[_0x2baaxc[_0x612b[29]]][_0x612b[84]];yc= _0x2baax13[_0x2baaxc[_0x612b[29]]][_0x612b[85]];_0x2baax5= Math[_0x612b[76]](_0x2baaxa* _0x2baaxa+ yc* yc);return _0x2baaxa/ _0x2baax5* (_0x2baax15+ 2* (_0x2baax5- _0x2baax15))})[_0x612b[4]](_0x612b[87],function(_0x2baaxc){var _0x2baaxa=_0x2baax13[_0x2baaxc[_0x612b[29]]][_0x612b[84]];yc= _0x2baax13[_0x2baaxc[_0x612b[29]]][_0x612b[85]];_0x2baax5= Math[_0x612b[76]](_0x2baaxa* _0x2baaxa+ yc* yc);return yc/ _0x2baax5* (_0x2baax15+ 2* (_0x2baax5- _0x2baax15))})[_0x612b[4]](_0x612b[86],function(_0x2baaxc){var _0x2baaxa=_0x2baax13[_0x2baaxc[_0x612b[29]]][_0x612b[84]];yc= _0x2baax13[_0x2baaxc[_0x612b[29]]][_0x612b[85]];_0x2baax5= Math[_0x612b[76]](_0x2baaxa* _0x2baaxa+ yc* yc);return _0x2baaxa/ _0x2baax5* _0x2baax14})[_0x612b[4]](_0x612b[83],function(_0x2baaxc){var _0x2baaxa=_0x2baax13[_0x2baaxc[_0x612b[29]]][_0x612b[84]];yc= _0x2baax13[_0x2baaxc[_0x612b[29]]][_0x612b[85]];_0x2baax5= Math[_0x612b[76]](_0x2baaxa* _0x2baaxa+ yc* yc);return yc/ _0x2baax5* _0x2baax14})[_0x612b[50]](_0x612b[81],_0x612b[82])[_0x612b[50]](_0x612b[79],_0x612b[80]);_0x2baaxc= _0x2baaxa[_0x612b[6]](_0x612b[5])[_0x612b[4]](_0x612b[16],_0x612b[91]);_0x2baaxa[_0x612b[4]](_0x612b[0])[_0x612b[93]](10,7)[_0x612b[92]](_0x612b[2]);_0x2baaxc[_0x612b[6]](_0x612b[78])[_0x612b[4]](_0x612b[16],_0x612b[95])[_0x612b[4]](_0x612b[73],_0x612b[74])[_0x612b[72]](_0x612b[94]);_0x2baaxc[_0x612b[6]](_0x612b[78])[_0x612b[4]](_0x612b[0],_0x612b[96])[_0x612b[4]](_0x612b[73],_0x612b[74])[_0x612b[72]](_0x2baax10[_0x612b[30]])}function _0x2baax11(_0x2baaxa){d3[_0x612b[28]](_0x612b[99])[_0x612b[50]](_0x612b[97],_0x612b[98]);var _0x2baaxc=_0x2baaxa[_0x612b[36]]+ _0x612b[37]+ _0x2baaxa[_0x612b[29]];_0x2baax16[_0x612b[100]]= _0x2baaxc;if(!_0x2baax16[_0x612b[101]]()&& _0x2baaxa[_0x612b[29]]!= _0x2baax10[_0x612b[30]]&& _0x2baax16[_0x612b[102]]){var _0x2baaxd=[];d3[_0x612b[28]](_0x612b[106])[_0x612b[15]](_0x612b[105])[_0x612b[39]](function(_0x2baaxc){_0x2baaxd[_0x612b[104]](_0x2baaxc[_0x612b[103]])});_0x2baaxd[_0x612b[104]](_0x2baaxc);var _0x2baax5=_0x2baaxd[_0x612b[108]](_0x612b[107]);_0x2baaxa= _0x612b[109]+ curBD[_0x612b[110]]()+ _0x612b[111]+ _0x2baax5;$[_0x612b[115]]({url:_0x2baaxa,type:_0x612b[112],dataType:_0x612b[113],success:function(_0x2baaxa){updateModelGraph(_0x2baaxa,_0x612b[114],_0x2baaxc,_0x2baax5,1)}})}}function _0x2baax12(_0x2baaxa){for(var _0x2baaxc,_0x2baaxd,_0x2baax5,_0x2baax13=0,_0x2baax6=0,_0x2baax14={},_0x2baax15=1,_0x2baax16=0,_0x2baax17={},_0x2baax18=_0x2baaxa[0][_0x612b[29]],_0x2baax19=0;_0x2baax19< _0x2baaxa[_0x612b[66]];++_0x2baax19){_0x2baaxc= _0x2baaxa[_0x2baax19],_0x2baax13+= _0x2baaxc[_0x612b[116]],_0x2baax6+= _0x2baaxc[_0x612b[117]],_0x2baax14[_0x2baaxc[_0x612b[29]]]= _0x2baaxc[_0x612b[116]]+ _0x2baaxc[_0x612b[117]],+_0x2baaxc[_0x612b[31]]< _0x2baax15&& (_0x2baax15= +_0x2baaxc[_0x612b[31]]),+_0x2baaxc[_0x612b[31]]> _0x2baax16&& (_0x2baax16= +_0x2baaxc[_0x612b[31]]),_0x2baaxc[_0x612b[29]]< _0x2baax18&& (_0x2baax18= _0x2baaxc[_0x612b[29]])};for(var _0x2baax1a=[],_0x2baax19=0;_0x2baax19< _0x2baaxa[_0x612b[66]];++_0x2baax19){_0x2baaxc= _0x2baaxa[_0x2baax19],_0x2baaxc[_0x612b[55]]= _0x2baaxc[_0x612b[116]]/ _0x2baax13,_0x2baaxc[_0x612b[57]]= _0x2baaxc[_0x612b[116]]/ _0x2baax14[_0x2baaxc[_0x612b[29]]],_0x2baax1a[_0x612b[104]](_0x2baaxc)};_0x2baax1a[_0x612b[118]](_0x2baax1c);_0x2baaxa= +_0x2baax1a[0][_0x612b[57]];_0x2baaxc= +_0x2baax1a[0][_0x612b[57]];_0x2baaxd= +_0x2baax1a[0][_0x612b[55]];_0x2baax5= +_0x2baax1a[0][_0x612b[119]];for(_0x2baax19= 0;_0x2baax19< _0x2baax1a[_0x612b[66]];++_0x2baax19){var _0x2baax1b=_0x2baax1a[_0x2baax19];+_0x2baax1b[_0x612b[57]]< _0x2baaxa&& (_0x2baaxa= +_0x2baax1b[_0x612b[57]]);+_0x2baax1b[_0x612b[57]]> _0x2baaxc&& (_0x2baaxc= +_0x2baax1b[_0x612b[57]]);+_0x2baax1b[_0x612b[55]]< _0x2baaxd&& (_0x2baaxd= +_0x2baax1b[_0x612b[55]]);+_0x2baax1b[_0x612b[55]]> _0x2baaxd&& (_0x2baax5= +_0x2baax1b[_0x612b[55]])};_0x2baax17[_0x612b[120]]= _0x2baax15;_0x2baax17[_0x612b[121]]= _0x2baax16;_0x2baax17[_0x612b[122]]= _0x2baaxa;_0x2baax17[_0x612b[123]]= _0x2baaxc;_0x2baax17[_0x612b[124]]= _0x2baaxd;_0x2baax17[_0x612b[119]]= _0x2baax5;_0x2baax17[_0x612b[125]]= _0x2baax14;_0x2baax17[_0x612b[126]]= _0x2baax13;_0x2baax17[_0x612b[127]]= _0x2baax6;_0x2baax17[_0x612b[19]]= _0x2baax1a;_0x2baax17[_0x612b[30]]= _0x2baax18;_0x2baax10= _0x2baax17}function _0x2baax1c(_0x2baaxa,_0x2baaxc){return _0x2baaxa[_0x612b[29]]< _0x2baaxc[_0x612b[29]]?-1:_0x2baaxa[_0x612b[29]]> _0x2baaxc[_0x612b[29]]?1:0}function _0x2baax1d(_0x2baaxa,_0x2baaxc){_0x612b[128]== document[_0x612b[130]](_0x2baaxc)[_0x612b[129]]?(d3[_0x612b[28]](_0x612b[132]+ _0x2baaxc)[_0x612b[50]](_0x612b[131],2),d3[_0x612b[28]](_0x612b[132]+ _0x2baaxc)[_0x612b[50]](_0x612b[81],_0x612b[133]),d3[_0x612b[28]](_0x612b[134]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[131],2),d3[_0x612b[28]](_0x612b[134]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[81],_0x612b[133]),d3[_0x612b[28]](_0x612b[136]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[131],2),d3[_0x612b[28]](_0x612b[136]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[51],_0x612b[133])):_0x612b[72]== document[_0x612b[130]](_0x2baaxc)[_0x612b[129]]?(d3[_0x612b[28]](_0x612b[132]+ _0x2baaxc)[_0x612b[50]](_0x612b[131],2),d3[_0x612b[28]](_0x612b[132]+ _0x2baaxc)[_0x612b[50]](_0x612b[51],_0x612b[133]),d3[_0x612b[28]](_0x612b[134]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[131],2),d3[_0x612b[28]](_0x612b[134]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[81],_0x612b[133]),d3[_0x612b[28]](_0x612b[137]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[131],2),d3[_0x612b[28]](_0x612b[137]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[81],_0x612b[133])):(d3[_0x612b[28]](_0x612b[132]+ _0x2baaxc)[_0x612b[50]](_0x612b[131],2),d3[_0x612b[28]](_0x612b[132]+ _0x2baaxc)[_0x612b[50]](_0x612b[81],_0x612b[133]),d3[_0x612b[28]](_0x612b[134]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[131],2),d3[_0x612b[28]](_0x612b[134]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[81],_0x612b[133]),d3[_0x612b[28]](_0x612b[136]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[131],2),d3[_0x612b[28]](_0x612b[136]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[51],_0x612b[133]))}function _0x2baax1e(_0x2baaxa,_0x2baaxc){_0x612b[128]== document[_0x612b[130]](_0x2baaxc)[_0x612b[129]]?(d3[_0x612b[28]](_0x612b[132]+ _0x2baaxc)[_0x612b[50]](_0x612b[131],1),d3[_0x612b[28]](_0x612b[132]+ _0x2baaxc)[_0x612b[50]](_0x612b[81],_0x612b[82]),d3[_0x612b[28]](_0x612b[134]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[131],1),d3[_0x612b[28]](_0x612b[134]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[81],null),d3[_0x612b[28]](_0x612b[136]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[131],1),d3[_0x612b[28]](_0x612b[136]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[51],null)):(_0x612b[72]== document[_0x612b[130]](_0x2baaxc)[_0x612b[129]]?(d3[_0x612b[28]](_0x612b[132]+ _0x2baaxc)[_0x612b[50]](_0x612b[131],1),d3[_0x612b[28]](_0x612b[132]+ _0x2baaxc)[_0x612b[50]](_0x612b[51],null),d3[_0x612b[28]](_0x612b[134]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[131],1),d3[_0x612b[28]](_0x612b[134]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[81],null)):(d3[_0x612b[28]](_0x612b[132]+ _0x2baaxc)[_0x612b[50]](_0x612b[131],1),d3[_0x612b[28]](_0x612b[132]+ _0x2baaxc)[_0x612b[50]](_0x612b[81],null),d3[_0x612b[28]](_0x612b[136]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[131],1),d3[_0x612b[28]](_0x612b[136]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[51],null)),d3[_0x612b[28]](_0x612b[137]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[131],1),d3[_0x612b[28]](_0x612b[137]+ _0x2baaxc[_0x612b[93]](_0x2baaxc[_0x612b[135]](_0x612b[37])))[_0x612b[50]](_0x612b[81],_0x612b[82]))}if(!(_0x2baax6> _0x2baax7)){d3[_0x612b[28]](_0x612b[132]+ _0x2baax3)[_0x612b[28]](_0x612b[140])[_0x612b[15]](_0x612b[139])[_0x612b[138]]();var _0x2baax15=_0x2baax6;_0x2baax6= _0x2baax7;var _0x2baax14=_0x2baax6+ _0x2baax8,_0x2baax18=_0x2baax4,_0x2baax1f=_0x2baax5;2* (_0x2baax14+ 20)> Math[_0x612b[141]](_0x2baax18,_0x2baax1f)&& (_0x2baax14= (Math[_0x612b[141]](_0x2baax18,_0x2baax1f)- 40)/ 2,_0x2baax6= _0x2baax14- _0x2baax8);var _0x2baax20=d3[_0x612b[28]](_0x612b[132]+ _0x2baax3)[_0x612b[28]](_0x612b[140])[_0x612b[4]](_0x612b[143],_0x2baax18)[_0x612b[4]](_0x612b[142],_0x2baax1f),_0x2baax16,_0x2baax10;_0x2baax12(_0x2baax2);var _0x2baax21=d3[_0x612b[150]][_0x612b[149]]()[_0x612b[148]]([_0x2baax10[_0x612b[120]],_0x2baax10[_0x612b[121]]])[_0x612b[147]](d3[_0x612b[146]])[_0x612b[7]]([_0x612b[144],_0x612b[145]]),_0x2baax22=d3[_0x612b[150]][_0x612b[149]]()[_0x612b[148]]([_0x2baax10[_0x612b[120]],_0x2baax10[_0x612b[121]]])[_0x612b[147]](d3[_0x612b[146]])[_0x612b[7]]([_0x612b[151],_0x612b[152]]),_0x2baax23;_0x2baax23= 1< _0x2baax10[_0x612b[120]]?_0x2baax21:1>= _0x2baax10[_0x612b[121]]?_0x2baax22:function(_0x2baaxa){return 1>= _0x2baaxa?_0x2baax22(_0x2baaxa):_0x2baax21(_0x2baaxa)};_0x2baax23= 1> _0x2baax10[_0x612b[121]]?_0x2baax22:function(_0x2baaxa){return 1>= _0x2baaxa?_0x2baax22(_0x2baaxa):_0x2baax21(_0x2baaxa)};var _0x2baax24=d3[_0x612b[150]][_0x612b[149]]()[_0x612b[148]]([_0x2baax10[_0x612b[122]],_0x2baax10[_0x612b[123]]])[_0x612b[7]]([_0x2baax15+ _0x2baax6/ 5,_0x2baax6])[_0x612b[153]](!0),_0x2baax25=d3[_0x612b[150]][_0x612b[149]]()[_0x612b[148]]([0,1])[_0x612b[7]]([_0x2baax15,_0x2baax6])[_0x612b[153]](!0),_0x2baax26=function(_0x2baaxa){return d3[_0x612b[140]][_0x612b[159]]()[_0x612b[158]](function(_0x2baaxc,_0x2baax5){return 0== _0x2baax5?(_0x2baaxa+= 2* _0x2baaxc[_0x612b[55]]* Math[_0x612b[156]],0):_0x2baaxa})[_0x612b[157]](function(_0x2baaxc,_0x2baax5){return 0== _0x2baax5?2* _0x2baaxc[_0x612b[55]]* Math[_0x612b[156]]:_0x2baaxa+= 2* _0x2baaxc[_0x612b[55]]* Math[_0x612b[156]]})[_0x612b[155]](_0x2baax15)[_0x612b[154]](function(_0x2baaxc){return _0x2baax24(_0x2baaxc[_0x612b[57]])})},_0x2baax13={};return {draw:_0x2baaxb,setModelLvMgr:_0x2baax9}}}
+var roseplot = function(catedata, svgDivId, w, h, innersize, rosesize, labelpad) {
+	if (innersize > rosesize) return;
+	d3.select("#" + svgDivId).select("svg").selectAll("g").remove();
+
+	var innerR = innersize,  
+		roseR = rosesize, 
+        labelR = roseR + labelpad; // radius for label anchor
+
+	var width = w,
+		height = h;
+
+	if (2 * (labelR + 20) > Math.min(width, height)) { // 20 is text height
+		labelR = (Math.min(width, height) - 2 * 20) / 2.0;
+		roseR = labelR - labelpad;
+	}
+
+	var rosesvg = d3.select("#" + svgDivId).select("svg").attr("width", width).attr("height", height);
+ 	
+ 	var modelVarsManager;
+
+ 	var data;
+	// Process data
+	dataComputing(catedata);
+
+	function setModelVarsMgr (mgr) {
+		modelVarsManager = mgr;
+	}
+
+	// Map a probability to a color  
+	/*                  
+	var oddsratioColorScaleF = function(min, max) {
+		//return d3.scale.linear().domain([min, max]).range(["rgb(191, 233, 0)", "rgb(249, 73, 0)"]).interpolate(d3.interpolateRgb);
+		return d3.scale.linear().domain([min, max]).range(["rgb(191, 233, 0)", "rgb(249, 73, 0)"]).interpolate(d3.interpolateRgb);
+	}	
+	var oddsratioColorScale = oddsratioColorScaleF(data.minOR, data.maxOR);	
+	*/
+
+
+    var greater1scale = d3.scale.linear().domain([data.minOR, data.maxOR]).interpolate(d3.interpolateRgb).range(["#F57E7E", "#d73027"]),//"#A9D4E3","#05A3DE"
+    	lessthan1scale = d3.scale.linear().domain([data.minOR, data.maxOR]).interpolate(d3.interpolateRgb).range(["#1a9641", "#bae4b3"]),//"#A9D4E3","#05A3DE"
+        oddsratioColorScale;
+    if(data.minOR > 1){
+    	oddsratioColorScale = greater1scale;
+    }else { // data.minOR <= 1
+    	if(data.maxOR <= 1){
+      		oddsratioColorScale = lessthan1scale; //function(){return "#1a9641"};//"#A9D4E3","#05A3DE"
+      	}else{ // data.maxOR > 1
+      		oddsratioColorScale = function(e){ return e<=1? lessthan1scale(e): greater1scale(e)};
+    	}
+    }
+    if(data.maxOR < 1){
+      oddsratioColorScale = lessthan1scale;
+    }else{
+      oddsratioColorScale = function(e){ return e<=1? lessthan1scale(e): greater1scale(e)};
+    }
+
+	
+	// Map the row_marginal_frequency to an outer radius of lines	
+	// var toOutRadiusScale = d3.scale.linear().domain([0, 1]).range([inner_r, label_r-inner_r]).clamp(true); 	
+	var outerRadiusScale = d3.scale.linear().domain([data.minRowMF, data.maxRowMF]).range([innerR + roseR/5.0, roseR]).clamp(true);
+
+	var tickRadiusScale = d3.scale.linear().domain([0, 1]).range([innerR, roseR]).clamp(true);
+
+	/**
+	* Output a function that when called, generates SVG paths.
+	* 
+	*/
+	var arcF = function(incr) {
+		//var incr = 0; // used for counting the cumulative number of rads to draw for next arc
+			//i = 0;		
+		//closure to keep var increased
+		return d3.svg.arc()	
+			// angle is from 0 ~ 2PI
+			// for an arc, the angle encodes the proportion of cases in a total cases
+        	.startAngle(function(d, i) { if (i == 0){ incr += d.colMarFreq * 2 * Math.PI; return 0;} else { return incr; }})
+        	.endAngle(function(d, i) { if (i == 0){return d.colMarFreq * 2 * Math.PI; } else { incr += d.colMarFreq * 2 * Math.PI; return incr;}})
+        	.innerRadius(innerR) //uniform inner radius
+        	.outerRadius(function(d) { return outerRadiusScale(d.rowMarFreq); });
+	
+	};
+
+	var centroids = {};
+
+	// {"minOR": 0.001, "maxOR": 3.6, "dat": [{"lv":"1", "case": 125, "ctrl": 2365, "or": 1.24, "colMarFreq": 0.24, "rowMarFreq": 0.78}, {}, ...,{"lv": 0, ...}]}
+	// a is refered to as the top-left corner value in a contigency table, i.e., 
+	//	the number of cases with treatment
+	// b is the top-right corner value in the contigency table, i.e., 
+	//	the number of controls with treatment
+	// Draw a rose, for the visualization
+	function drawRose() {   			
+		var roseg = rosesvg
+			.append("svg:g")
+			.attr("transform", "translate(" + (width / 4.0 + 20)+ "," + (height / 2.0 ) + ")")
+		
+		var ticks = d3.range(0.2, 1.2, 0.2);       
+		
+		// Circles representing chart ticks
+		roseg.append("svg:g")
+			.attr("class", "roseticks")
+			.selectAll("circle")
+			.data(ticks)
+			.enter().append("svg:circle")
+			.attr("cx", 0).attr("cy",0)
+			.attr("r", function(d) { return tickRadiusScale(d); });
+			
+		// Text representing chart tickmarks
+		/*
+		roseg.append("svg:g")
+			.attr("class", "rosetickmarks")
+			.selectAll("text")
+			.data(tickmarks)
+			.enter().append("svg:text")
+			.text(function(d, i){ return i == 0 ? "": d.toFixed(0) })
+			.attr("dy", ".35em")
+			.attr("dx", function(d) { return outerRadiusScale(d); })
+			//.attr("dx", function(d){return r+rosesWidths*d+"px";})
+			.attr("transform", function (d, i) {
+				return "rotate(" + ((i / tickmarks.length * 360) - 90) + ")";
+			});
+		*/           
+		
+			
+		var arc = arcF(0);		
+		
+		// Draw the main rose arcs		
+	    var garcs = roseg.selectAll("g.rosearcs")	
+	        .data(data.dat)
+			.enter()
+			.append("svg:g")
+			.attr("class", "rosearcs");
+
+	    drawArcs(roseg, garcs, arc);  			
+			
+		/*
+		roseg.append("svg:text")
+	      .text(captionText)
+	      .attr("class", "caption")
+	      .attr("transform", "translate(" + w/2 + "," + (h + 20) + ")");
+		*/		
+
+
+		$("#rosesvg path").tooltip({
+			content: function() {      
+              return $(this).attr("title");
+          	},
+          	tooltipClass: "mytooltip",
+      		track: true 
+  		}); 
+
+  		drawLabelList();
+	}
+
+	function drawLabelList(){
+	  /*
+	  $("#modeleva").height($(".modelSel").height() - $(".grid-header").height() - $("#catevars").height() - 4); // 4 is border width
+	  d3.select("#modelsroot")
+	    .attr("width", "100%")
+	    .attr("height", "100%");
+*/
+
+		d3.select("#cateLvList").html("");
+	    var foodText = "";
+	    //cateLabel[d["var"] + "_" + d.lv]
+	    //return d.lv != data.reflv ? oddsratioColorScale(d.or) : "#CDCDCD" })	
+		d3.select("#rosesvg").selectAll(".rosearcs").each(function(d) {
+		  var spanColor = d.lv != data.reflv ? oddsratioColorScale(d.or) : "#CDCDCD";
+		  foodText += "<span style='background:"+spanColor+"'></span>"+d["lv"]+": " + cateLabel[d["var"] + "_" + d.lv] + "<br/>";
+		  
+	    });
+	    d3.select("#cateLvList").html(foodText);
+	 
+	  /*
+	  var cateLevels = d3.select("#cateLvList").append("ul").attr("class","list");
+	  cateVariabels.selectAll("li")
+	    .data(cateVars).enter()
+	    .append("li")    
+	    .attr("class",function(d){return d.chisqp >0.05?"unsig":"sig"})  
+	    .attr("id",function(d){return "desc_"+d.name})
+	    .classed("ui-draggable", true)
+	    .text(function(d) { return d.name })
+	    .on("click", function(d) { displayRose(d.name); })
+	    */
+
+	}
+	
+	// Draw a complete rose visualization, including axes and center text
+	function drawArcs(roseg, garcs, arc)	{
+    	garcs.append("svg:path")
+	        .attr("d", arc)
+			.attr("id", function(d) { return d.lv.trim().length === 0 ? "cate_lv_null" : "cate_lv_"+d.lv })
+			.attr("title", function(d) { 
+				return d.lv != data.reflv ? "Category: "+ cateLabel[d["var"] + "_" + d.lv] +
+						"</br>Angle: "+ (100 * d.colMarFreq).toFixed(2) + "%" +
+						"</br>Radius: "+ (100 * d.rowMarFreq).toFixed(2) + "%" +
+						"</br>Odds Ratio: " + (+d.or).toFixed(2) + ", 95% C.I. [" + (+d.orlb).toFixed(2) + ", " + (+d.orub).toFixed(2) + "]" :
+						"Category (Ref.): "+ cateLabel[d["var"] + "_" + d.lv] +
+						"</br>Angle: "+ (100 * d.colMarFreq).toFixed(2) + "%" +
+						"</br>Radius: "+ (100 * d.rowMarFreq).toFixed(2) + "%";						
+
+			})
+	        .style("fill", function(d) { return d.lv != data.reflv ? oddsratioColorScale(d.or) : "#CDCDCD" })	
+			.style("fill-opacity", "0.7")
+			.on("mouseover", function(d) { highlightRose(d, this.id); })
+			.on("mousemove", function(d) { highlightRose(d, this.id); })
+			.on("mouseout", function(d) { cancelHighlight(d, this.id); })
+			.on("click", function(d) { arcClick(d); });//
+
+	  	arc = arcF(0); //restore to initial status
+		garcs.append("svg:text")
+			.attr("id",function(d) { return "cate_lvtxt_" + d.lv; })
+		    .attr("transform", function(d) {
+				var c = arc.centroid(d),
+					x = c[0],
+					y = c[1],
+					// pythagorean theorem for hypotenuse
+					h = Math.sqrt(x * x + y * y);
+
+					centroids[d.lv] = {"x": x, "y": y};
+					
+		    	return "translate(" + (x / h * (labelR)) + ',' + (y / h * (labelR)) + ")"; 
+		    })
+			.attr("text-anchor", "middle")
+			//.attr("dy", ".35em")
+		    .text(function(d, i) { return d.lv; }) //get the label;  
+			.on("mouseover", function(d) { highlightRose(d, this.id); })
+			.on("mousemove", function(d) { highlightRose(d, this.id); })
+			.on("mouseout", function(d) { cancelHighlight(d, this.id); })
+			.on("click", function(d) { arcClick(d) });
+		  
+		//add dashed line to direct to corresponding label
+		garcs.append("svg:line")
+			.attr("id", function(d) { return "cate_line_" + d.lv })
+			.attr("x1", function(d) { 
+				var xc = centroids[d.lv].x
+					yc = centroids[d.lv].y,
+					h = Math.sqrt(xc * xc + yc * yc);
+					
+				return xc / h * (innerR + 2 * (h - innerR));// xc / X = h / (innerR + 2 * (h - innnerR))
+			})
+			.attr("y1", function(d) {
+				var xc = centroids[d.lv].x
+					yc = centroids[d.lv].y,
+					h = Math.sqrt(xc * xc + yc * yc);
+				
+				//return yc / h * (labelR - outerRadiusScale(d.rowMarFreq))
+				return yc / h * (innerR + 2 * (h - innerR))
+			})
+			.attr("x2", function(d) {
+				var xc = centroids[d.lv].x
+					yc = centroids[d.lv].y,
+					h = Math.sqrt(xc * xc + yc * yc);
+					
+				return xc / h * labelR;})
+			.attr("y2", function(d) {
+				var xc = centroids[d.lv].x
+					yc = centroids[d.lv].y,
+					h = Math.sqrt(xc * xc + yc * yc);
+				
+				return yc / h * labelR; })
+			.style("stroke", "#aaa")
+			.style("stroke-dasharray", "2, 2")
+			
+					
+		
+
+	    // Add something in the center
+	    var cw = roseg.append("svg:g").attr("class", "rosecaption");
+		var lefcoor = roseg.attr('transform').substr(10, 7).split(',');		
+	    var tblk = cw.append("svg:text") 
+					.attr("class", "textp")
+	        		.attr("text-anchor", "middle") 
+					.text("Reference group:");
+					//tblk.append("tspan")
+					//.attr('x',parseInt(lefcoor[0])+20).attr('dy','0em')
+					//.text(bdname);
+					//tblk.append("tspan")
+					//.attr('x',parseInt(lefcoor[1])+20).attr('dy','2em')
+					//.text('P:'+pval);
+
+	    cw.append("svg:text")
+	        .attr("transform", "translate(0, 20)")	        
+	        .attr("text-anchor", "middle") 
+	        .text(data.reflv);
+
+	}
+
+
+
+	function arcClick(d){       
+    	d3.select("#modeleva").style("cursor","default");
+    	var selectedLv = d["var"] + "_" + d.lv;
+    	modelVarsManager.selected = selectedLv;
+   		
+   		if (modelVarsManager.selectedtoExistingTarget()) return;
+   		if (d.lv == data.reflv) return; 
+    
+    	if(modelVarsManager.triggerSvgModel){
+      		//pull up info from logistic_reg, and update table
+      		var curVarNames = [], validNames= [];
+      		d3.select("#modelsroot").selectAll(".factorName").each(function(d){
+        		curVarNames.push(d["name"]);          
+      		}); 
+
+	      	curVarNames.push(selectedLv);      	
+	      	      	
+
+	      	//pull up logistic reg info
+	      	//console.log("var to be sent to multimodel: "+curVarNames);
+	      	var mainvarstr = curVarNames.join("-");
+	      	var urlStr='/'+curBD.toLowerCase()+'/logisticreg0/'+ mainvarstr;
+	      	$.ajax({
+		        url: urlStr,
+		        //data: "numbins=20",
+		        type: 'GET',
+		        dataType: 'json',
+		        success : function(data) {
+		          //console.log(data);             
+		          updateModelGraph(data, "cateFactor", selectedLv, mainvarstr, 1);            
+		        }
+	      	});             
+    	}
+  	}
+
+	
+	/**
+	* Aggregate the number of cases, calculate the row/column marginal frequencies, 
+	* and count min/max odds ratios
+	* @param {array},  [{"lv":"1", "case": 125, "ctrl": 2365, "or": 1.24, "orlb": 1.1, "orub": 1.6}, {}, ...,{"lv": 0, ...}],
+	*					this is an original data read from web service/local file
+	* @return {associative array}, {"minOR", 0.2, "maxOR": 3.9, "dat": [{"lv":"1", "case": 125, "ctrl": 2365, "or": 1.24, "orlb": 1.1, "orub": 1.6, "colMarFreq": 0.24, "rowMarFreq": 0.78}, {}, ...]}
+	*								, and no the reference group.
+	*/
+	function dataComputing(dd) {
+		var minRowMF, maxRowMF, minColMF, maxColMF;
+
+		var cases_total = 0, ctrls_total = 0, marginal_total = {};
+		var minor = 1, maxor = 0;
+		var res = {}, reflv = dd[0].lv;
+	    for (var i = 0; i < dd.length; ++i) {
+	    	var oneLv = dd[i];
+			//count up all 
+			cases_total += oneLv["case"];
+			ctrls_total += oneLv["ctrl"];
+			marginal_total[oneLv.lv] = oneLv["case"] + oneLv["ctrl"];					
+
+			if (+oneLv["or"] < minor)
+				minor = +oneLv["or"];
+			if (+oneLv["or"] > maxor)
+				maxor = +oneLv["or"];
+			if (oneLv["lv"] < reflv)
+				reflv = oneLv["lv"];
+	    }
+
+	    var tmp = [];
+	    for (var i = 0; i < dd.length; ++i) {
+	    	var oneLv = dd[i];
+	    	//if(oneLv["lv"] != reflv) {
+		    	oneLv["colMarFreq"] = oneLv["case"] / cases_total;
+		    	oneLv["rowMarFreq"] = oneLv["case"] / marginal_total[oneLv["lv"]];
+		    	tmp.push(oneLv);
+	    	//}
+	    }
+	    tmp.sort(compareLV);
+
+	    minRowMF = +tmp[0].rowMarFreq;
+	    maxRowMF = +tmp[0].rowMarFreq;
+	    minColMF = +tmp[0].colMarFreq;
+	    maxColMF = +tmp[0].maxColMF;
+
+	    for (var i = 0; i < tmp.length; ++i){
+	    	var oned = tmp[i];
+	    	if(+oned.rowMarFreq < minRowMF)
+	    		minRowMF = +oned.rowMarFreq;
+	    	if(+oned.rowMarFreq > maxRowMF)
+	    		maxRowMF = +oned.rowMarFreq;
+	    	if(+oned.colMarFreq < minColMF)
+	    		minColMF = +oned.colMarFreq;
+	    	if(+oned.colMarFreq > minColMF)
+	    		maxColMF = +oned.colMarFreq;
+	    }
+
+	    res["minOR"] = minor;
+	    res["maxOR"] = maxor;
+	    res["minRowMF"] = minRowMF;
+	    res["maxRowMF"] = maxRowMF;
+	    res["minColMF"] = minColMF;
+	    res["maxColMF"] = maxColMF;
+	    res["marginalTotal"] = marginal_total;
+	    res["casesTotal"] = cases_total;
+	    res["controlsTotal"] = ctrls_total;
+	    res["dat"] = tmp;
+	    res["reflv"] = reflv;	    
+
+	    data = res;
+	}
+
+	function compareLV(a,b) {
+	  if (a.lv < b.lv)
+	     return -1;
+	  if (a.lv > b.lv)
+	    return 1;
+	  return 0;
+	}
+
+	
+	function highlightRose(d,id){
+		if (document.getElementById(id).nodeName=='line'){
+			d3.select("#"+id).style("stroke-width",2);
+			d3.select("#"+id).style("stroke","yellow");
+			
+			//text and path are also triggered hightlight event
+			d3.select("#path"+id.substr(id.indexOf('_'))).style("stroke-width",2);
+			d3.select("#path"+id.substr(id.indexOf('_'))).style("stroke","yellow");
+			d3.select("#text"+id.substr(id.indexOf('_'))).style("stroke-width",2);
+			d3.select("#text"+id.substr(id.indexOf('_'))).style("fill","yellow");
+		}else if (document.getElementById(id).nodeName=='text'){
+			d3.select("#"+id).style("stroke-width",2);
+			d3.select("#"+id).style("fill",'yellow');
+
+			d3.select("#path"+id.substr(id.indexOf('_'))).style("stroke-width",2);
+			d3.select("#path"+id.substr(id.indexOf('_'))).style("stroke","yellow");
+			d3.select("#line"+id.substr(id.indexOf('_'))).style("stroke-width",2);
+			d3.select("#line"+id.substr(id.indexOf('_'))).style("stroke","yellow");
+		}else{//path
+			d3.select("#"+id).style("stroke-width",2);
+			d3.select("#"+id).style("stroke","yellow");
+			
+			d3.select("#path"+id.substr(id.indexOf('_'))).style("stroke-width",2);
+			d3.select("#path"+id.substr(id.indexOf('_'))).style("stroke","yellow");
+			d3.select("#text"+id.substr(id.indexOf('_'))).style("stroke-width",2);
+			d3.select("#text"+id.substr(id.indexOf('_'))).style("fill","yellow");
+		}
+
+		/*if (d.lv.trim().length === 0 ) {
+			$("#cate_lv_null").tooltip({
+     			content: function() {      
+              		return $(this).attr("title");
+          		},
+      			track: true 
+  			}); 
+  			return;
+		}
+
+		$("#cate_lv_" + d.lv ).tooltip({
+     		content: function() {      
+              return $(this).attr("title");
+          	},
+      		track: true 
+  		}); 
+		*/
+		//tooltip.style("visibility", "visible")
+		//		.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px").html("Level: "+d.d +"</br>Proportion in cases: "+ (100*d.supp).toFixed(2) + "%, </br>OddsRatio: " + (d.or).toFixed(2) +", 95% C.I. ["+(d.cil).toFixed(4)+", "+(d.ciu).toFixed(4)+"]" )
+	}
+
+	function cancelHighlight(d,id){
+		if (document.getElementById(id).nodeName=='line'){
+			d3.select("#"+id).style("stroke-width",1);
+			d3.select("#"+id).style("stroke","#aaa");
+			
+			//text and path are also triggered unhightlight event
+			d3.select("#path"+id.substr(id.indexOf('_'))).style("stroke-width",1);
+			d3.select("#path"+id.substr(id.indexOf('_'))).style("stroke",null);
+			d3.select("#text"+id.substr(id.indexOf('_'))).style("stroke-width",1);
+			d3.select("#text"+id.substr(id.indexOf('_'))).style("fill",null);
+		}else if (document.getElementById(id).nodeName=='text'){
+			d3.select("#"+id).style("stroke-width",1);
+			d3.select("#"+id).style("fill",null);		
+			
+		
+			d3.select("#path"+id.substr(id.indexOf('_'))).style("stroke-width",1);
+			d3.select("#path"+id.substr(id.indexOf('_'))).style("stroke",null);
+			d3.select("#line"+id.substr(id.indexOf('_'))).style("stroke-width",1);
+			d3.select("#line"+id.substr(id.indexOf('_'))).style("stroke","#aaa");
+		}else{//path
+			d3.select("#"+id).style("stroke-width",1);
+			d3.select("#"+id).style("stroke",null);
+			
+			d3.select("#text"+id.substr(id.indexOf('_'))).style("stroke-width",1);
+			d3.select("#text"+id.substr(id.indexOf('_'))).style("fill",null);
+			d3.select("#line"+id.substr(id.indexOf('_'))).style("stroke-width",1);
+			d3.select("#line"+id.substr(id.indexOf('_'))).style("stroke","#aaa");
+		}	
+		//tooltip.style("visibility", "hidden");
+		//$("#cate_lv_" + d.lv ).tooltip({disabled: true });
+	}	
+
+	// Expose Public API
+  	return {
+    draw: drawRose,
+    setModelLvMgr: setModelVarsMgr
+  	}
+
+}
+
+
+

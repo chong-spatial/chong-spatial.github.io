@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <title>Non-continuous Cartogram - 2009 Wind Energy</title>
-	<link type="text/css" rel="stylesheet" href="css/layout-default-latest.css" />
+	<link type="text/css" rel="stylesheet" href="../../share/css/layout-default-latest.css" />
 	<link rel="stylesheet" href="https://js.arcgis.com/4.3/esri/css/main.css">
-  <link rel="stylesheet" href="css/jquery-ui_smoothness.css">
+  <link rel="stylesheet" href="../../share/css/jquery-ui_smoothness.css">
 
 	<style type="text/css">
     html, body {
@@ -59,11 +59,11 @@
 
 
   </style>
-  <script type="text/javascript" src="js/lib/d3.js"></script>
-  <script type="text/javascript" src="js/lib/d3Helper.js"></script>
-  <script type="text/javascript" src="js/lib/jquery-latest.js"></script>
-	<script type="text/javascript" src="js/lib/jquery-ui-latest.js"></script>
-	<script type="text/javascript" src="js/lib/jquery.layout-latest.js"></script>
+  <script type="text/javascript" src="../../share/js/d3.v4.min.js"></script>
+  <script type="text/javascript" src="js/d3Helper.js"></script>
+  <script type="text/javascript" src="../../share/js/jquery-latest.js"></script>
+	<script type="text/javascript" src="../../share/js/jquery-ui-latest.js"></script>
+	<script type="text/javascript" src="../../share/js/jquery.layout-latest.js"></script>
 
 
   <script>
@@ -73,7 +73,7 @@
       isDebug: true,
       packages: [{
                 "name": "modules",
-                "location": window.location.pathname + "js/lib"
+                "location": "/share/js"
               }]
     };
   
@@ -130,7 +130,7 @@
       });
 
     //var d3Layer = new D3Layer('data/DC_hotels_new.json', {
-    d3Layer = new D3Layer('data/2010Ordinal.geojson', {
+    d3Layer = new D3Layer('../../share/data/2010Ordinal.geojson', {
           id: 'layer_states_pl',     
           // attr: [
           //   {

@@ -1,1 +1,227 @@
-var _0xade8=["\x6D\x64\x73","\x63\x6C\x61\x73\x73\x69\x63","\x61\x70\x70\x6C\x79","\x61\x64\x64","\x6C\x65\x6E\x67\x74\x68","\x64\x69\x76","\x70\x6F\x77","\x6D\x75\x6C","\x74\x72\x61\x6E\x73\x70\x6F\x73\x65","\x73\x76\x64","\x73\x71\x72\x74","\x73\x70\x6C\x69\x63\x65","\x6D\x61\x70","\x55","\x64\x72\x61\x77\x44\x33\x53\x63\x61\x74\x74\x65\x72\x50\x6C\x6F\x74","\x6D\x69\x6E","\x6D\x61\x78","\x72\x65\x76\x65\x72\x73\x65\x58","\x72\x65\x76\x65\x72\x73\x65","\x72\x65\x76\x65\x72\x73\x65\x59","\x72\x61\x6E\x67\x65","\x64\x6F\x6D\x61\x69\x6E","\x6C\x69\x6E\x65\x61\x72","\x73\x63\x61\x6C\x65","\x68\x65\x69\x67\x68\x74","\x61\x74\x74\x72","\x77\x69\x64\x74\x68","\x73\x76\x67","\x73\x65\x6C\x65\x63\x74","\x23","\x72\x65\x6D\x6F\x76\x65","\x67","\x73\x65\x6C\x65\x63\x74\x41\x6C\x6C","\x64\x72\x61\x67","\x6D\x6F\x76\x65","\x76\x61\x6C","\x23\x6D\x64\x73\x42\x61\x72\x52\x61\x64\x69\x6F\x20\x69\x6E\x70\x75\x74\x5B\x6E\x61\x6D\x65\x3D\x27\x72\x61\x64\x69\x6F\x6D\x64\x73\x27\x5D\x3A\x63\x68\x65\x63\x6B\x65\x64","\x63\x6C\x69\x63\x6B\x65\x64","\x63\x6C\x61\x73\x73\x65\x64","\x23\x6D\x64\x73\x67\x44\x69\x76\x20\x2E\x63\x6C\x69\x63\x6B\x65\x64","\x61\x63\x74\x69\x76\x65\x64","\x74\x72\x61\x6E\x73\x58","\x74\x72\x61\x6E\x73\x59","\x64\x78","\x65\x76\x65\x6E\x74","\x64\x79","\x74\x72\x61\x6E\x73\x66\x6F\x72\x6D","\x74\x72\x61\x6E\x73\x6C\x61\x74\x65\x28","\x2C","\x29","\x6F\x6E","\x62\x65\x68\x61\x76\x69\x6F\x72","\x72\x65\x63\x74","\x61\x70\x70\x65\x6E\x64","\x69\x64","\x67\x2D\x63\x6C\x69\x70\x2D\x63\x65\x6C\x6C\x5F\x6D\x64\x73","\x63\x6C\x69\x70\x2D\x70\x61\x74\x68","\x23\x6D\x64\x73\x67\x44\x69\x76","\x63\x61\x6C\x6C","\x63\x6C\x61\x73\x73","\x6D\x64\x73\x67","\x65\x6E\x74\x65\x72","\x64\x61\x74\x61","\x69\x6D\x61\x67\x65","\x74\x65\x78\x74","\x74\x65\x78\x74\x2D\x61\x6E\x63\x68\x6F\x72","\x73\x74\x61\x72\x74","\x73\x6F\x72\x74\x69\x6E\x67","\x76\x61\x72\x6E\x61\x6D\x65","\x72\x65\x63\x74\x5F","\x63\x6C\x69\x63\x6B","\x68\x69\x67\x68\x6C\x69\x67\x68\x74\x65\x64","\x23\x72\x65\x63\x74\x5F","\x73\x6F\x72\x74","\x6D\x6F\x75\x73\x65\x6F\x75\x74","\x6D\x6F\x75\x73\x65\x6F\x76\x65\x72","\x78\x6C\x69\x6E\x6B\x3A\x68\x72\x65\x66","\x62\x64\x31\x30\x30\x2F","\x2F\x62\x79\x5F","\x2E\x70\x6E\x67","\x70\x75\x73\x68","\x6D\x64\x73\x67\x44\x69\x76"];var lineHeight=21;(function(_0x83d9x2){_0x83d9x2[_0xade8[1]]=function(_0x83d9x3,_0x83d9x4){function _0x83d9x5(_0x83d9x6){return numeric[_0xade8[5]](numeric[_0xade8[3]][_0xade8[2]](null,_0x83d9x6),_0x83d9x6[_0xade8[4]])}_0x83d9x4=_0x83d9x4||2;for(var _0x83d9x6=numeric[_0xade8[7]](-0.5,numeric[_0xade8[6]](_0x83d9x3,2)),_0x83d9x7=_0x83d9x5(_0x83d9x6),_0x83d9x2=_0x83d9x5(numeric[_0xade8[8]](_0x83d9x6)),_0x83d9x8=_0x83d9x5(_0x83d9x7),_0x83d9x9=0;_0x83d9x9<_0x83d9x6[_0xade8[4]];++_0x83d9x9){for(var _0x83d9xa=0;_0x83d9xa<_0x83d9x6[0][_0xade8[4]];++_0x83d9xa){_0x83d9x6[_0x83d9x9][_0x83d9xa]+=_0x83d9x8-_0x83d9x7[_0x83d9x9]-_0x83d9x2[_0x83d9xa]}};var _0x83d9x6=numeric[_0xade8[9]](_0x83d9x6),_0x83d9xb=numeric[_0xade8[10]](_0x83d9x6.S);return _0x83d9x6[_0xade8[13]][_0xade8[12]](function(_0x83d9x6){return numeric[_0xade8[7]](_0x83d9x6,_0x83d9xb)[_0xade8[11]](0,_0x83d9x4)})};_0x83d9x2[_0xade8[14]]=function(_0x83d9x3,_0x83d9x4,_0x83d9x5,_0x83d9x6,_0x83d9x7){_0x83d9x7=_0x83d9x7||{};var _0x83d9xc=[Math[_0xade8[15]][_0xade8[2]](null,_0x83d9x4),Math[_0xade8[16]][_0xade8[2]](null,_0x83d9x4)],_0x83d9x8=[Math[_0xade8[16]][_0xade8[2]](null,_0x83d9x5),Math[_0xade8[15]][_0xade8[2]](null,_0x83d9x5)];_0x83d9x7[_0xade8[17]]&&_0x83d9xc[_0xade8[18]]();_0x83d9x7[_0xade8[19]]&&_0x83d9x8[_0xade8[18]]();var _0x83d9x9=d3[_0xade8[23]][_0xade8[22]]()[_0xade8[21]](_0x83d9xc)[_0xade8[20]]([6,744]),_0x83d9xa=d3[_0xade8[23]][_0xade8[22]]()[_0xade8[21]](_0x83d9x8)[_0xade8[20]]([15,444]);_0x83d9x3=d3[_0xade8[28]](_0xade8[29]+_0x83d9x3)[_0xade8[28]](_0xade8[27])[_0xade8[25]](_0xade8[26],800)[_0xade8[25]](_0xade8[24],500);_0x83d9x3[_0xade8[32]](_0xade8[31])[_0xade8[30]]();_0x83d9x7=d3[_0xade8[51]][_0xade8[33]]()[_0xade8[50]](_0xade8[33],function(_0x83d9x6,_0x83d9x9){if(_0xade8[34]==$(_0xade8[36])[_0xade8[35]]()){d3[_0xade8[32]](_0xade8[39])[_0xade8[38]](_0xade8[37],!1);d3[_0xade8[32]](_0xade8[39])[_0xade8[38]](_0xade8[40],!1);var _0x83d9x3=parseFloat(d3[_0xade8[28]](this)[_0xade8[25]](_0xade8[41])),_0x83d9x4=parseFloat(d3[_0xade8[28]](this)[_0xade8[25]](_0xade8[42])),_0x83d9x3=_0x83d9x3+d3[_0xade8[44]][_0xade8[43]],_0x83d9x4=_0x83d9x4+d3[_0xade8[44]][_0xade8[45]];d3[_0xade8[28]](this)[_0xade8[25]](_0xade8[46],function(_0x83d9x6,_0x83d9x9){return _0xade8[47]+_0x83d9x3+_0xade8[48]+_0x83d9x4+_0xade8[49]});d3[_0xade8[28]](this)[_0xade8[25]](_0xade8[41],_0x83d9x3);d3[_0xade8[28]](this)[_0xade8[25]](_0xade8[42],_0x83d9x4)}});d3[_0xade8[28]](_0xade8[57])[_0xade8[28]](_0xade8[27])[_0xade8[53]](_0xade8[56])[_0xade8[25]](_0xade8[54],_0xade8[55])[_0xade8[53]](_0xade8[52])[_0xade8[25]](_0xade8[26],800)[_0xade8[25]](_0xade8[24],lineHeight);_0x83d9x3=_0x83d9x3[_0xade8[32]](_0xade8[31])[_0xade8[62]](_0x83d9x6)[_0xade8[61]]()[_0xade8[53]](_0xade8[31])[_0xade8[25]](_0xade8[59],_0xade8[60])[_0xade8[25]](_0xade8[41],function(_0x83d9x6,_0x83d9x3){return _0x83d9x9(_0x83d9x4[_0x83d9x3])})[_0xade8[25]](_0xade8[42],function(_0x83d9x6,_0x83d9x3){return _0x83d9xa(_0x83d9x5[_0x83d9x3])})[_0xade8[25]](_0xade8[46],function(_0x83d9x6,_0x83d9x3){return _0xade8[47]+d3[_0xade8[28]](this)[_0xade8[25]](_0xade8[41])+_0xade8[48]+d3[_0xade8[28]](this)[_0xade8[25]](_0xade8[42])+_0xade8[49]})[_0xade8[58]](_0x83d9x7);_0x83d9x3[_0xade8[53]](_0xade8[52]);_0x83d9x3[_0xade8[53]](_0xade8[63]);_0x83d9x3[_0xade8[53]](_0xade8[64])[_0xade8[25]](_0xade8[65],_0xade8[66])[_0xade8[64]](function(_0x83d9x6){return _0x83d9x6});_0x83d9x2[_0xade8[67]](_0x83d9x3,_0x83d9x4,_0x83d9x5,_0x83d9x6,_0x83d9x9,_0x83d9xa,_0x83d9x6[0])};_0x83d9x2[_0xade8[67]]=function(_0x83d9x3,_0x83d9x4,_0x83d9x5,_0x83d9x6,_0x83d9x7,_0x83d9xc,_0x83d9x8){_0x83d9x3[_0xade8[28]](_0xade8[52])[_0xade8[25]](_0xade8[26],51)[_0xade8[25]](_0xade8[24],51)[_0xade8[25]](_0xade8[54],function(_0x83d9x6){return _0xade8[69]+_0x83d9x6})[_0xade8[25]](_0xade8[68],function(_0x83d9x6){return _0x83d9x6});_0x83d9x3[_0xade8[28]](_0xade8[63])[_0xade8[25]](_0xade8[76],function(_0x83d9x6){return _0xade8[77]+_0x83d9x6+_0xade8[78]+_0x83d9x8+_0xade8[79]})[_0xade8[25]](_0xade8[26],50)[_0xade8[25]](_0xade8[24],50)[_0xade8[25]](_0xade8[54],function(_0x83d9x6){return _0x83d9x6})[_0xade8[50]](_0xade8[75],function(){d3[_0xade8[28]](_0xade8[57])[_0xade8[28]](_0xade8[72]+this[_0xade8[54]])[_0xade8[38]](_0xade8[40],!0)})[_0xade8[50]](_0xade8[74],function(){d3[_0xade8[28]](_0xade8[57])[_0xade8[28]](_0xade8[72]+this[_0xade8[54]])[_0xade8[38]](_0xade8[40],!1)})[_0xade8[50]](_0xade8[70],function(_0x83d9x9){d3[_0xade8[28]](_0xade8[72]+this[_0xade8[54]])[_0xade8[38]](_0xade8[71],!1);_0x83d9x9=d3[_0xade8[28]](_0xade8[57])[_0xade8[28]](_0xade8[72]+this[_0xade8[54]])[_0xade8[38]](_0xade8[37]);var _0x83d9xa=_0xade8[73]==$(_0xade8[36])[_0xade8[35]]();$(_0xade8[36])[_0xade8[35]]();var _0x83d9x8=_0xade8[34]==$(_0xade8[36])[_0xade8[35]]();d3[_0xade8[28]](_0xade8[57])[_0xade8[28]](_0xade8[72]+this[_0xade8[54]])[_0xade8[38]](_0xade8[37],!_0x83d9x9);_0x83d9xa&&(_0x83d9x2[_0xade8[67]](_0x83d9x3,_0x83d9x4,_0x83d9x5,_0x83d9x6,_0x83d9x7,_0x83d9xc,this[_0xade8[54]]),d3[_0xade8[32]](_0xade8[39])[_0xade8[38]](_0xade8[37],!1));_0x83d9x8&&(d3[_0xade8[32]](_0xade8[39])[_0xade8[38]](_0xade8[40],!1),d3[_0xade8[32]](_0xade8[39])[_0xade8[38]](_0xade8[37],!1))})}})(window[_0xade8[0]]=window[_0xade8[0]]||{});function drawMDS(_0x83d9x2){for(var _0x83d9x3=mds[_0xade8[1]]([[0,0.78,0.771,0.445,0.932,0.755,0.802,0.9,0.653,0.687],[0.78,0,0.871,0.557,0.788,0.73,0.711,0.611,0.738,0.476],[0.771,0.871,0,0.764,0.69,0.937,0.588,0.705,0.766,0.929],[0.445,0.557,0.764,0,0.658,0.554,0.732,0.423,0.549,0.517],[0.932,0.788,0.69,0.658,0,0.921,0.615,0.876,0.905,0.84],[0.755,0.73,0.937,0.554,0.921,0,0.967,0.762,0.843,0.582],[0.802,0.711,0.588,0.732,0.615,0.967,0,0.722,0.726,0.849],[0.9,0.611,0.705,0.423,0.876,0.762,0.722,0,0.351,0.533],[0.653,0.738,0.766,0.549,0.905,0.843,0.726,0.351,0,0.75],[0.687,0.476,0.929,0.517,0.84,0.582,0.849,0.533,0.75,0]],2),_0x83d9x4=[],_0x83d9x5=[],_0x83d9x6=0;_0x83d9x6<_0x83d9x2[_0xade8[4]];++_0x83d9x6){_0x83d9x4[_0xade8[80]](_0x83d9x3[_0x83d9x6][0]),_0x83d9x5[_0xade8[80]](_0x83d9x3[_0x83d9x6][1])};mds[_0xade8[14]](_0xade8[81],_0x83d9x4,_0x83d9x5,_0x83d9x2)}
+var lineHeight = 21;
+(function(mds) {
+    "use strict";
+    // given a matrix of distances between some points, returns the
+    // point coordinates that best approximate the distances using
+    // classic multidimensional scaling
+    var imgW=50, imgH=50;
+    mds.classic = function(distances, dimensions) {        
+        dimensions = dimensions || 2;
+
+        // square distances
+        var M = numeric.mul(-0.5, numeric.pow(distances, 2));
+
+        // double centre the rows/columns
+        function mean(A) { return numeric.div(numeric.add.apply(null, A), A.length); }
+        var rowMeans = mean(M),
+            colMeans = mean(numeric.transpose(M)),
+            totalMean = mean(rowMeans);
+
+        for (var i = 0; i < M.length; ++i) {
+            for (var j =0; j < M[0].length; ++j) {
+                M[i][j] += totalMean - rowMeans[i] - colMeans[j];
+            }
+        }
+
+        // take the SVD of the double centred matrix, and return the
+        // points from it
+        var ret = numeric.svd(M),
+            eigenValues = numeric.sqrt(ret.S);
+        return ret.U.map(function(row) {
+            return numeric.mul(row, eigenValues).splice(0, dimensions);
+        });
+    };
+
+
+ 
+    /// draws a scatter plot of points, useful for displaying the output
+    /// from mds.classic etc
+    mds.drawD3ScatterPlot = function(elementID, xPos, yPos, labels, params) {
+        
+        params = params || {};
+        var padding = 6,
+            w = 800,
+            h = 500,
+            xDomain = [Math.min.apply(null, xPos),
+                       Math.max.apply(null, xPos)],
+            yDomain = [Math.max.apply(null, yPos),
+                       Math.min.apply(null, yPos)],
+            pointRadius = params.pointRadius || 5;
+
+        if (params.reverseX) {
+            xDomain.reverse();
+        }
+        if (params.reverseY) {
+            yDomain.reverse();
+        }
+
+        
+        var xScale = d3.scale.linear().
+                domain(xDomain)
+                .range([padding, w - padding-imgW]),
+
+            yScale = d3.scale.linear().
+                domain(yDomain)
+                .range([padding+9, h-padding-imgH]), //+9 means give text(label) lineheight
+
+        //    xAxis = d3.svg.axis()
+        //        .scale(xScale)
+        //        .orient("bottom")
+        //        .ticks(params.xTicks || 7),
+
+        //    yAxis = d3.svg.axis()
+        //        .scale(yScale)
+        //        .orient("left")
+        //        .ticks(params.yTicks || 7);
+            svg=d3.select("#"+elementID).select("svg")
+                .attr("width", w)
+                .attr("height", h);
+
+        svg.selectAll('g').remove();
+        //var oriX=0, oriY=0;
+        var drag = d3.behavior.drag()
+           // .on("dragstart",function(d,i){
+            //    oriX=d3.select(this).attr("transX");
+             //   oriY=d3.select(this).attr("transY");
+            //})
+            .on("drag", function(d,i) {
+                var isMove=$("#mdsBarRadio input[name='radiomds']:checked").val()=="move";                
+                if(!isMove) return; 
+                 //console.log("mds is moving");
+                 d3.selectAll("#mdsgDiv .clicked").classed("clicked", false);
+                 d3.selectAll("#mdsgDiv .clicked").classed("actived", false);
+                var oriX=parseFloat(d3.select(this).attr("transX")),
+                    oriY=parseFloat(d3.select(this).attr("transY"));                
+                oriX += d3.event.dx;
+                oriY += d3.event.dy;
+                d3.select(this).attr("transform", function(d,i){
+                    return "translate(" + oriX+","+oriY + ")"
+                })
+                d3.select(this).attr("transX",oriX);
+                d3.select(this).attr("transY",oriY);   
+            });
+           // .on("dragend",function(d,i){
+            //    d3.selectAll("#mdsgDiv .clicked").classed("actived", false);
+           //     console.log("dragend");
+            //});
+        d3.select("#mdsgDiv").select("svg").append("clip-path").attr("id","g-clip-cell_mds").append("rect").attr("width",w).attr("height",lineHeight);
+
+        var g = svg.selectAll("g")
+                    .data(labels)
+                    .enter()
+                    .append("g").attr("class","mdsg")
+                    .attr("transX",function(d,i){return xScale(xPos[i]);})
+                    .attr("transY",function(d,i){return yScale(yPos[i]);})
+                    .attr("transform", function(d,i){return "translate(" + d3.select(this).attr("transX") + "," + d3.select(this).attr("transY") + ")"})
+                    .call(drag);
+            g.append("rect");
+            g.append("image");    
+            g.append("text")
+               .attr("text-anchor", "start")
+               .text(function(d) { return d; })
+               //.attr("clip-path", function(d) { return (d.clipped = this.getComputedTextLength() > w-5) ? "url(#g-clip-cell_mds)" : null; });;
+               //.attr("x", function(d, i) { return xScale(xPos[i])+imgW/2; })
+               //.attr("y", function(d, i) { return yScale(yPos[i]) ; });//-imgH;    
+                           
+                  
+        //svg.append("g")
+        //    .attr("class", "axis")
+        //    .attr("transform", "translate(0," + (h - padding + 2*pointRadius) + ")")
+        //    .call(xAxis);
+
+        //svg.append("g")
+        //    .attr("class", "axis")
+        //    .attr("transform", "translate(" + (padding - 2*pointRadius) + ",0)")
+        //    .call(yAxis);
+         mds.sorting(g,xPos, yPos,labels,xScale,yScale,labels[0]);       
+        
+        
+    };
+
+    mds.sorting=function(g,xPos, yPos,labels,xScale,yScale,orderby){
+		g.select("rect")                                
+		
+		//.style("fill","none")
+		.attr("width",imgW+1)
+		.attr("height",imgH+1)                    
+		//.attr("x", function(d) { return xScale(xPos[labels.indexOf(d)]); })
+		//.attr("y", function(d, i) { return yScale(yPos[labels.indexOf(d)]); })
+		.attr("id",function(d){return "rect_"+d})
+		.attr("varname",function(d){return d});
+		//.style("stroke","#F3BE16")
+		//.style("stroke-width",1); 
+
+	g.select("image")              
+		//.attr("xlink:href", function(d){return "http://"+window.location.host+"/assets/glyphs/"+curBD.toLowerCase()+"/"+d+"/by_"+orderby+".png"; })
+		.attr("xlink:href", function(d){return "bd100/"+d+"/by_"+orderby+".png"; })
+		.attr("width", imgW)
+		.attr("height", imgH)
+		//.attr("x", function(d) { return xScale(xPos[labels.indexOf(d)]); })
+		//.attr("y", function(d) { return yScale(yPos[labels.indexOf(d)]); }) 
+		.attr("id",function(d){return d}) 
+					  
+		.on("mouseover",function(){                  
+			d3.select("#mdsgDiv").select("#rect_"+this.id).classed("actived",true); 
+			//d3.select("#mdsg").select("#rect_"+this.id).classed("clicked",true);                           
+		})
+		.on("mouseout",function(){
+		   d3.select("#mdsgDiv").select("#rect_"+this.id).classed("actived",false); 
+		})
+		.on("click",function(d){  
+			d3.select("#rect_"+this.id).classed("highlighted",false);                       
+			var e = d3.event,                              
+				isSelected = d3.select("#mdsgDiv").select("#rect_"+this.id).classed("clicked"),
+				//isSort=$("#mdsBarRadio #radio_sort").is(':checked');                                 
+			   isSort=$("#mdsBarRadio input[name='radiomds']:checked").val()=="sort",
+			   isSel=$("#mdsBarRadio input[name='radiomds']:checked").val()=="select",
+			   isMove=$("#mdsBarRadio input[name='radiomds']:checked").val()=="move";
+
+				//console.log("mds is selecting");
+
+			
+				
+
+			//if( !e.ctrlKey || isSort) {
+			//    d3.selectAll("#mdsgDiv .clicked").classed("clicked", false);
+			//}        
+			d3.select("#mdsgDiv").select("#rect_"+this.id).classed("clicked", !isSelected);
+			//d3.select("#mdsInfo").append("label").text(this.id);
+			if(isSort) {
+				mds.sorting(g,xPos, yPos,labels,xScale,yScale,this.id);
+				d3.selectAll("#mdsgDiv .clicked").classed("clicked", false);
+			}
+			if(isMove){
+			   d3.selectAll("#mdsgDiv .clicked").classed("actived", false);
+			   d3.selectAll("#mdsgDiv .clicked").classed("clicked", false);
+			}
+		});                   
+
+        
+        }
+}(window.mds = window.mds || {}));
+
+function drawMDS(varNames){
+  var dis = [
+[.000,.780,.771,.445,.932,.755,.802,.9,.653,.687],
+[.780,.000,.871,.557,.788,.730,.711,.611,.738,.476],
+[.771,.871,.000,.764,.690,.937,.588,.705,.766,.929],
+[.445,.557,.764,.000,.658,.554,.732,.423,.549,.517],
+[.932,.788,.690,.658,.000,.921,.615,.876,.905,.840],
+[.755,.730,.937,.554,.921,.000,.967,.762,.843,.582],
+[.802,.711,.588,.732,.615,.967,.000,.722,.726,.849],
+[.9,.611,.705,.423,.876,.762,.722,.000,.351,.533],
+[.653,.738,.766,.549,.905,.843,.726,.351,.000,.750],
+[.687,.476,.929,.517,.840,.582,.849,.533,.750,.000]
+]
+        
+          
+          var positions = mds.classic(dis,2);
+          var xpos=[],ypos=[];
+          for (var i = 0; i < varNames.length; ++i) {
+            xpos.push(positions[i][0]);
+            ypos.push(positions[i][1]);
+          }
+          mds.drawD3ScatterPlot("mdsgDiv", xpos,ypos,varNames);
+
+
+}

@@ -1,27 +1,17 @@
 url,imgUrl,order,shortHead
-./work/clutterreduction,clutterreduction1,,Clutter reduction via association rule
 https://scoringanddashboard.firebaseapp.com/dashboard/team9,scoring,,Realtime Scoring
 ./work/similarityClustering,simclustering,,Similarity and Clustering - Canvas
-./work/feature,feature,,Association Rule-based Feature Selection - SVG
 ./work/darling,darling,,Darling Cartogram
 ./work/noncontinuous,noncontinuous,,Non-Continuous Cartogram
-./work/globe,globe,,Simple Globe without OpenGL
+./work/globe,globe,,Simple Globe without WebGL
 ./work/sfmuni/1,sfmuni,, San Francisco Realtime Traffic
 ./work/voronoi/app.html,vor-app,,Voronoi for Multi-Dimensional Vis
-./work/poi,selector,,Overlap-free POI exploration
-./work/force/2,force-app,,Bubble for Multi-Dimensional Mapping
-./work/gridmap/2,grid-app,,Grid Mapping
-./work/traj,traj-app,,Trajactory Visualization
+./work/force,force-app,,Bubble for Multi-Dimensional Mapping
+./work/gridmap,grid-app,,Grid Mapping
 ./work/trajectory,traj-tech,,Trajectory Viz Prototype
-https://www.youtube.com/watch?v=eH7_7dyIzfk,reg,,Logistic Regression Model Building
 ./work/matrix/matrixtable.html,matrix2,, Matrix for Correlation Analysis
 ./work/mds/mdspixel.html,mds,,Multi-Dimensional Scaling
 ./work/nlgraph/nlgraph_frauddetection.html,nlgraph_fraud,,Fraud Detection
 ./work/nlgraph/nlgraph_example.html,nlgraph-1,,Node-Link Graph Library
-./work/graphsqldemo,graphsql-demo,,NLGraph.js Demo
-./work/riskrule,riskrule,,Associaiton Rule Explorer
 ./work/rose/rose.html,rose,,Rose Graph
 ./work/tree/foldertree.html,exploretree,,Tree Explorer
-./work/tree/ruletree.html,asso,,Tree-lined Explorer
-./work/dualpc,dualpc,,Dual Axes Parallel Coordinates
-./work/fisheye/fisheye.html,fisheye,,Fisheye
