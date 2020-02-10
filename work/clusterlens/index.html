@@ -228,6 +228,7 @@
       var lensMapDivTopLeft;
       var lensMapExtent;
       var lensMapExtGraphic;
+
       let zoomRestore;
 
       require([
@@ -282,6 +283,8 @@
         let lensLOD = zoom2LOD[oneZoomLevel][0];
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('center') && urlParams.has('zoom') && urlParams.has('lod')) {
+          //console.log(urlParams.get('center'));
+          //console.log(urlParams.get('zoom'));
           const qpCenter = urlParams.get('center');
           if (qpCenter.indexOf(',') !== -1) {
             initMapCenterPoint = urlParams
@@ -325,6 +328,7 @@
           minZoom: 10,
           maxZoom: 16
         });
+        // baseMap.addLayer(lensMapLayer);
 
         lensMap = new Map('lensMap', {
           center: initMapCenterPoint,
@@ -437,15 +441,24 @@
           heatmapFeatureLayer.visible = geojson_layer_lens.curLOD === zoom2LOD[oneZoomLevel][0];
 
           lensMap.addLayer(heatmapFeatureLayer);
+          // WTF arcgis-js-api, this is to move heatmap to the top
+          //setTimeout(() => {
+          //  $('#lensMap_layers div:nth-child(2)').css('z-index', 100);
+          //}, 3000);
+          heatmapFeatureLayer.on('load', () => {
+            // $('#lensMap_layers div:nth-child(2)').css('z-index', 100);
+          });
         }
 
         function attractionLensLyrCallback(attrFeatures) {
           createFeatureLayerHeatmap(attrFeatures);
           const scrCtrBaseMap = baseMap.toScreen(initMapCenter);
+          // const scrCtrLensMap = lensMap.toScreen(initMapCenter)
           const offsetBaseMap = $('#mapviewDiv_root').offset();
           $('#lensMap').css('top', offsetBaseMap.top + scrCtrBaseMap.y - $('#lensMap').height() / 2 + 'px');
           $('#lensMap').css('left', offsetBaseMap.left + scrCtrBaseMap.x - $('#lensMap').width() / 2 + 'px');
 
+          // console.log('attr geofeatures: ',attrFeatures)
           var pointSpans =
             '<span style="display: inline-block; border-radius: 6px; padding: 5px 5px;background-color:#fff; border: solid 1px #000"></span> Center Lens';
           var travelTimePySpans =
@@ -539,12 +552,14 @@
           if (zoomRestore) {
             return;
           }
+          //console.log('pan');
           lensMap.__pan(e.delta.x, e.delta.y);
         });
         baseMap.on('pan-end', (e) => {
           if (zoomRestore) {
             return;
           }
+          //console.log('pan-end');
           lensMap.__panEnd(e.delta.x, e.delta.y);
         });
 
@@ -616,16 +631,10 @@
             lensLeftTop[0] + $('#lensMap').width() / 2,
             lensLeftTop[1] + $('#lensMap').height() / 2
           ];
-          //lensMap.__pan(lensOldScrCtr[0] - newExtentScrCtr.x, lensOldScrCtr[1] - newExtentScrCtr.y);
-          //lensMap.centerAndZoom(newExtent.getCenter(), baseMap.getZoom());
-          //lensMap.setExtent(newExtent);
 
           lensMapExtGraphic = new Graphic(newExtent, extSymbol);
         });
 
-        //geojson_layer_lens.on('click', (e) => {
-        //  console.log('layer clicked e: ', e);
-        //});
         lensMap.on('click', (e) => {
           const possibleZoom2LODs = geojson_layer_lens._zoom2LOD[lensMap.getZoom()];
           if (geojson_layer_lens.curLOD === possibleZoom2LODs[possibleZoom2LODs.length - 1]) {
@@ -640,14 +649,18 @@
         });
 
         $('#lensMap').draggable({
+          //containment: '#mapviewDiv',
+
           drag: function(e, ui) {
             const px = ui.originalPosition.left - ui.position.left;
             const py = ui.originalPosition.top - ui.position.top;
+
             lensMap.__pan(px, py);
           },
           stop: function(e, ui) {
             const px = ui.originalPosition.left - ui.position.left;
             const py = ui.originalPosition.top - ui.position.top;
+            //console.log('lensMap panTo: ', px, ',', py);
             lensMap.__panEnd(px, py);
           }
         });
@@ -665,8 +678,10 @@
           const lensMapDivOffsetTop = $('#lensMap').offset().top;
           const lensMapDivOffsetLeft = $('#lensMap').offset().left;
 
-          // the url to the prototype
-          const url = `https://chongzhang-vis.github.io/work/clusterlens/%2F%3Fcenter=${center}%26zoom%3D${zoom}%26lod=${lod}`;
+          // the url to open the prototype in the screenshot node server
+          // apparently it can't be http://localhost:4000
+          const url = `https://chongzhang-vis.github.io/work/clusterlens/%3Fcenter=${center}%26zoom%3D${zoom}%26lod=${lod}`;
+          // assume the screenshot node server endpoint is http://chongzhang.esri.com/4000/screenshot
           const imgUrl = `https://supermap.herokuapp.com/screenshot?url=${url}&viewwidth=${window.innerWidth}&viewheight=${window.innerHeight}&selector=%23${selector}&size=${size}`;
 
           const canvasContainer = d3
@@ -699,6 +714,7 @@
               } else {
                 heatmapFeatureLayer.setVisibility(false);
               }
+
               //basemap and lensmap centerAndZoom
               // global guard
               zoomRestore = true;
@@ -707,8 +723,6 @@
                 baseMap.setZoom(d.zoom);
                 lensMap.setZoom(d.zoom);
 
-                //baseMap.setExtent(new EsriExtent(d.baseMapExt));
-                //lensMap.setExtent(new EsriExtent(d.lensMapExt));
                 geojson_layer_lens.restore(d.zoom, d.lod);
               } else {
                 // same zoom level as the current map, then we only need to pan
@@ -716,7 +730,6 @@
                 const deltalLeft = curOffset.left - d.lensDivLeft;
                 const deltaTop = curOffset.top - d.lensDivTop;
                 lensMap.__panEnd(deltalLeft, deltaTop);
-
                 if (geojson_layer_lens.curLOD !== d.lod) {
                   geojson_layer_lens.restore(d.zoom, d.lod);
                 }
@@ -794,8 +807,8 @@
       <div class="pane ui-layout-center">
         <div class="pane ui-layout-center" id="mapviewDiv">
           <div class="floatingTitle">
-            ClusterLens: explore overlap-free and multi-resolution clusters. Drag to move lens, click to change
-            resolution, dbl-click to screenshot
+            ClusterLens: Explore Multi-Resolution and Overlap-Free Clusters. Drag to move lens, click to change LOD,
+            dbl-click to screenshot
           </div>
           <div id="mapInfo">
             <!-- <div id="mapSearch"></div> -->
@@ -806,13 +819,12 @@
       <div class="ui-layout-south">
         <div>
           <div id="brushOption">
-            Click figure to restore the context, click X to remove.
+            Lens comparison. Click figure to restore the context, click X to remove.
           </div>
           <div id="plotList"></div>
         </div>
       </div>
     </div>
     <div class="lensMap" id="lensMap"></div>
-    
   </body>
 </html>
