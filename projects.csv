@@ -4,7 +4,6 @@ https://scoringanddashboard.firebaseapp.com/dashboard/team9,scoring,,Realtime Sc
 ./work/similarityClustering,simclustering,,Similarity and Clustering - Canvas
 ./work/darling,darling,,Darling Cartogram
 ./work/noncontinuous,noncontinuous,,Non-Continuous Cartogram
-./work/globe,globe,,Simple Globe without WebGL
 ./work/sfmuni/1,sfmuni,, San Francisco Realtime Traffic
 ./work/voronoi/app.html,vor-app,,Voronoi for Multi-Dimensional Vis
 ./work/force,force-app,,Bubble for Multi-Dimensional Mapping
