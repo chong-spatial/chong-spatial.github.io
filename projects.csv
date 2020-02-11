@@ -1,4 +1,5 @@
 url,imgUrl,order,shortHead
+./work/clusterlens,clusterlens,,ClusterLens
 https://scoringanddashboard.firebaseapp.com/dashboard/team9,scoring,,Realtime Scoring
 ./work/similarityClustering,simclustering,,Similarity and Clustering - Canvas
 ./work/darling,darling,,Darling Cartogram
