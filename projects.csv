@@ -8,9 +8,9 @@ https://scoringanddashboard.firebaseapp.com/dashboard/team9,scoring,,Realtime Sc
 ./work/voronoi/app.html,vor-app,,Voronoi for Multi-Dimensional Vis
 ./work/force,force-app,,Bubble for Multi-Dimensional Mapping
 ./work/gridmap,grid-app,,Grid Mapping
+./work/traj,traj-app,,Trajectory Viz App
 ./work/trajectory,traj-tech,,Trajectory Viz Prototype
 ./work/matrix/matrixtable.html,matrix2,, Matrix for Correlation Analysis
 ./work/mds/mdspixel.html,mds,,Multi-Dimensional Scaling
-./work/nlgraph/nlgraph_frauddetection.html,nlgraph_fraud,,Fraud Detection
 ./work/nlgraph/nlgraph_example.html,nlgraph-1,,Node-Link Graph Library
 ./work/rose/rose.html,rose,,Rose Graph
