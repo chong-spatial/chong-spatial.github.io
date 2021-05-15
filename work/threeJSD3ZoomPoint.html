@@ -44,10 +44,10 @@
     }
     
   </style>
-  <script type="text/javascript" src="./lodash.4.17.21.min.js"></script>
-  <script type="text/javascript" src="./d3.v6.7.min.js"></script>
-  <script type="text/javascript" src="./three.r128.min.js"></script>
-  <script type="module" src="./Stats.r17.min.js"></script>
+  <script type="text/javascript" src="share/js/lodash.4.17.21.min.js"></script>
+  <script type="text/javascript" src="share/js/d3.v6.7.min.js"></script>
+  <script type="text/javascript" src="share/js/three.r128.min.js"></script>
+  <script type="module" src="share/js/Stats.r17.min.js"></script>
   <script type="x-shader/x-vertex" id="vertexshader">
       attribute float size;
       attribute vec3 customColor;
@@ -82,7 +82,7 @@
     <div id="point_tip"></div>
   </div>
   <script type="module">
-    import Stats from './Stats.r17.min.js';
+    import Stats from 'share/js/Stats.r17.min.js';
 
     let stats;
     let width = window.innerWidth;
