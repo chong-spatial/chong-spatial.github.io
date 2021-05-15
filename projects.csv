@@ -4,7 +4,6 @@ url,imgUrl,order,shortHead
 https://scoringanddashboard.firebaseapp.com/dashboard/team9,scoring,,Realtime Scoring
 ./work/similarityClustering,simclustering,,Similarity and Clustering - Canvas
 ./work/darling,darling,,Darling Cartogram
-./work/noncontinuous,noncontinuous,,Non-Continuous Cartogram
 ./work/sfmuni/1,sfmuni,, San Francisco Realtime Traffic
 ./work/voronoi/app.html,vor-app,,Voronoi for Multi-Dimensional Vis
 ./work/force,force-app,,Bubble for Multi-Dimensional Mapping
