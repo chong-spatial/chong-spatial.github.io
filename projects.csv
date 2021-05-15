@@ -1,4 +1,5 @@
 url,imgUrl,order,shortHead
+./work/threeJSD3ZoomPoint.html,ThreejsD3Zoom,,Three.js 2D point vis + D3 Zoom
 ./work/clusterlens,clusterlens,,ClusterLens
 https://scoringanddashboard.firebaseapp.com/dashboard/team9,scoring,,Realtime Scoring
 ./work/similarityClustering,simclustering,,Similarity and Clustering - Canvas
