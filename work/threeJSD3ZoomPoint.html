@@ -92,13 +92,13 @@
     const pointNum = 1000; //100000;
     const groupNum = 10;
 
-    const fov = 45; // 20
+    const fov = 20; // 45
     // const fov = (2*Math.atan(height/(2*Z)))/(Math.PI/180);
-    const near = 1;
-    const far = 8000;
+    const near = 0.01; // 1;
+    const far = 8; // 8000;
 
     let dataPoints = [];
-    const radius = 2000;
+    const radius = 1; // 2000;
 
     let points;
     let canvas, renderer, scene, camera, raycaster;
@@ -160,7 +160,7 @@
         positions.push(datum.position[0], datum.position[1], 0);
         const color = new THREE.Color(colorArray[datum.group]);
         colors.push(color.r, color.g, color.b);
-        sizes.push(50);
+        sizes.push(0.4); // 50
       }
 
       const geometry = new THREE.BufferGeometry();
@@ -218,7 +218,7 @@
       //   .range([d3.range(10*groupNum,20*groupNum,10)]);
 
       for (let i = 0; i < attributes.size.array.length; i++) {
-        attributes.size.array[i] = 200 + 200 * Math.sin(0.1 * i + time);
+        attributes.size.array[i] = 0.4 + 0.4 * Math.sin(0.1 * i + time); // 200
       }
       attributes.size.needsUpdate = true;
       renderer.render(scene, camera);
@@ -314,9 +314,9 @@
       geometry.setAttribute("color", new THREE.Float32BufferAttribute(highlightColors, 3));
 
       const material = new THREE.PointsMaterial({
-        size: 80,
+        size: 1, // 80
         map: SNOW_SPRITE,
-        sizeAttenuation: false,
+        sizeAttenuation: true,
         vertexColors: THREE.VertexColors,
         blending: THREE.AdditiveBlending,
         depthTest: false,
