@@ -84,7 +84,7 @@
 
 <body style="margin: 0">
   <div id="viz-container">
-    <div class="desc">D3.js zoom + Three.js + Point cloud with individual size and color + toolTip included</div>
+    <div class="desc">D3.js zoom + Three.js + 2D antialiased circle using Shaders</div>
     <div id="gl-container">
       <div id="stats-container"></div>
     </div>
@@ -101,7 +101,7 @@
     let vizWidth = width;
     let height = window.innerHeight;
 
-    const pointNum = 100; //100000;
+    const pointNum = 200; //100000;
     const groupNum = 10;
 
     const fov = 20; // 20
