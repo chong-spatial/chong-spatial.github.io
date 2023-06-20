@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GraphGL 2D demo</title>
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1"
+    />
+
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 13px;
+      }
+
+      .container {
+        display: flex;
+        justify-content: flex-start;
+        align-items: stretch;
+      }
+      .rightPanel {
+        order: 2;
+      }
+      .leftPanel {
+        order: 1;
+      }
+      .middle {
+        order: 1;
+      }
+
+      #tgContainer {
+        position: relative;
+        width: 100vw;
+        height: 94vh;
+        z-index: 0;
+        /* margin-left: 375px; */
+        right: 0px;
+      }
+      .title {
+        font-weight: bold;
+        font-size: 16px;
+        text-align: center;
+      }
+
+      h1 {
+        opacity: 1;
+        color: #555;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      hr.line {
+        margin-top: 9px;
+        margin-bottom: 9px;
+      }
+      hr.line2 {
+        margin-top: 9px;
+        margin-bottom: 9px;
+        border-top: 3px double #333;
+      }
+
+      .btn-group-sm > .btn,
+      .btn-sm {
+        font-size: 13px;
+        background-color: #7d8991;
+        border-color: #7d8991;
+      }
+
+      .btn-primary:hover,
+      .btn-primary:focus,
+      .btn-primary:active,
+      .btn-primary.active,
+      .open > .btn-primary {
+        color: #fff;
+        background-color: #60717d;
+        border-color: #60717d; /*set the color you want here*/
+      }
+
+      .btn-outline-primary:hover,
+      .btn-outline-primary:focus,
+      .btn-outline-primary:active,
+      .btn-outline-primary.active,
+      .open > .btn-primary {
+        color: #fff;
+        background-color: #60717d;
+        border-color: #60717d; /*set the color you want here*/
+      }
+
+      .btn-outline-primary {
+        font-size: 13px;
+        background-color: #ffffff;
+        color: #7d8991;
+      }
+
+      .custom-select-sm {
+        font-size: 14px;
+      }
+
+      .custom-control-label {
+        padding-top: 2px;
+      }
+
+      .custom-control-input:checked ~ .custom-control-label::before {
+        color: #fff;
+        border-color: #7d8991;
+        background-color: #7d8991;
+      }
+      .vertexType {
+        max-height: 160px;
+        overflow: auto;
+      }
+
+      .legend {
+        padding-top: 1em;
+      }
+      .legend span {
+        display: inline-block;
+        color: #ffffff;
+        border: 1px solid black;
+        height: 16px;
+        margin-right: 0.5em;
+        cursor: pointer;
+      }
+
+      .reset {
+        cursor: pointer;
+      }
+
+      .renderControl {
+        flex-basis: 200px;
+        width: 200px;
+        padding: 0 5px;
+      }
+      .forceControls {
+        width: 200px;
+        flex-basis: 200px;
+        padding: 0 5px;
+      }
+      .forceControls .force {
+        background-color: #eee;
+        border-radius: 3px;
+        padding: 5px;
+        margin: 5px 0;
+      }
+      .forceControls .force p label {
+        margin-right: 0.5em;
+        font-size: 120%;
+        font-weight: bold;
+      }
+      .forceControls .force p {
+        margin-top: 0;
+      }
+      .forceControls .force label {
+        display: inline-block;
+      }
+      .forceControls input[type='checkbox'] {
+        transform: scale(1.2, 1.2);
+      }
+      .forceControls input[type='range'] {
+        margin: 0 5% 0.5em 5%;
+        width: 90%;
+      }
+      .tooltip {
+        width: 160px;
+        background-color: aqua;
+        position: absolute;
+        top: 0px;
+        z-index: 1;
+      }
+      .contextmenu {
+        background: rgba(236, 138, 73, 0.5);
+        position: absolute;
+        z-index: 1;
+      }
+    </style>
+    <script>
+      const forcesState = {
+        charge: { enabled: true, parameter: { strength: -30, distanceMin: 1, distanceMax: 2000 } },
+        collide: { enabled: false, parameter: { strength: 0.7, radius: (n) => 10, iterations: 1 } },
+        link: {
+          enabled: true,
+          parameter: {
+            strength: (link) => {
+              const sourceDegree = link.source.node.getDegree();
+              const targetDegree = link.target.node.getDegree();
+              // if the graph is broken, the strength will be Infinity which leads to freezing simulation
+              return 1 / Math.min(sourceDegree, targetDegree, 1);
+            },
+            distance: (link) => 0,
+          },
+        },
+        forceX: { enabled: true, parameter: { strength: 0.1, x: 0 } },
+        forceY: { enabled: true, parameter: { strength: 0.1, y: 0 } },
+        center: { enabled: false, parameter: { x: 0.5, y: 0.5 } },
+        radial: {
+          enabled: false,
+          parameter: {
+            // strength.value could be an accessor function
+            strength: 0.1,
+            // radius.value could be an accessor function
+            radius: 20,
+            x: 0,
+            y: 0,
+          },
+        },
+        group: {
+          enabled: false,
+          parameter: {
+            groupBy: (n) => n.node.userData.group,
+            strength: 0.1,
+            enableGrouping: true,
+            // How much should the links between cluster pull?
+            linkStrengthInterCluster: 0.001,
+            // How much should the links inside clusters pull?
+            linkStrengthIntraCluster: 0.1,
+            // The distance between meta-links on the template force Simulation
+            forceLinkDistance: 200,
+            // The strength of the meta-links on the template force simulation
+            forceLinkStrength: 0.1,
+            // The charge between the meta-nodes on the template force simulation
+            forceCharge: -700,
+            // Used to compute the size of the clusters, use the avg of your node sizes
+            forceNodeSize: 10,
+          },
+        },
+      };
+    </script>
+  </head>
+  <body>
+    <div class="title">GL2D graph visualization using WebGL</div>
+
+    <div class="container">
+      <div class="leftPanel">
+        <p>Custom layout</p>
+        <div class="forceControls">
+          <div class="force">
+            <p>
+              <label
+                ><input
+                  type="checkbox"
+                  onchange="forcesState.center.enabled = this.checked; updateForces();"
+                />
+                center</label
+              >
+              Shifts the view, so the graph is centered at this location.
+            </p>
+            <label>
+              x
+              <output id="center_XSliderOutput">.5</output>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                value=".5"
+                step="0.01"
+                oninput="document.getElementById('center_XSliderOutput').innerText=value; forcesState.center.parameter.x=value; updateForces();"
+              />
+            </label>
+            <label>
+              y
+              <output id="center_YSliderOutput">.5</output>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                value=".5"
+                step="0.01"
+                oninput="document.getElementById('center_YSliderOutput').innerText=value; forcesState.center.parameter.y=value; updateForces();"
+              />
+            </label>
+          </div>
+
+          <div class="force">
+            <p>
+              <label
+                ><input
+                  type="checkbox"
+                  checked
+                  onchange="forcesState.charge.enabled = this.checked; updateForces();"
+                />
+                charge</label
+              >
+              Attracts (+) or repels (-) nodes to/from each other.
+            </p>
+            <label title="Negative strength repels nodes. Positive strength attracts nodes.">
+              strength
+              <output id="charge_StrengthSliderOutput">-30</output>
+              <input
+                type="range"
+                min="-200"
+                max="50"
+                value="-30"
+                step=".1"
+                oninput="document.getElementById('charge_StrengthSliderOutput').innerText=value; forcesState.charge.parameter.strength=value; updateForces();"
+              />
+            </label>
+            <label title="Minimum distance where force is applied">
+              distanceMin
+              <output id="charge_distanceMinSliderOutput">1</output>
+              <input
+                type="range"
+                min="0"
+                max="50"
+                value="1"
+                step=".1"
+                oninput="document.getElementById('charge_distanceMinSliderOutput').innerText=value; forcesState.charge.parameter.distanceMin=value; updateForces();"
+              />
+            </label>
+            <label title="Maximum distance where force is applied">
+              distanceMax
+              <output id="charge_distanceMaxSliderOutput">2000</output>
+              <input
+                type="range"
+                min="0"
+                max="999999999999"
+                value="2000"
+                step=".1"
+                oninput="document.getElementById('charge_distanceMaxSliderOutput').innerText=value; forcesState.charge.parameter.distanceMax=value; updateForces();"
+              />
+            </label>
+          </div>
+
+          <div class="force">
+            <p>
+              <label
+                ><input
+                  type="checkbox"
+                  onchange="forcesState.collide.enabled = this.checked; updateForces();"
+                />
+                collide</label
+              >
+              Prevents nodes from overlapping
+            </p>
+            <label>
+              strength
+              <output id="collide_StrengthSliderOutput">.7</output>
+              <input
+                type="range"
+                min="0"
+                max="2"
+                value=".7"
+                step=".1"
+                oninput="document.getElementById('collide_StrengthSliderOutput').innerText=value; forcesState.collide.parameter.strength=value; updateForces();"
+              />
+            </label>
+            <label title="Size of nodes">
+              radius
+              <output id="collide_radiusSliderOutput">5</output>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value="5"
+                step="1"
+                oninput="document.getElementById('collide_radiusSliderOutput').innerText=value; forcesState.collide.parameter.radius=value; updateForces();"
+              />
+            </label>
+            <label
+              title="Higher values increase rigidity of the nodes (WARNING: high values are computationally expensive)"
+            >
+              iterations
+              <output id="collide_iterationsSliderOutput">1</output>
+              <input
+                type="range"
+                min="1"
+                max="10"
+                value="1"
+                step="1"
+                oninput="document.getElementById('collide_iterationsSliderOutput').innerText=value; forcesState.collide.parameter.iterations=value; updateForces();"
+              />
+            </label>
+          </div>
+
+          <div class="force">
+            <p>
+              <label
+                ><input
+                  type="checkbox"
+                  checked
+                  onchange="forcesState.forceX.enabled = this.checked; updateForces();"
+                />
+                forceX</label
+              >
+              Acts like gravity. Pulls all points towards an X location.
+            </p>
+            <label>
+              strength
+              <output id="forceX_StrengthSliderOutput">.1</output>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                value=".1"
+                step="0.01"
+                oninput="document.getElementById('forceX_StrengthSliderOutput').innerText=value; forcesState.forceX.parameter.strength=value; updateForces();"
+              />
+            </label>
+            <label
+              title="The X location that the force will push the nodes to (NOTE: This demo multiplies by the svg width)"
+            >
+              x
+              <output id="forceX_XSliderOutput">300</output>
+              <input
+                type="range"
+                min="0"
+                max="600"
+                value="300"
+                step="10"
+                oninput="document.getElementById('forceX_XSliderOutput').innerText=value; forcesState.forceX.parameter.x=value; updateForces();"
+              />
+            </label>
+          </div>
+
+          <div class="force">
+            <p>
+              <label
+                ><input
+                  type="checkbox"
+                  checked
+                  onchange="forcesState.forceY.enabled = this.checked; updateForces();"
+                />
+                forceY</label
+              >
+              Acts like gravity. Pulls all points towards a Y location.
+            </p>
+            <label>
+              strength
+              <output id="forceY_StrengthSliderOutput">.1</output>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                value=".1"
+                step="0.01"
+                oninput="document.getElementById('forceY_StrengthSliderOutput').innerText=value; forcesState.forceY.parameter.strength=value; updateForces();"
+              />
+            </label>
+            <label
+              title="The Y location that the force will push the nodes to (NOTE: This demo multiplies by the svg height)"
+            >
+              y
+              <output id="forceY_YSliderOutput">300</output>
+              <input
+                type="range"
+                min="0"
+                max="600"
+                value="300"
+                step="10"
+                oninput="document.getElementById('forceY_YSliderOutput').innerText=value; forcesState.forceY.parameter.y=value; updateForces();"
+              />
+            </label>
+          </div>
+
+          <div class="force">
+            <p>
+              <label
+                ><input
+                  type="checkbox"
+                  checked
+                  onchange="forcesState.link.enabled = this.checked; updateForces();"
+                />
+                link</label
+              >
+              Sets link length
+            </p>
+            <label title="The force will push/pull nodes to make links this long">
+              distance
+              <output id="link_DistanceSliderOutput">0</output>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value="0"
+                step="1"
+                oninput="document.getElementById('link_DistanceSliderOutput').innerText=value; forcesState.link.parameter.distance=value; updateForces();"
+              />
+            </label>
+            <label>
+              strength
+              <output id="link_StrengthSliderOutput">0.1</output>
+              <input
+                type="range"
+                min="0.01"
+                max="4"
+                value="0.1"
+                step="0.1"
+                oninput="document.getElementById('link_StrengthSliderOutput').innerText=value; forcesState.link.parameter.strength=value; updateForces();"
+              />
+            </label>
+            <label
+              title="Higher values increase rigidity of the links (WARNING: high values are computationally expensive)"
+            >
+              iterations
+              <output id="link_IterationsSliderOutput">1</output>
+              <input
+                type="range"
+                min="1"
+                max="10"
+                value="1"
+                step="1"
+                oninput="document.getElementById('link_IterationsSliderOutput').innerText=value; forcesState.link.parameter.iterations=value; updateForces();"
+              />
+            </label>
+          </div>
+
+          <div class="force">
+            <p>
+              <label
+                ><input
+                  type="checkbox"
+                  onchange="forcesState.radial.enabled = this.checked; updateForces();"
+                />
+                radial</label
+              >
+              Place points in a circle with radius and center
+            </p>
+            <label>
+              strength
+              <output id="radial_StrengthSliderOutput">0.1</output>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                value="0.1"
+                step="0.01"
+                oninput="document.getElementById('radial_StrengthSliderOutput').innerText=value; forcesState.radial.parameter.strength=value; updateForces();"
+              />
+            </label>
+            <label title="Size of nodes">
+              radius
+              <output id="radial_radiusSliderOutput">20</output>
+              <input
+                type="range"
+                min="1"
+                max="200"
+                value="5"
+                step="1"
+                oninput="document.getElementById('radial_radiusSliderOutput').innerText=value; forcesState.radial.parameter.radius=value; updateForces();"
+              />
+            </label>
+            <label>
+              x
+              <output id="radial_XSliderOutput">0</output>
+              <input
+                type="range"
+                min="-100"
+                max="100"
+                value="0"
+                step="10"
+                oninput="document.getElementById('radial_XSliderOutput').innerText=value; forcesState.radial.parameter.x=value; updateForces();"
+              />
+            </label>
+            <label>
+              y
+              <output id="radial_YSliderOutput">0</output>
+              <input
+                type="range"
+                min="-100"
+                max="100"
+                value="0"
+                step="10"
+                oninput="document.getElementById('radial_YSliderOutput').innerText=value; forcesState.radial.parameter.y=value; updateForces();"
+              />
+            </label>
+          </div>
+
+          <div class="force">
+            <p>
+              <label
+                ><input
+                  type="checkbox"
+                  onchange="forcesState.group.enabled = this.checked; updateForces();"
+                />
+                group</label
+              >
+              Distribute nodes in a network according to their clusters.
+            </p>
+            <label>
+              strength
+              <output id="group_StrengthSliderOutput">0.1</output>
+              <input
+                type="range"
+                min="0"
+                max="0.4"
+                value="0.1"
+                step="0.01"
+                oninput="document.getElementById('group_StrengthSliderOutput').innerText=value; forcesState.group.parameter.strength=value; updateForces();"
+              />
+            </label>
+            <label>
+              linkStrengthIntraCluster
+              <output id="group_LinkStrIntraSliderOutput">0.1</output>
+              <input
+                type="range"
+                min="0"
+                max="0.4"
+                value="0.1"
+                step="0.01"
+                oninput="document.getElementById('group_LinkStrIntraSliderOutput').innerText=value; forcesState.group.parameter.linkStrengthIntraCluster=value; updateForces();"
+              />
+            </label>
+            <label>
+              linkStrengthInterCluster
+              <output id="group_LinkStrInterSliderOutput">0</output>
+              <input
+                type="range"
+                min="0"
+                max="0.4"
+                value="0.01"
+                step="0.01"
+                oninput="document.getElementById('group_LinkStrInterSliderOutput').innerText=value; forcesState.group.parameter.linkStrengthInterCluster=value; updateForces();"
+              />
+            </label>
+            <label>
+              forceNodeSize
+              <output id="group_NodeSizeSliderOutput">0</output>
+              <input
+                type="range"
+                min="0"
+                max="50"
+                value="10"
+                step="5"
+                oninput="document.getElementById('group_NodeSizeSliderOutput').innerText=value; forcesState.group.parameter.forceNodeSize=value; updateForces();"
+              />
+            </label>
+            <label>
+              forceCharge
+              <output id="group_forceChargeSliderOutput">0</output>
+              <input
+                type="range"
+                min="0"
+                max="2000"
+                value="700"
+                step="10"
+                oninput="document.getElementById('group_forceChargeSliderOutput').innerText=value; forcesState.group.parameter.forceCharge=value; updateForces();"
+              />
+            </label>
+            <label>
+              forceLinkDistance
+              <output id="group_forceLinkDistanceSliderOutput">0</output>
+              <input
+                type="range"
+                min="0"
+                max="500"
+                value="200"
+                step="10"
+                oninput="document.getElementById('group_forceLinkDistanceSliderOutput').innerText=value; forcesState.group.parameter.forceLinkDistance=value; updateForces();"
+              />
+            </label>
+            <label>
+              forceLinkStrength
+              <output id="group_forceLinkStrengthSliderOutput">0</output>
+              <input
+                type="range"
+                min="0"
+                max="0.4"
+                value="0.1"
+                step="0.01"
+                oninput="document.getElementById('group_forceLinkStrengthSliderOutput').innerText=value; forcesState.group.parameter.forceLinkStrength=value; updateForces();"
+              />
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="rightPanel">
+        <div class="renderControl">
+          <label for="dataset">Choose a preset graph:</label>
+          <select id="dataset" class="custom-select custom-select-sm ml-2" style="width: auto">
+            <option value="d3net">D3 network w/ group</option>
+            <option value="bomb">Bomb Expand w/ group</option>
+            <option value="blocks">Blocks w/ group</option>
+            <option value="dependency">Dependencies w/ group</option>
+            <option value="miserables">Les Miserables w/ group</option>
+            <option value="radial">Radial data w/ group</option>
+          </select>
+          <div id="graphsizeDiv"></div>
+          <!-- <div class="update">
+            <button type="button" id="btnAddNode">Add node</button>
+            <button type="button" id="btnRemoveNode">Remove node</button>
+            <button type="button" id="btnAddLink">Add link</button>
+            <button type="button" id="btnRemoveLink">Remove link</button>
+          </div> -->
+          <hr class="line" />
+          <div class="operation">
+            <h5>Operation</h5>
+            <label for="click-operation">
+              <input type="radio" id="click-operation" name="operation" value="pan" checked />
+              <span>Pan</span>
+            </label>
+            <label for="box-operation">
+              <input type="radio" id="box-operation" name="operation" value="box" />
+              <span>Box-Select</span>
+            </label>
+            <button
+            id="btn_resetMulSel"
+            class="btn btn-outline-primary btn-sm ml-2"
+            onclick="resetMultSelect()"
+          >Reset multi-select</button>
+          </div>
+          <hr class="line" />
+          <div class="render_modes">
+            <h5>Vertex Renderer</h5>
+            <label for="shape-render">
+              <input type="checkbox" id="shape-render" name="pt_render" value="vertex_geometry" />
+              <span>Shape</span>
+            </label>
+            <label for="texture-render">
+              <input type="checkbox" id="texture-render" name="pt_render" value="vertex_texture" />
+              <span>Texture</span>
+            </label>
+            <label for="pt-text-render">
+              <input type="checkbox" id="pt-text-render" name="pt_render" value="vertex_label" />
+              <span>Text</span>
+            </label>
+          </div>
+          <div class="render_modes">
+            <h5>Edge Renderer</h5>
+            <fieldset>
+              <legend>Line type</legend>
+
+              <div>
+                <input
+                  type="radio"
+                  id="edge-render-fast"
+                  name="edge_render"
+                  value="edge_geometry_fast"
+                />
+                <label for="edge-render-fast">Fast Line</label>
+              </div>
+
+              <div>
+                <input
+                  type="radio"
+                  id="edge-render-thick"
+                  name="edge_render"
+                  value="edge_geometry_thick"
+                />
+                <label for="edge-render-thick">Thick Line</label>
+              </div>
+            </fieldset>
+
+            <!-- <label for="edge-render-fast">
+              <input
+                type="radio"
+                id="edge-render-fast"
+                name="line_render_fast"
+                value="edge_geometry_fast"
+              />
+              <span>Fast Line</span>
+            </label>
+            <label for="edge-render-thick">
+              <input
+                type="radio"
+                id="edge-render-thick"
+                name="line_render_thick"
+                value="edge_geometry_thick"
+              />
+              <span>Thick Line</span>
+            </label> -->
+            <label for="edge-geom-render">
+              <input type="checkbox" id="edge-geom-render" name="edge_render" value="edge_geom" />
+              <span>Shape</span>
+            </label>
+            <label for="edge-text-render">
+              <input type="checkbox" id="edge-text-render" name="edge_render" value="edge_label" />
+              <span>Text</span>
+            </label>
+            <label for="edge-arrow-render">
+              <input type="checkbox" id="edge-arrow-render" name="edge_render" value="edge_arrow" />
+              <span>Arrow</span>
+            </label>
+          </div>
+          <hr class="line" />
+          <div class="color">
+            <label for="color-label">
+              <h5>Color by vertex type (click to filter)</h5>
+              <input type="radio" id="hide-filter" name="filter" value="hide" checked />
+              <span>Hide others</span>
+            </label>
+            <label for="color-default">
+              <input type="radio" id="fade-filter" name="filter" value="fade" />
+              <span>Fade others</span>
+            </label>
+            <div class="vertexType"></div>
+          </div>
+          <hr class="line" />
+
+          <hr class="line" />
+          <div class="layoutControl">
+            <!-- Layout Menu-->
+            <h5>High-level Layout</h5>
+            <button
+              id="force1"
+              class="btn btn-outline-primary btn-sm ml-2"
+              onclick="radialLayout()"
+            >
+              Radial/Concentric</button
+            >&nbsp
+            <button id="force2" class="btn btn-outline-primary btn-sm ml-2" onclick="groupLayout()">
+              Group</button
+            >&nbsp
+            <button
+              id="treeLayoutBtn-td"
+              value="td"
+              class="btn btn-outline-primary btn-sm tree-layout"
+            >
+              Tree-td</button
+            >&nbsp
+            <button
+              id="treeLayoutBtn-bu"
+              value="bu"
+              class="btn btn-outline-primary btn-sm tree-layout"
+            >
+              Tree-bu</button
+            >&nbsp
+            <button
+              id="treeLayoutBtn-lr"
+              value="lr"
+              class="btn btn-outline-primary btn-sm tree-layout"
+            >
+              Tree-lr</button
+            >&nbsp
+            <button
+              id="treeLayoutBtn-rl"
+              value="rl"
+              class="btn btn-outline-primary btn-sm tree-layout"
+            >
+              Tree-rl</button
+            >&nbsp
+            <!-- Layout Menu End-->
+          </div>
+          <hr class="line" />
+          <h3 id="messages"></h3>
+          <h3 id="selDiv">selected:</h3>
+        </div>
+      </div>
+      <div class="middle" id="tgContainer" tabindex="1"></div>
+      <div class="tooltip" id="tooltipPositionDiv"><span id="tooltipTextDiv"></span></div>
+      <div id="contextMenu" class="contextmenu" style="display: none">
+        <ul>
+          <li><a href="#">Element-1</a></li>
+          <li><a href="#">Element-2</a></li>
+          <li><a href="#">Element-3</a></li>
+          <li><a href="#">Element-4</a></li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      // global variable for debug use
+      let graphGL;
+      let ranGraph;
+      let selects = [];
+      let state = {multiSelect: false}
+      let originalColorVertexFunction;
+    </script>
+    <script type="module" src="./index.js"></script>
+    <script>
+      function resetMultSelect(){
+        state.multiSelect=false;
+        selects = [];
+        graphGL?.colorVertex(originalColorVertexFunction);
+      }
+    </script>
+    <script>
+      const updateForces = () => {
+        const enabledForces = Object.entries(forcesState).reduce((out, cur) => {
+          const [key, obj] = cur;
+          obj.enabled && out.push({ ...obj, name: key });
+          return out;
+        }, []);
+
+        // console.log('enabledForces: ',enabledForces)
+        graphGL.customLayout('force', { forces: enabledForces });
+      };
+
+      const radii = [10, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+      const radialLayout = () => {
+        const chargeForce = {
+          ...forcesState.charge,
+          parameter: {
+            ...forcesState.charge.parameter,
+            strength: -60,
+            distanceMin: 100,
+            distanceMax: 2000,
+          },
+          name: 'charge',
+        };
+        const collideForce = {
+          ...forcesState.collide,
+          parameter: { ...forcesState.collide.parameter, iterations: 2, radius: 20 },
+          name: 'collide',
+        };
+        const radialForce = {
+          ...forcesState.radial,
+          parameter: {
+            ...forcesState.radial.parameter,
+            radius: (n) => {
+              const typeLen = (n.node.getType() + '').length;
+              return radii[typeLen % radii.length];
+            },
+          },
+          name: 'radial',
+        };
+        const boundaryForce = {
+          function: () => {
+            let nodes;
+            const containerElement = document.getElementById('tgContainer');
+            const canvasWidth = containerElement.clientWidth,
+              canvasHeight = Math.max(1, containerElement.clientHeight);
+            force = () => {
+              for (let i = 0, n = nodes.length, vertice; i < n; ++i) {
+                vertice = nodes[i];
+                const r = 4; // vertice.node.userData.size;
+                if (vertice.x + r > canvasWidth) vertice.x = canvasWidth - r;
+                if (vertice.x < 0) vertice.x = r;
+                if (vertice.y > canvasHeight) vertice.y = canvasHeight - r;
+                if (vertice.y < 0) vertice.y = 0;
+              }
+            };
+            force.initialize = (_) => {
+              nodes = _;
+            };
+
+            return force;
+          },
+          name: 'boundary',
+        };
+        // graphGL.customLayout('force', {
+        //   forces: [boundaryForce, chargeForce, collideForce, radialForce]
+        // });
+        graphGL.customLayout('force', {
+          forces: [chargeForce, collideForce, radialForce],
+        });
+      };
+
+      const groupLayout = () => {
+        const groupForce = {
+          ...forcesState.group,
+          parameter: {
+            ...forcesState.group.parameter,
+            // template: 'force',
+            groupBy: (n) => {
+              // console.log('groupby n: ', n);
+              return n.node.userData.group ?? '';
+            },
+            // How strongly are the nodes pulled toward the foci
+            strength: 0.8,
+            enableGrouping: true,
+            // How much should the links between cluster pull?
+            linkStrengthInterCluster: 0.001,
+            // How much should the links inside clusters pull?
+            linkStrengthIntraCluster: 0.01,
+            // The distance between cluster-links on the inner force Simulation
+            // forceLinkDistance: 10,
+            // The strength of the cluster-links on the inner force simulation
+            // forceLinkStrength: 0.1,
+            // The charge between the clusters on the inner force simulation
+            // negative values mean repulsion forces
+            forceCharge: 1,
+            // Used to compute the size of the clusters, use the avg of your node sizes
+            // could be an accessor function
+            forceNodeSize: 4,
+          },
+          name: 'group',
+        };
+        const chargeForce = { ...forcesState.charge, name: 'charge' };
+        const linkForce = {
+          ...forcesState.link,
+          parameter: {
+            ...forcesState.link.parameter,
+            strength: (d3link) => {
+              if (
+                groupForce.parameter.groupBy(d3link.source) ===
+                groupForce.parameter.groupBy(d3link.target)
+              ) {
+                if (typeof groupForce.parameter.linkStrengthIntraCluster === 'function') {
+                  return groupForce.parameter.linkStrengthIntraCluster(d3link.link);
+                } else {
+                  return groupForce.parameter.linkStrengthIntraCluster;
+                }
+              } else {
+                if (typeof groupForce.parameter.linkStrengthInterCluster === 'function') {
+                  return groupForce.parameter.linkStrengthInterCluster(d3link.link);
+                } else {
+                  return groupForce.parameter.linkStrengthInterCluster;
+                }
+              }
+            },
+            distance: 2,
+          },
+          name: 'link',
+        };
+        graphGL.customLayout('force', {
+          forces: [groupForce, chargeForce, linkForce],
+        });
+      };
+    </script>
+     <!-- Start of StatCounter Code for Default Guide -->
+     <script type="text/javascript">
+      var sc_project = 10227952;
+      var sc_invisible = 1;
+      var sc_security = '19025bec';
+      var sc_https = 1;
+      var scJsHost = 'https:' == document.location.protocol ? 'https://secure.' : 'http://www.';
+      document.write(
+        '<sc' +
+          "ript type='text/javascript' async src='" +
+          scJsHost +
+          "statcounter.com/counter/counter_xhtml.js'></" +
+          'script>'
+      );
+    </script>
+    <noscript>
+      <div class="statcounter">
+        <a class="statcounter" href="http://statcounter.com/free-web-stats/" title="web stats"
+          ><img alt="web stats" class="statcounter" src="http://c.statcounter.com/10227952/0/19025bec/1/"
+        /></a>
+      </div>
+    </noscript>
+    <!-- End of StatCounter Code for Default Guide -->
+  </body>
+</html>

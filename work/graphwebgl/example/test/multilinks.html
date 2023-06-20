@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TigerGraph gvis GL2D demo</title>
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1"
+    />
+
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 13px;
+      }
+
+      .container {
+        display: flex;
+        justify-content: flex-start;
+        align-items: stretch;
+      }
+      .panel {
+        order: 2;
+      }
+      .middle {
+        order: 1;
+      }
+
+      #tgContainer {
+        position: relative;
+        width: 100vw;
+        height: 94vh;
+        z-index: 999;
+        /* margin-left: 375px; */
+        right: 0px;
+      }
+      .title {
+        font-weight: bold;
+        font-size: 16px;
+        text-align: center;
+      }
+
+      h1 {
+        opacity: 1;
+        color: #555;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      hr.line {
+        margin-top: 9px;
+        margin-bottom: 9px;
+      }
+
+      .btn-group-sm > .btn,
+      .btn-sm {
+        font-size: 13px;
+        background-color: #7d8991;
+        border-color: #7d8991;
+      }
+
+      .btn-primary:hover,
+      .btn-primary:focus,
+      .btn-primary:active,
+      .btn-primary.active,
+      .open > .dropdown-toggle.btn-primary {
+        color: #fff;
+        background-color: #60717d;
+        border-color: #60717d; /*set the color you want here*/
+      }
+
+      .btn-outline-primary:hover,
+      .btn-outline-primary:focus,
+      .btn-outline-primary:active,
+      .btn-outline-primary.active,
+      .open > .dropdown-toggle.btn-primary {
+        color: #fff;
+        background-color: #60717d;
+        border-color: #60717d; /*set the color you want here*/
+      }
+
+      .btn-outline-primary {
+        font-size: 13px;
+        background-color: #ffffff;
+        color: #7d8991;
+      }
+
+      .custom-select-sm {
+        font-size: 14px;
+      }
+
+      .custom-control-label {
+        padding-top: 2px;
+      }
+
+      .custom-control-input:checked ~ .custom-control-label::before {
+        color: #fff;
+        border-color: #7d8991;
+        background-color: #7d8991;
+      }
+      .vertexType {
+        max-height: 160px;
+        overflow: auto;
+      }
+
+      .legend {
+        display: inline-block;
+        color: #ffffff;
+        height: 16px;
+        margin-right: 0.5em;
+        width: 50px;
+      }
+    </style>
+    <script>
+      document.write(
+        '<script src="http://' +
+          (location.host || 'localhost').split(':')[0] +
+          ':35729/livereload.js?snipver=1"></' +
+          'script>'
+      );
+    </script>
+  </head>
+  <body>
+    <div class="title">TigerGraph gvis GL2D demo</div>
+
+    <div class="container">
+      <div class="panel">
+        <div id="graphsizeDiv"></div>
+        <hr class="line" />
+        <div class="operation">
+          <h5>Operation</h5>
+          <label for="click-operation">
+            <input type="radio" id="click-operation" name="operation" value="pan" checked />
+            <span>Pan</span>
+          </label>
+          <label for="box-operation">
+            <input type="radio" id="box-operation" name="operation" value="select" />
+            <span>Select</span>
+          </label>
+        </div>
+        <div class="color">
+          <h5>Color by type</h5>
+          <div class="vertexType"></div>
+        </div>
+        <div class="mode">
+          <h5>Day night mode</h5>
+          <label for="mode-day">
+            <input type="radio" id="mode-day" name="mode" value="day" checked />
+            <span>Day</span>
+          </label>
+          <label for="mode-nigth">
+            <input type="radio" id="mode-night" name="mode" value="night" />
+            <span>Night</span>
+          </label>
+        </div>
+        <hr class="line" />
+        <div class="layout control">
+          <!-- Layout Menu-->
+          <h5>Layout</h5>
+          <button id="force1" class="btn btn-outline-primary btn-sm ml-2">Force1</button>&nbsp
+          <button id="force2" class="btn btn-outline-primary btn-sm">Force2</button>&nbsp
+          <button id="presetLayout" class="btn btn-outline-primary btn-sm">Preset</button>&nbsp
+          <!-- Layout Menu End-->
+        </div>
+        <hr class="line" />
+        <h3 id="messages"></h3>
+        <h3 id="selDiv">selected:</h3>
+      </div>
+      <div class="middle" id="tgContainer"></div>
+    </div>
+    <script>
+      // global variable for debug use
+      let graphGL;
+      let multiGraph;
+    </script>
+    <script type="module" src="./multilinks.js"></script>
+  </body>
+</html>
