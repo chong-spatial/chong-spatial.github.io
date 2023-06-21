@@ -153,10 +153,10 @@
       .forceControls .force label {
         display: inline-block;
       }
-      .forceControls input[type='checkbox'] {
+      .forceControls input[type="checkbox"] {
         transform: scale(1.2, 1.2);
       }
-      .forceControls input[type='range'] {
+      .forceControls input[type="range"] {
         margin: 0 5% 0.5em 5%;
         width: 90%;
       }
@@ -175,8 +175,14 @@
     </style>
     <script>
       const forcesState = {
-        charge: { enabled: true, parameter: { strength: -30, distanceMin: 1, distanceMax: 2000 } },
-        collide: { enabled: false, parameter: { strength: 0.7, radius: (n) => 10, iterations: 1 } },
+        charge: {
+          enabled: true,
+          parameter: { strength: -30, distanceMin: 1, distanceMax: 2000 },
+        },
+        collide: {
+          enabled: false,
+          parameter: { strength: 0.7, radius: (n) => 10, iterations: 1 },
+        },
         link: {
           enabled: true,
           parameter: {
@@ -282,7 +288,9 @@
               >
               Attracts (+) or repels (-) nodes to/from each other.
             </p>
-            <label title="Negative strength repels nodes. Positive strength attracts nodes.">
+            <label
+              title="Negative strength repels nodes. Positive strength attracts nodes."
+            >
               strength
               <output id="charge_StrengthSliderOutput">-30</output>
               <input
@@ -463,7 +471,9 @@
               >
               Sets link length
             </p>
-            <label title="The force will push/pull nodes to make links this long">
+            <label
+              title="The force will push/pull nodes to make links this long"
+            >
               distance
               <output id="link_DistanceSliderOutput">0</output>
               <input
@@ -665,7 +675,11 @@
       <div class="rightPanel">
         <div class="renderControl">
           <label for="dataset">Choose a preset graph:</label>
-          <select id="dataset" class="custom-select custom-select-sm ml-2" style="width: auto">
+          <select
+            id="dataset"
+            class="custom-select custom-select-sm ml-2"
+            style="width: auto"
+          >
             <option value="d3net">D3 network w/ group</option>
             <option value="bomb">Bomb Expand w/ group</option>
             <option value="blocks">Blocks w/ group</option>
@@ -684,32 +698,60 @@
           <div class="operation">
             <h5>Operation</h5>
             <label for="click-operation">
-              <input type="radio" id="click-operation" name="operation" value="pan" checked />
+              <input
+                type="radio"
+                id="click-operation"
+                name="operation"
+                value="pan"
+                checked
+              />
               <span>Pan</span>
             </label>
             <label for="box-operation">
-              <input type="radio" id="box-operation" name="operation" value="box" />
+              <input
+                type="radio"
+                id="box-operation"
+                name="operation"
+                value="box"
+              />
               <span>Box-Select</span>
             </label>
             <button
-            id="btn_resetMulSel"
-            class="btn btn-outline-primary btn-sm ml-2"
-            onclick="resetMultSelect()"
-          >Reset multi-select</button>
+              id="btn_resetMulSel"
+              class="btn btn-outline-primary btn-sm ml-2"
+              onclick="resetMultSelect()"
+            >
+              Reset multi-select
+            </button>
           </div>
           <hr class="line" />
           <div class="render_modes">
             <h5>Vertex Renderer</h5>
             <label for="shape-render">
-              <input type="checkbox" id="shape-render" name="pt_render" value="vertex_geometry" />
+              <input
+                type="checkbox"
+                id="shape-render"
+                name="pt_render"
+                value="vertex_geometry"
+              />
               <span>Shape</span>
             </label>
             <label for="texture-render">
-              <input type="checkbox" id="texture-render" name="pt_render" value="vertex_texture" />
+              <input
+                type="checkbox"
+                id="texture-render"
+                name="pt_render"
+                value="vertex_texture"
+              />
               <span>Texture</span>
             </label>
             <label for="pt-text-render">
-              <input type="checkbox" id="pt-text-render" name="pt_render" value="vertex_label" />
+              <input
+                type="checkbox"
+                id="pt-text-render"
+                name="pt_render"
+                value="vertex_label"
+              />
               <span>Text</span>
             </label>
           </div>
@@ -758,15 +800,30 @@
               <span>Thick Line</span>
             </label> -->
             <label for="edge-geom-render">
-              <input type="checkbox" id="edge-geom-render" name="edge_render" value="edge_geom" />
+              <input
+                type="checkbox"
+                id="edge-geom-render"
+                name="edge_render"
+                value="edge_geom"
+              />
               <span>Shape</span>
             </label>
             <label for="edge-text-render">
-              <input type="checkbox" id="edge-text-render" name="edge_render" value="edge_label" />
+              <input
+                type="checkbox"
+                id="edge-text-render"
+                name="edge_render"
+                value="edge_label"
+              />
               <span>Text</span>
             </label>
             <label for="edge-arrow-render">
-              <input type="checkbox" id="edge-arrow-render" name="edge_render" value="edge_arrow" />
+              <input
+                type="checkbox"
+                id="edge-arrow-render"
+                name="edge_render"
+                value="edge_arrow"
+              />
               <span>Arrow</span>
             </label>
           </div>
@@ -774,7 +831,13 @@
           <div class="color">
             <label for="color-label">
               <h5>Color by vertex type (click to filter)</h5>
-              <input type="radio" id="hide-filter" name="filter" value="hide" checked />
+              <input
+                type="radio"
+                id="hide-filter"
+                name="filter"
+                value="hide"
+                checked
+              />
               <span>Hide others</span>
             </label>
             <label for="color-default">
@@ -796,7 +859,11 @@
             >
               Radial/Concentric</button
             >&nbsp
-            <button id="force2" class="btn btn-outline-primary btn-sm ml-2" onclick="groupLayout()">
+            <button
+              id="force2"
+              class="btn btn-outline-primary btn-sm ml-2"
+              onclick="groupLayout()"
+            >
               Group</button
             >&nbsp
             <button
@@ -835,7 +902,9 @@
         </div>
       </div>
       <div class="middle" id="tgContainer" tabindex="1"></div>
-      <div class="tooltip" id="tooltipPositionDiv"><span id="tooltipTextDiv"></span></div>
+      <div class="tooltip" id="tooltipPositionDiv">
+        <span id="tooltipTextDiv"></span>
+      </div>
       <div id="contextMenu" class="contextmenu" style="display: none">
         <ul>
           <li><a href="#">Element-1</a></li>
@@ -850,13 +919,13 @@
       let graphGL;
       let ranGraph;
       let selects = [];
-      let state = {multiSelect: false}
+      let state = { multiSelect: false };
       let originalColorVertexFunction;
     </script>
     <script type="module" src="./index.js"></script>
     <script>
-      function resetMultSelect(){
-        state.multiSelect=false;
+      function resetMultSelect() {
+        state.multiSelect = false;
         selects = [];
         graphGL?.colorVertex(originalColorVertexFunction);
       }
@@ -870,7 +939,7 @@
         }, []);
 
         // console.log('enabledForces: ',enabledForces)
-        graphGL.customLayout('force', { forces: enabledForces });
+        graphGL.customLayout("force", { forces: enabledForces });
       };
 
       const radii = [10, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
@@ -883,28 +952,32 @@
             distanceMin: 100,
             distanceMax: 2000,
           },
-          name: 'charge',
+          name: "charge",
         };
         const collideForce = {
           ...forcesState.collide,
-          parameter: { ...forcesState.collide.parameter, iterations: 2, radius: 20 },
-          name: 'collide',
+          parameter: {
+            ...forcesState.collide.parameter,
+            iterations: 2,
+            radius: 20,
+          },
+          name: "collide",
         };
         const radialForce = {
           ...forcesState.radial,
           parameter: {
             ...forcesState.radial.parameter,
             radius: (n) => {
-              const typeLen = (n.node.getType() + '').length;
+              const typeLen = (n.node.getType() + "").length;
               return radii[typeLen % radii.length];
             },
           },
-          name: 'radial',
+          name: "radial",
         };
         const boundaryForce = {
           function: () => {
             let nodes;
-            const containerElement = document.getElementById('tgContainer');
+            const containerElement = document.getElementById("tgContainer");
             const canvasWidth = containerElement.clientWidth,
               canvasHeight = Math.max(1, containerElement.clientHeight);
             force = () => {
@@ -923,12 +996,12 @@
 
             return force;
           },
-          name: 'boundary',
+          name: "boundary",
         };
         // graphGL.customLayout('force', {
         //   forces: [boundaryForce, chargeForce, collideForce, radialForce]
         // });
-        graphGL.customLayout('force', {
+        graphGL.customLayout("force", {
           forces: [chargeForce, collideForce, radialForce],
         });
       };
@@ -941,7 +1014,7 @@
             // template: 'force',
             groupBy: (n) => {
               // console.log('groupby n: ', n);
-              return n.node.userData.group ?? '';
+              return n.node.userData.group ?? "";
             },
             // How strongly are the nodes pulled toward the foci
             strength: 0.8,
@@ -961,9 +1034,9 @@
             // could be an accessor function
             forceNodeSize: 4,
           },
-          name: 'group',
+          name: "group",
         };
-        const chargeForce = { ...forcesState.charge, name: 'charge' };
+        const chargeForce = { ...forcesState.charge, name: "charge" };
         const linkForce = {
           ...forcesState.link,
           parameter: {
@@ -973,14 +1046,24 @@
                 groupForce.parameter.groupBy(d3link.source) ===
                 groupForce.parameter.groupBy(d3link.target)
               ) {
-                if (typeof groupForce.parameter.linkStrengthIntraCluster === 'function') {
-                  return groupForce.parameter.linkStrengthIntraCluster(d3link.link);
+                if (
+                  typeof groupForce.parameter.linkStrengthIntraCluster ===
+                  "function"
+                ) {
+                  return groupForce.parameter.linkStrengthIntraCluster(
+                    d3link.link
+                  );
                 } else {
                   return groupForce.parameter.linkStrengthIntraCluster;
                 }
               } else {
-                if (typeof groupForce.parameter.linkStrengthInterCluster === 'function') {
-                  return groupForce.parameter.linkStrengthInterCluster(d3link.link);
+                if (
+                  typeof groupForce.parameter.linkStrengthInterCluster ===
+                  "function"
+                ) {
+                  return groupForce.parameter.linkStrengthInterCluster(
+                    d3link.link
+                  );
                 } else {
                   return groupForce.parameter.linkStrengthInterCluster;
                 }
@@ -988,35 +1071,35 @@
             },
             distance: 2,
           },
-          name: 'link',
+          name: "link",
         };
-        graphGL.customLayout('force', {
+        graphGL.customLayout("force", {
           forces: [groupForce, chargeForce, linkForce],
         });
       };
     </script>
-     <!-- Start of StatCounter Code for Default Guide -->
-     <script type="text/javascript">
+    <!-- Default Statcounter code for Personal page
+https://chongzhang-vis.github.io/ -->
+    <script type="text/javascript">
       var sc_project = 10227952;
       var sc_invisible = 1;
-      var sc_security = '19025bec';
-      var sc_https = 1;
-      var scJsHost = 'https:' == document.location.protocol ? 'https://secure.' : 'http://www.';
-      document.write(
-        '<sc' +
-          "ript type='text/javascript' async src='" +
-          scJsHost +
-          "statcounter.com/counter/counter_xhtml.js'></" +
-          'script>'
-      );
+      var sc_security = "19025bec";
     </script>
-    <noscript>
-      <div class="statcounter">
-        <a class="statcounter" href="http://statcounter.com/free-web-stats/" title="web stats"
-          ><img alt="web stats" class="statcounter" src="http://c.statcounter.com/10227952/0/19025bec/1/"
-        /></a>
-      </div>
-    </noscript>
-    <!-- End of StatCounter Code for Default Guide -->
+    <script
+      type="text/javascript"
+      src="https://www.statcounter.com/counter/counter.js"
+      async
+    ></script>
+    <noscript
+      ><div class="statcounter">
+        <a title="Web Analytics" href="https://statcounter.com/" target="_blank"
+          ><img
+            class="statcounter"
+            src="https://c.statcounter.com/10227952/0/19025bec/1/"
+            alt="Web Analytics"
+            referrerpolicy="no-referrer-when-downgrade"
+        /></a></div
+    ></noscript>
+    <!-- End of Statcounter Code -->
   </body>
 </html>

@@ -1,16 +1,16 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>SF Muni Realtime Tracking</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="styles/angular-material.min.css">
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="styles/angular-material.min.css" />
 
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/vehicle.css">
-    <link rel="stylesheet" href="styles/treechart.css">
-    <link rel="stylesheet" href="styles/realtimechart.css">
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/vehicle.css" />
+    <link rel="stylesheet" href="styles/treechart.css" />
+    <link rel="stylesheet" href="styles/realtimechart.css" />
     <script src="scripts/d3.js"></script>
     <!-- Angular Material requires Angular.js Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
@@ -20,40 +20,97 @@
 
     <!-- Angular Material Library -->
     <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
-
   </head>
-  <body ng-app="SFMuniVIS" ng-controller="MainCtrl" layout="column" ng-cloak >
-    
+  <body ng-app="SFMuniVIS" ng-controller="MainCtrl" layout="column" ng-cloak>
     <md-toolbar>
       San Francisco Muni Real-time Tracking
-      <div style="position: absolute; display: inline; right: 0;">
-       <a style="color: #fff; font-size: 16px;" href="views/about.html" target="_blank"> About...</a>
-    </div>
+      <div style="position: absolute; display: inline; right: 0">
+        <a
+          style="color: #fff; font-size: 16px"
+          href="views/about.html"
+          target="_blank"
+        >
+          About...</a
+        >
+      </div>
     </md-toolbar>
 
-    <div flex layout="row" >
-      <md-sidenav flex="20" md-is-locked-open="$mdMedia('gt-md')" class="md-whiteframe-z1">
+    <div flex layout="row">
+      <md-sidenav
+        flex="20"
+        md-is-locked-open="$mdMedia('gt-md')"
+        class="md-whiteframe-z1"
+      >
         <md-toolbar class="md-theme-indigo">
           <div class="info">Click route(s) to switch map display</div>
         </md-toolbar>
-        <div class='treeChart'>   
-          <tree-chart treedata="treedata" ></tree-chart>
+        <div class="treeChart">
+          <tree-chart treedata="treedata"></tree-chart>
         </div>
       </md-sidenav>
-      <div layout="column" flex >
-        <div class='map'>     
-          <vehicle-map streets="streets"  projection="projection" center-zoom="centerZoomCtrl" adjust-label='adjustLabel'></vehicle-map>      
-        </div>       
+      <div layout="column" flex>
+        <div class="map">
+          <vehicle-map
+            streets="streets"
+            projection="projection"
+            center-zoom="centerZoomCtrl"
+            adjust-label="adjustLabel"
+          ></vehicle-map>
+        </div>
       </div>
-      <md-sidenav flex="30" md-is-locked-open="$mdMedia('gt-md')" class="md-whiteframe-z1">
+      <md-sidenav
+        flex="30"
+        md-is-locked-open="$mdMedia('gt-md')"
+        class="md-whiteframe-z1"
+      >
         <md-toolbar class="md-theme-indigo">
-          <div class="info">Inactivity monitoring..., wait 3+ minutes and click for details </div>
+          <div class="info">
+            Inactivity monitoring..., wait 3+ minutes and click for details
+          </div>
         </md-toolbar>
-          <div class="inspectDiv"> 
-            <div id="delaySdColorScale" style="text-align: center; display: none; margin-top: 2px;"><svg width="400" height="60"><defs><linearGradient id="colorLg"><stop id="colorLgSpStart" offset="0%" stop-color="#ccc"></stop><stop id="colorLgSpMiddle" offset="50%" stop-color="#777"></stop><stop id="colorLgSpEnd" offset="100%" stop-color="#000"></stop></linearGradient></defs><rect width="400" height="20" style="fill: url('#colorLg');"></rect><g class="x axis" transform="translate(0, 20)"><text y="20" dy="1.2em" style="text-anchor: middle;" x="200">Standard Deviation of GPS report delay history</text></g></svg></div>
-            <inactive-list class="inspectUl"><ul></ul></inactive-list> 
-          </div>    
-          <realtime-chart class="realtimeChart" timedata='timedata'></realtime-chart>        
+        <div class="inspectDiv">
+          <div
+            id="delaySdColorScale"
+            style="text-align: center; display: none; margin-top: 2px"
+          >
+            <svg width="400" height="60">
+              <defs>
+                <linearGradient id="colorLg">
+                  <stop
+                    id="colorLgSpStart"
+                    offset="0%"
+                    stop-color="#ccc"
+                  ></stop>
+                  <stop
+                    id="colorLgSpMiddle"
+                    offset="50%"
+                    stop-color="#777"
+                  ></stop>
+                  <stop
+                    id="colorLgSpEnd"
+                    offset="100%"
+                    stop-color="#000"
+                  ></stop>
+                </linearGradient>
+              </defs>
+              <rect
+                width="400"
+                height="20"
+                style="fill: url('#colorLg')"
+              ></rect>
+              <g class="x axis" transform="translate(0, 20)">
+                <text y="20" dy="1.2em" style="text-anchor: middle" x="200">
+                  Standard Deviation of GPS report delay history
+                </text>
+              </g>
+            </svg>
+          </div>
+          <inactive-list class="inspectUl"><ul></ul></inactive-list>
+        </div>
+        <realtime-chart
+          class="realtimeChart"
+          timedata="timedata"
+        ></realtime-chart>
       </md-sidenav>
     </div>
 
@@ -62,28 +119,35 @@
     <script src="scripts/d3components/baselinechart.js"></script>
     <script src="scripts/d3components/realtimelinechart.js"></script>
     <script src="scripts/d3components/treechart.js"></script>
-      
+
     <script src="scripts/controllers/mainCtrl.js"></script>
-  
+
     <script src="scripts/directives/map.js"></script>
-    <script src="scripts/directives/treechart.js"></script>   
+    <script src="scripts/directives/treechart.js"></script>
     <script src="scripts/directives/realtimechart.js"></script>
-    <script src="scripts/directives/inactivelist.js"></script>  
-
-
-    <!-- Start of StatCounter Code for Default Guide -->
+    <script src="scripts/directives/inactivelist.js"></script>
+    <!-- Default Statcounter code for Personal page
+https://chongzhang-vis.github.io/ -->
     <script type="text/javascript">
-    var sc_project=10227952; 
-    var sc_invisible=1; 
-    var sc_security="19025bec"; 
-    var sc_https=1; 
-    var scJsHost = (("https:" == document.location.protocol) ?
-    "https://secure." : "http://www.");
-    document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
-    "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
-    </script> 
-    <noscript><div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div></noscript> 
-    <!-- End of StatCounter Code for Default Guide -->  
-        
+      var sc_project = 10227952;
+      var sc_invisible = 1;
+      var sc_security = "19025bec";
+    </script>
+    <script
+      type="text/javascript"
+      src="https://www.statcounter.com/counter/counter.js"
+      async
+    ></script>
+    <noscript
+      ><div class="statcounter">
+        <a title="Web Analytics" href="https://statcounter.com/" target="_blank"
+          ><img
+            class="statcounter"
+            src="https://c.statcounter.com/10227952/0/19025bec/1/"
+            alt="Web Analytics"
+            referrerpolicy="no-referrer-when-downgrade"
+        /></a></div
+    ></noscript>
+    <!-- End of Statcounter Code -->
   </body>
 </html>

@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
-    <title>Linked tree for Association Rule Representation</title>  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Linked tree for Association Rule Representation</title>
 
     <style>
-
       .node text {
         font: 10px sans-serif;
       }
 
-      .join, .varlink, .node rect {
+      .join,
+      .varlink,
+      .node rect {
         fill: none;
         stroke: #636363;
         stroke-width: 1.5px;
@@ -24,7 +25,6 @@
         fill: white;
       }
 
-      
       .node .array rect {
         stroke: #636363;
       }
@@ -83,51 +83,52 @@
       }
 
       .varlink .to-null {
-        stroke-opacity: .5;
-        stroke-dasharray: .5,3.5;
+        stroke-opacity: 0.5;
+        stroke-dasharray: 0.5, 3.5;
         stroke-linecap: round;
       }
-      .node .highlight{
-        stroke:#ff0000;
-        stroke-width:1.5px;
+      .node .highlight {
+        stroke: #ff0000;
+        stroke-width: 1.5px;
       }
-      .rulelinks .highlight{
-        stroke:#ff0000;
-        stroke-width:1.5px;
+      .rulelinks .highlight {
+        stroke: #ff0000;
+        stroke-width: 1.5px;
       }
-      .rules .highlight{
-        stroke:#ff0000;
-        stroke-width:1.5px;
+      .rules .highlight {
+        stroke: #ff0000;
+        stroke-width: 1.5px;
       }
-
-
     </style>
 
-
     <script src="../../share/js/d3.v3.min.js"></script>
-
   </head>
 
   <body>
+    <script src="rulestree.js"></script>
 
-
-    <script src="rulestree.js">
-
-    </script>
-
-<!-- Start of StatCounter Code for Default Guide -->
+    <!-- Default Statcounter code for Personal page
+https://chongzhang-vis.github.io/ -->
     <script type="text/javascript">
-    var sc_project=10227952; 
-    var sc_invisible=1; 
-    var sc_security="19025bec"; 
-    var sc_https=1; 
-    var scJsHost = (("https:" == document.location.protocol) ?
-    "https://secure." : "http://www.");
-    document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
-    "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
-    </script> 
-    <noscript><div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div></noscript> 
-<!-- End of StatCounter Code for Default Guide -->
-
+      var sc_project = 10227952;
+      var sc_invisible = 1;
+      var sc_security = "19025bec";
+    </script>
+    <script
+      type="text/javascript"
+      src="https://www.statcounter.com/counter/counter.js"
+      async
+    ></script>
+    <noscript
+      ><div class="statcounter">
+        <a title="Web Analytics" href="https://statcounter.com/" target="_blank"
+          ><img
+            class="statcounter"
+            src="https://c.statcounter.com/10227952/0/19025bec/1/"
+            alt="Web Analytics"
+            referrerpolicy="no-referrer-when-downgrade"
+        /></a></div
+    ></noscript>
+    <!-- End of Statcounter Code -->
   </body>
 </html>

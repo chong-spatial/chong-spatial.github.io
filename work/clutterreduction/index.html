@@ -1,121 +1,198 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-   <head>
-      <meta charset="utf-8">
-      <title>Visul Clutter Reduction</title>
-      <script type="text/javascript" src="../../share/js/jquery-latest.js"></script>
-      <script type="text/javascript" src="../../share/js/jquery-ui-latest.js"></script>
-      <script type="text/javascript" src="../../share/js/jquery.layout-latest.js"></script>
-      <link type="text/css" rel="stylesheet" href="../../share/css/layout-default-latest.css" />
-      <link rel="stylesheet" href="../../share/css/jquery-ui_smoothness.css">
-      <link rel="stylesheet" type="text/css" href="../../share/css/html_styles.css">
-      <link rel="stylesheet" type="text/css" href="../../share/css/grid.css">
-      <link rel="stylesheet" type="text/css" href="../../share/css/table.css">
-      <link rel="stylesheet" type="text/css" href="../../share/css/d3.parsets.css">
-      <script type="text/javascript" src="../../share/data/mushroom/rules_mushroom.js"></script>
-      <script type="text/javascript" src="../../share/data/mushroom/obs_mushroom.js"></script>
-      <script type="text/javascript" src="../../share/data/mushroom/dataLabels.js"></script>
-      <script src="../../share/js/d3.v3.min.js" charset="utf-8"></script>
-      <script src="./js/d3.helper.js" charset="utf-8"></script>  
-      <script src="../../share/js/clusterfck.js" charset="utf-8"></script>
-      <script src="../../share/js/d3.parsets.js" charset="utf-8"></script>  
-      <script type="text/javascript">
-         $(document).ready(function () {
-           var pageLayout = $('#container').layout({
-                
-                 center__spacing_open: 1
-               , center__spacing_closed: 1
-               // , center__onresize: function(pane, $Pane, paneState, options){ 
-               //     var newW = $Pane.find('#pcView').innerWidth(),
-               //         newH = $Pane.find('#pcView').innerHeight();
-         
-               //     d3.select("#pcView svg")
-               //       .attr("width", newW)
-               //       .attr("height", newH);
-         
-               //       rawdataGrid.resizeCanvas();
-                   
-                   //parsets.resize(newW, newH);
-               //var div = $Pane.find(".ui-layout-content:first");
-                // }
-         
-               , west__size: "59%"
-               , west__enableCursorHotkey: false
-               , west__closable: false
-               , west__resizable: false
-               , west__slidable: false
-               , west__spacing_open: 1
-               , west__spacing_closed: 1
-               
-         
-             
-         
-               , north__size: "5%"
-               , north__enableCursorHotkey: false
-               , north__closable: false
-               , north__resizable: false
-               , north__slidable: false
-               , north__spacing_open: 1
-               , north__spacing_closed: 1
-         
-           });
-             
-         
-         
-         });
-      </script>
-   </head>
-   <body>
-      <div id="container">
-         <div class="pane ui-layout-west">
-            <div class="view_header">
-               <div class="view_title">Association Rule Table</div> 
-               <div id="support-container">
-               <label >Support range (%): </label>   
-               <div id="support-slider">
-                  <div id="supp-handle-left" class="ui-slider-handle"></div>
-                  <div id="supp-handle-right" class="ui-slider-handle"></div>
-               </div>
-             </div>
+  <head>
+    <meta charset="utf-8" />
+    <title>Visul Clutter Reduction</title>
+    <script
+      type="text/javascript"
+      src="../../share/js/jquery-latest.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../../share/js/jquery-ui-latest.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../../share/js/jquery.layout-latest.js"
+    ></script>
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="../../share/css/layout-default-latest.css"
+    />
+    <link rel="stylesheet" href="../../share/css/jquery-ui_smoothness.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../share/css/html_styles.css"
+    />
+    <link rel="stylesheet" type="text/css" href="../../share/css/grid.css" />
+    <link rel="stylesheet" type="text/css" href="../../share/css/table.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../share/css/d3.parsets.css"
+    />
+    <script
+      type="text/javascript"
+      src="../../share/data/mushroom/rules_mushroom.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../../share/data/mushroom/obs_mushroom.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../../share/data/mushroom/dataLabels.js"
+    ></script>
+    <script src="../../share/js/d3.v3.min.js" charset="utf-8"></script>
+    <script src="./js/d3.helper.js" charset="utf-8"></script>
+    <script src="../../share/js/clusterfck.js" charset="utf-8"></script>
+    <script src="../../share/js/d3.parsets.js" charset="utf-8"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        var pageLayout = $("#container").layout({
+          center__spacing_open: 1,
+          center__spacing_closed: 1,
+          // , center__onresize: function(pane, $Pane, paneState, options){
+          //     var newW = $Pane.find('#pcView').innerWidth(),
+          //         newH = $Pane.find('#pcView').innerHeight();
+
+          //     d3.select("#pcView svg")
+          //       .attr("width", newW)
+          //       .attr("height", newH);
+
+          //       rawdataGrid.resizeCanvas();
+
+          //parsets.resize(newW, newH);
+          //var div = $Pane.find(".ui-layout-content:first");
+          // }
+
+          west__size: "59%",
+          west__enableCursorHotkey: false,
+          west__closable: false,
+          west__resizable: false,
+          west__slidable: false,
+          west__spacing_open: 1,
+          west__spacing_closed: 1,
+
+          north__size: "5%",
+          north__enableCursorHotkey: false,
+          north__closable: false,
+          north__resizable: false,
+          north__slidable: false,
+          north__spacing_open: 1,
+          north__spacing_closed: 1,
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="container">
+      <div class="pane ui-layout-west">
+        <div class="view_header">
+          <div class="view_title">Association Rule Table</div>
+          <div id="support-container">
+            <label>Support range (%): </label>
+            <div id="support-slider">
+              <div id="supp-handle-left" class="ui-slider-handle"></div>
+              <div id="supp-handle-right" class="ui-slider-handle"></div>
             </div>
-            <div id="ruleview">
-               <div id="ruleControls">
-                  <div  class="configHeader" style="margin-top: 1em;">Sort dimensions by</div>
-                  <div id="sortdimratio">
-                     <fieldset>
-                        <input type="radio" id="dim_sortbyMixedCloseness" value="mixCloseness" name="sortDim">
-                        <label for="dim_sortbyMixedCloseness"> Association</label>  
-                        <br>
-                        <input type="radio" id="dim_sortbyYesCloseness" value="yesCloseness" name="sortDim">
-                        <label for="dim_sortbyYesCloseness"> Edible association</label>   
-                        <br>
-                        <input type="radio" id="dim_sortbyNoCloseness" value="noCloseness" name="sortDim">
-                        <label for="dim_sortbyNoCloseness"> Poisonous association</label>   
-                        <br>
-                     </fieldset>
-                     <fieldset>     
-                        <input type="radio" id="dim_sortbyMixCategoryCnt" value="mixCategoryCount" name="sortDim">
-                        <label for="dim_sortbyMixCategoryCnt"> Category count</label>
-                        <br>
-                        <input type="radio" id="dim_sortbyYesCategoryCnt" value="yesCategoryCount" name="sortDim">
-                        <label for="dim_sortbyYesCategoryCnt"> Edible category count</label>
-                        <br>
-                        <input type="radio" id="dim_sortbyNoCategoryCnt" value="noCategoryCount" name="sortDim" >
-                        <label for="dim_sortbyNoCategoryCnt" style="margin-bottom: 1em;"> Poisonous category count</label>
-                        <br>
-                     </fieldset>
-                     <fieldset>
-                        <input type="radio" id="dim_sortbyMixRulesCnt" value="rulesCount" name="sortDim">
-                        <label for="dim_sortbyMixRulesCnt"> Rule Count</label> 
-                        <br>
-                        <input type="radio" id="dim_sortbyYesRulesCnt" value="yesrulesCount" name="sortDim">
-                        <label for="dim_sortbyYesRulesCnt"> Edible rule count</label> 
-                        <br>
-                        <input type="radio" id="dim_sortbyNoRulesCnt" value="norulesCount" name="sortDim">
-                        <label for="dim_sortbyNoRulesCnt" style="margin-bottom: 1em;">Poisonous rule count</label> 
-                        <br>
-                     </fieldset>
-                     <!-- <fieldset>
+          </div>
+        </div>
+        <div id="ruleview">
+          <div id="ruleControls">
+            <div class="configHeader" style="margin-top: 1em">
+              Sort dimensions by
+            </div>
+            <div id="sortdimratio">
+              <fieldset>
+                <input
+                  type="radio"
+                  id="dim_sortbyMixedCloseness"
+                  value="mixCloseness"
+                  name="sortDim"
+                />
+                <label for="dim_sortbyMixedCloseness"> Association</label>
+                <br />
+                <input
+                  type="radio"
+                  id="dim_sortbyYesCloseness"
+                  value="yesCloseness"
+                  name="sortDim"
+                />
+                <label for="dim_sortbyYesCloseness"> Edible association</label>
+                <br />
+                <input
+                  type="radio"
+                  id="dim_sortbyNoCloseness"
+                  value="noCloseness"
+                  name="sortDim"
+                />
+                <label for="dim_sortbyNoCloseness">
+                  Poisonous association</label
+                >
+                <br />
+              </fieldset>
+              <fieldset>
+                <input
+                  type="radio"
+                  id="dim_sortbyMixCategoryCnt"
+                  value="mixCategoryCount"
+                  name="sortDim"
+                />
+                <label for="dim_sortbyMixCategoryCnt"> Category count</label>
+                <br />
+                <input
+                  type="radio"
+                  id="dim_sortbyYesCategoryCnt"
+                  value="yesCategoryCount"
+                  name="sortDim"
+                />
+                <label for="dim_sortbyYesCategoryCnt">
+                  Edible category count</label
+                >
+                <br />
+                <input
+                  type="radio"
+                  id="dim_sortbyNoCategoryCnt"
+                  value="noCategoryCount"
+                  name="sortDim"
+                />
+                <label for="dim_sortbyNoCategoryCnt" style="margin-bottom: 1em">
+                  Poisonous category count</label
+                >
+                <br />
+              </fieldset>
+              <fieldset>
+                <input
+                  type="radio"
+                  id="dim_sortbyMixRulesCnt"
+                  value="rulesCount"
+                  name="sortDim"
+                />
+                <label for="dim_sortbyMixRulesCnt"> Rule Count</label>
+                <br />
+                <input
+                  type="radio"
+                  id="dim_sortbyYesRulesCnt"
+                  value="yesrulesCount"
+                  name="sortDim"
+                />
+                <label for="dim_sortbyYesRulesCnt"> Edible rule count</label>
+                <br />
+                <input
+                  type="radio"
+                  id="dim_sortbyNoRulesCnt"
+                  value="norulesCount"
+                  name="sortDim"
+                />
+                <label for="dim_sortbyNoRulesCnt" style="margin-bottom: 1em"
+                  >Poisonous rule count</label
+                >
+                <br />
+              </fieldset>
+              <!-- <fieldset>
                         <input type="radio" id="dim_sortbyAggregationYes" value="yesAggCount" name="sortDim">
                         <label for="dim_sortbyAggregationYes"> Yes Aggregation</label> 
                         <br>
@@ -123,70 +200,98 @@
                         <label for="dim_sortbyAggregationNo" style="margin-bottom: 1em;">No Aggregation</label> 
                         <br>
                         </fieldset> -->
-                  </div>
-                  <div  class="configHeader">Sort rules by</div>
-                  <fieldset>
-                     <div id="sortruleratio">
-                        <input type="radio" id="rule_sortbySupport" value="support" name="sortRule">
-                        <label for="rule_sortbySupport"> Support </label> <!--↓-->
-                        <br>
-                        <input type="radio" id="rule_sortbyConfidence" value="confidence" name="sortRule">
-                        <label for="rule_sortbyConfidence"> Confidence</label>  
-                        <!-- <br>
+            </div>
+            <div class="configHeader">Sort rules by</div>
+            <fieldset>
+              <div id="sortruleratio">
+                <input
+                  type="radio"
+                  id="rule_sortbySupport"
+                  value="support"
+                  name="sortRule"
+                />
+                <label for="rule_sortbySupport"> Support </label>
+                <!--↓-->
+                <br />
+                <input
+                  type="radio"
+                  id="rule_sortbyConfidence"
+                  value="confidence"
+                  name="sortRule"
+                />
+                <label for="rule_sortbyConfidence"> Confidence</label>
+                <!-- <br>
                            <input type="radio" id="rule_sortbyAggreYes" value="ruleAggYes" name="sortRule">
                            <label for="rule_sortbyAggreYes"> Yes Aggregation</label>   
                            <br>
                            <input type="radio" id="rule_sortbyAggreNo" value="ruleAggNo" name="sortRule">
-                           <label for="rule_sortbyAggreNo"> No Aggregation</label>      -->        
-                     </div>
-                  </fieldset>
-                  <div id="support-legend"><svg id="support-legend-svg"></svg></div>
-                  
-               </div>
+                           <label for="rule_sortbyAggreNo"> No Aggregation</label>      -->
+              </div>
+            </fieldset>
+            <div id="support-legend"><svg id="support-legend-svg"></svg></div>
+          </div>
 
-               <div id="ruleOverview"></div>
-            </div>
-         </div>
-         <div class="pane ui-layout-center">
-            <div class="view_header">
-               <div class="view_title">Parallel Sets</div>
-               <div id="toggleParsets" style="display: inline; margin-left: 2%">         
-                  <label>Filter: </label>
-                  <label for="toggleParsetCates">Rule-related category</label>
-                  <input type="checkbox" name="checkbox-1" id="toggleParsetCates">
-                  <label for="toggleParsetUnhighlights">Highlight</label>
-                  <input type="checkbox" name="checkbox-2" id="toggleParsetUnhighlights">
-               </div>
-                
-               <div class="view_title_right">Clutter: <span id='clutterMetricSpan'>23%</span></div>
-            </div>
-            <div id="pcView">   
-            </div>
-         </div>
-         <div class="pane ui-layout-north" style="overflow:hidden">
-            <div class="header"> An Association Rule based Approach to Reducing Visual Clutter in Parallel Sets</div>
-             <div class='info'>
-               <span class='yes'>Edible = Yes</span>
-               <span class='no'>Edible = No</span>
-            </div>
-         </div>
+          <div id="ruleOverview"></div>
+        </div>
       </div>
-      <script src="./js/util.js"></script>
-      <script src="./js/grid.js"></script>
-      <script src="./js/main.js"></script>
-      <script src="./js/parallelset.js"></script>
-      <!-- Start of StatCounter Code for Default Guide -->
+      <div class="pane ui-layout-center">
+        <div class="view_header">
+          <div class="view_title">Parallel Sets</div>
+          <div id="toggleParsets" style="display: inline; margin-left: 2%">
+            <label>Filter: </label>
+            <label for="toggleParsetCates">Rule-related category</label>
+            <input type="checkbox" name="checkbox-1" id="toggleParsetCates" />
+            <label for="toggleParsetUnhighlights">Highlight</label>
+            <input
+              type="checkbox"
+              name="checkbox-2"
+              id="toggleParsetUnhighlights"
+            />
+          </div>
+
+          <div class="view_title_right">
+            Clutter: <span id="clutterMetricSpan">23%</span>
+          </div>
+        </div>
+        <div id="pcView"></div>
+      </div>
+      <div class="pane ui-layout-north" style="overflow: hidden">
+        <div class="header">
+          An Association Rule based Approach to Reducing Visual Clutter in
+          Parallel Sets
+        </div>
+        <div class="info">
+          <span class="yes">Edible = Yes</span>
+          <span class="no">Edible = No</span>
+        </div>
+      </div>
+    </div>
+    <script src="./js/util.js"></script>
+    <script src="./js/grid.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./js/parallelset.js"></script>
+    <!-- Default Statcounter code for Personal page
+https://chongzhang-vis.github.io/ -->
     <script type="text/javascript">
-    var sc_project=10227952; 
-    var sc_invisible=1; 
-    var sc_security="19025bec"; 
-    var sc_https=1; 
-    var scJsHost = (("https:" == document.location.protocol) ?
-    "https://secure." : "http://www.");
-    document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
-    "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
-    </script> 
-    <noscript><div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div></noscript> 
-<!-- End of StatCounter Code for Default Guide -->
-   </body>
+      var sc_project = 10227952;
+      var sc_invisible = 1;
+      var sc_security = "19025bec";
+    </script>
+    <script
+      type="text/javascript"
+      src="https://www.statcounter.com/counter/counter.js"
+      async
+    ></script>
+    <noscript
+      ><div class="statcounter">
+        <a title="Web Analytics" href="https://statcounter.com/" target="_blank"
+          ><img
+            class="statcounter"
+            src="https://c.statcounter.com/10227952/0/19025bec/1/"
+            alt="Web Analytics"
+            referrerpolicy="no-referrer-when-downgrade"
+        /></a></div
+    ></noscript>
+    <!-- End of Statcounter Code -->
+  </body>
 </html>

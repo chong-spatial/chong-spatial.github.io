@@ -1,27 +1,30 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-  <head> 
+  <head>
     <title>Trajactory Vis - Technique Prototype</title>
-    <link href="map.css" rel="stylesheet" type="text/css">
-    <link href="../../share/css/jquery-ui_smoothness.css" rel="stylesheet" type="text/css">
+    <link href="map.css" rel="stylesheet" type="text/css" />
+    <link
+      href="../../share/css/jquery-ui_smoothness.css"
+      rel="stylesheet"
+      type="text/css"
+    />
 
     <style>
-    	.graph {
-    		fill: None;		
-    	}
-    	
-    	.graph .route .rosearcs path {
-    		stroke: #DCDADA;	
-    		stroke-width: 1px
-    	}
+      .graph {
+        fill: None;
+      }
+
+      .graph .route .rosearcs path {
+        stroke: #dcdada;
+        stroke-width: 1px;
+      }
       .route {
         cursor: pointer;
       }
-
     </style>
-    <script src="scripts/OpenLayers.js" ></script>  
+    <script src="scripts/OpenLayers.js"></script>
     <script src="../../share/js/jquery-latest.js"></script>
-    <script src="../../share/js/jquery-ui-latest.js"></script>  
+    <script src="../../share/js/jquery-ui-latest.js"></script>
     <script src="../../share/js/d3.v3.min.js"></script>
     <script src="data/testdata.js"></script>
     <script src="data/partitionGraphAndDetail_ForChong.js"></script>
@@ -29,34 +32,65 @@
     <script src="scripts/setting.js"></script>
     <script src="scripts/overlay.js"></script>
     <script src="scripts/map.js"></script>
-    
-
   </head>
   <body onload="init();">
     <div>
-      <div style="display: inline; float: right; "> <input type = "submit" id = "resetbtn" value = "Reset Map"><a href="../traj/index.html" target="_blank">This is just a technical prototype. See the application?</a></div>
-      <div id="graphpart" style="z-index: 100; text-align: center;" class="ui-widget-header ui-corner-all";>
-        <input type="radio" id="pagerank" name="radio" checked="checked"><label for="pagerank">Meature1</label>
-        <input type="radio" id="betweenness" name="radio" ><label for="betweenness">Meature2</label>
-        <input type="radio" id="closeness" name="radio" ><label for="closeness">Meature3</label>
-        <input type="radio" id="degree" name="radio" ><label for="degree">Meature4</label>
-      </div>    
+      <div style="display: inline; float: right">
+        <input type="submit" id="resetbtn" value="Reset Map" /><a
+          href="../traj/index.html"
+          target="_blank"
+          >This is just a technical prototype. See the application?</a
+        >
+      </div>
+      <div
+        id="graphpart"
+        style="z-index: 100; text-align: center"
+        class="ui-widget-header ui-corner-all"
+        ;
+      >
+        <input
+          type="radio"
+          id="pagerank"
+          name="radio"
+          checked="checked"
+        /><label for="pagerank">Meature1</label>
+        <input type="radio" id="betweenness" name="radio" /><label
+          for="betweenness"
+          >Meature2</label
+        >
+        <input type="radio" id="closeness" name="radio" /><label for="closeness"
+          >Meature3</label
+        >
+        <input type="radio" id="degree" name="radio" /><label for="degree"
+          >Meature4</label
+        >
+      </div>
     </div>
     <div id="basicMap"></div>
     <p id="details"></p>
 
-    <!-- Start of StatCounter Code for Default Guide -->
+    <!-- Default Statcounter code for Personal page
+https://chongzhang-vis.github.io/ -->
     <script type="text/javascript">
-    var sc_project=10227952; 
-    var sc_invisible=1; 
-    var sc_security="19025bec"; 
-    var sc_https=1; 
-    var scJsHost = (("https:" == document.location.protocol) ?
-    "https://secure." : "http://www.");
-    document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
-    "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
-    </script> 
-    <noscript><div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div></noscript> 
-<!-- End of StatCounter Code for Default Guide -->
+      var sc_project = 10227952;
+      var sc_invisible = 1;
+      var sc_security = "19025bec";
+    </script>
+    <script
+      type="text/javascript"
+      src="https://www.statcounter.com/counter/counter.js"
+      async
+    ></script>
+    <noscript
+      ><div class="statcounter">
+        <a title="Web Analytics" href="https://statcounter.com/" target="_blank"
+          ><img
+            class="statcounter"
+            src="https://c.statcounter.com/10227952/0/19025bec/1/"
+            alt="Web Analytics"
+            referrerpolicy="no-referrer-when-downgrade"
+        /></a></div
+    ></noscript>
+    <!-- End of Statcounter Code -->
   </body>
 </html>

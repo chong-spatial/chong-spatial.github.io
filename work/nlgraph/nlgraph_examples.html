@@ -1,172 +1,214 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>NLGraph.js examples</title>
     <link rel="stylesheet" href="nlgraph.css" />
-    <script src="NLGraph.min.v0.3.4.js"></script> 
-    
+    <script src="NLGraph.min.v0.3.4.js"></script>
+
     <script src="global.js"></script>
     <script src="jsondata.js"></script>
   </head>
   <body>
-    <div><h3>
-    This is a Node-Link Graph JavaScript library built on top of D3.js. </h3><h3>Interactions include drag, click, zoom, mouseover/move/up/down, and brush. </h3><h3>It has the following advanced features: 1. Multi-edges rendering between two nodes; 2. Readable edge labeling; 3. Multiple shapes rendering for nodes/links; 4. Flexible event handling; 5. Individual node/link styling; 6. Snapshotting; 7. Ease of maintenance and extension. </h3>
-    
-  </div>
-   
-      <div class="container">
-         <div id="force" class="subcontainer"></div>        
-               <div id="flight1" class="subcontainer"></div>
-      </div>
-      <div class="container">
-        <div id="fraud2" class="subcontainer"></div>
+    <div>
+      <h3>
+        This is a Node-Link Graph JavaScript library built on top of D3.js.
+      </h3>
+      <h3>
+        Interactions include drag, click, zoom, mouseover/move/up/down, and
+        brush.
+      </h3>
+      <h3>
+        It has the following advanced features: 1. Multi-edges rendering between
+        two nodes; 2. Readable edge labeling; 3. Multiple shapes rendering for
+        nodes/links; 4. Flexible event handling; 5. Individual node/link
+        styling; 6. Snapshotting; 7. Ease of maintenance and extension.
+      </h3>
+    </div>
 
-       <div id="flight2" class="subcontainer"></div>
-      </div>
-      
+    <div class="container">
+      <div id="force" class="subcontainer"></div>
+      <div id="flight1" class="subcontainer"></div>
+    </div>
+    <div class="container">
+      <div id="fraud2" class="subcontainer"></div>
 
+      <div id="flight2" class="subcontainer"></div>
+    </div>
 
     <script>
       var forceEl = document.getElementById("force"),
-          flight1El = document.getElementById("flight1"),
-          flight2El = document.getElementById("flight2"),
-          //socialEl = document.getElementById("social"),
-          fraud2El = document.getElementById("fraud2");
-    
+        flight1El = document.getElementById("flight1"),
+        flight2El = document.getElementById("flight2"),
+        //socialEl = document.getElementById("social"),
+        fraud2El = document.getElementById("fraud2");
 
-      var forceGraph = new NLGraph(forceEl, nodes[0], links[0], options[0]).render(),
-          flight1Graph = new NLGraph(flight1El, nodes[1], links[1], options[1]).render(),
-          flight2Graph = new NLGraph(flight2El, nodes[2], links[2], options[2]).render(),
-          //socialGraph = new NLGraph(socialEl, nodes[3], links[3], options[3]).render(),
-          fraud2Graph = new NLGraph(fraud2El, nodes[5], links[5], options[5]).render();
+      var forceGraph = new NLGraph(
+          forceEl,
+          nodes[0],
+          links[0],
+          options[0]
+        ).render(),
+        flight1Graph = new NLGraph(
+          flight1El,
+          nodes[1],
+          links[1],
+          options[1]
+        ).render(),
+        flight2Graph = new NLGraph(
+          flight2El,
+          nodes[2],
+          links[2],
+          options[2]
+        ).render(),
+        //socialGraph = new NLGraph(socialEl, nodes[3], links[3], options[3]).render(),
+        fraud2Graph = new NLGraph(
+          fraud2El,
+          nodes[5],
+          links[5],
+          options[5]
+        ).render();
 
-    
-      for(var i = 0; i < forceGraph.nodes.length; ++i){
+      for (var i = 0; i < forceGraph.nodes.length; ++i) {
         var n = forceGraph.nodes[i];
         forceGraph.setNodeLabel(n.id, n.type, ["id", "type"]);
-
       }
 
-      for(var i = 0; i < flight1Graph.links.length; ++i){
+      for (var i = 0; i < flight1Graph.links.length; ++i) {
         var n = flight1Graph.links[i];
-        flight1Graph.setEdgeLabel(n.source.id, n.source.type, n.target.id, n.target.type, n.etype, ["etype"]);
-
+        flight1Graph.setEdgeLabel(
+          n.source.id,
+          n.source.type,
+          n.target.id,
+          n.target.type,
+          n.etype,
+          ["etype"]
+        );
       }
 
-      for(var i = 0; i < flight2Graph.links.length; ++i){
+      for (var i = 0; i < flight2Graph.links.length; ++i) {
         var n = flight2Graph.links[i];
-        flight2Graph.setEdgeLabel(n.source.id, n.source.type, n.target.id, n.target.type, n.etype, ["etype"]);
-
-      }     
-      
-
-      for(var i = 0; i < fraud2Graph.links.length; ++i){
-        var n = fraud2Graph.links[i];
-        fraud2Graph.setEdgeLabel(n.source.id, n.source.type, n.target.id, n.target.type, n.etype, ["label"]);
-
+        flight2Graph.setEdgeLabel(
+          n.source.id,
+          n.source.type,
+          n.target.id,
+          n.target.type,
+          n.etype,
+          ["etype"]
+        );
       }
-      
-      
 
-   // can also use jQuery to listen for events
-   d3.select(window).on("click", function () {
-       forceGraph.unHighlight();
-       forceGraph.unSelect();
+      for (var i = 0; i < fraud2Graph.links.length; ++i) {
+        var n = fraud2Graph.links[i];
+        fraud2Graph.setEdgeLabel(
+          n.source.id,
+          n.source.type,
+          n.target.id,
+          n.target.type,
+          n.etype,
+          ["label"]
+        );
+      }
 
-       flight1Graph.unHighlight();
-       flight1Graph.unSelect();
+      // can also use jQuery to listen for events
+      d3.select(window).on("click", function () {
+        forceGraph.unHighlight();
+        forceGraph.unSelect();
 
-       flight2Graph.unHighlight();
-       flight2Graph.unSelect();
+        flight1Graph.unHighlight();
+        flight1Graph.unSelect();
 
-       fraud2Graph.unHighlight();
-       fraud2Graph.unSelect();
+        flight2Graph.unHighlight();
+        flight2Graph.unSelect();
 
-   });
+        fraud2Graph.unHighlight();
+        fraud2Graph.unSelect();
+      });
 
+      function hierarchyLayout(nodes) {
+        // find root node
+        // can change on your own
+        var root = nodes.filter(function (n) {
+          return n.index == 6;
+        })[0]; //1, 5, 6
+        // root node will be on the top of window
+        root.fixed = true;
+        root.x = 700; // w / 2;
+        root.y = 120;
 
-   function hierarchyLayout(nodes) {
-       // find root node
-       // can change on your own
-       var root = nodes.filter(function(n){ return n.index == 6})[0]; //1, 5, 6
-       // root node will be on the top of window
-       root.fixed = true;
-       root.x = 700; // w / 2;
-       root.y = 120;
+        //var kx = .4 * e.alpha, ky = 1.4 * e.alpha;
 
+        //links.forEach(function(l) {
+        //d.target.x += (d.source.x - d.target.x) * kx;
+        //d.target.y += (d.source.y + 80 - d.target.y) * ky;
 
-       //var kx = .4 * e.alpha, ky = 1.4 * e.alpha;
+        //var ky = 1.2 * e.alpha;
+        //d.target.y += (d.target.depth * 120 - d.target.y) * ky;
 
+        //var k = 6 * e.alpha;
+        //      l.source.y -= k;
+        //      l.target.y += k;
+        //  });
+        var separation_x = 130,
+          separation_y = 80;
 
-       //links.forEach(function(l) {
-           //d.target.x += (d.source.x - d.target.x) * kx;
-           //d.target.y += (d.source.y + 80 - d.target.y) * ky;
+        var secondLvNodes = graph.getAssociatedNodes(root.id, root.type);
+        var deepLv = 2;
+        recursiveSetPosition(secondLvNodes, deepLv);
 
-           //var ky = 1.2 * e.alpha;
-           //d.target.y += (d.target.depth * 120 - d.target.y) * ky;
+        function recursiveSetPosition(curNodes, depth) {
+          var nextDepthNodes = [];
 
-           //var k = 6 * e.alpha;
-     //      l.source.y -= k;
-     //      l.target.y += k;
-     //  });
-       var separation_x = 130,
-           separation_y = 80;
+          var widthCount = 0;
 
-       var secondLvNodes = graph.getAssociatedNodes(root.id, root.type);
-       var deepLv = 2;
-       recursiveSetPosition(secondLvNodes, deepLv);
+          curNodes.forEach(function (n, i) {
+            if (!n.fixed) {
+              n.fixed = true;
+              n.x = (i - widthCount) * separation_x + root.x;
+              n.y = separation_y * depth + root.y;
 
-       function recursiveSetPosition(curNodes, depth) {
+              nextDepthNodes = nextDepthNodes.concat(
+                graph.getAssociatedNodes(n.id, n.type)
+              );
+            } else {
+              widthCount += 1;
+            }
+          });
 
-           var nextDepthNodes = [];
+          if (nextDepthNodes.length > 0) {
+            //var nextDepth = depth++;
 
-           var widthCount = 0;
+            recursiveSetPosition(nextDepthNodes, ++depth);
+          }
+        }
+      }
 
-           curNodes.forEach(function(n, i) {
-               if (!n.fixed) {
-                   n.fixed = true;
-                   n.x = (i - widthCount) * separation_x + root.x;
-                   n.y = separation_y * depth + root.y;
-
-                   nextDepthNodes = nextDepthNodes.concat(graph.getAssociatedNodes(n.id, n.type));
-
-               } else {
-                   widthCount += 1;
-               }
-
-
-
-           });
-
-           if (nextDepthNodes.length > 0) {
-               //var nextDepth = depth++;
-
-               recursiveSetPosition(nextDepthNodes, ++depth);
-
-           }
-       }
-   }
-
-
-
-   //graph.applyLayout(hierarchyLayout, graph.nodes);
-
+      //graph.applyLayout(hierarchyLayout, graph.nodes);
 
       //});
     </script>
-    <!-- Start of StatCounter Code for Default Guide -->
+    <!-- Default Statcounter code for Personal page
+https://chongzhang-vis.github.io/ -->
     <script type="text/javascript">
-    var sc_project=10227952; 
-    var sc_invisible=1; 
-    var sc_security="19025bec"; 
-    var sc_https=1; 
-    var scJsHost = (("https:" == document.location.protocol) ?
-    "https://secure." : "http://www.");
-    document.write("<sc"+"ript type='text/javascript' async src='" + scJsHost+ 
-    "statcounter.com/counter/counter_xhtml.js'></"+"script>"); 
-    </script> 
-    <noscript><div class='statcounter'><a class='statcounter' href='http://statcounter.com/free-web-stats/' title='web stats'><img alt='web stats' class='statcounter' src='http://c.statcounter.com/10227952/0/19025bec/1/'/></a></div></noscript> 
-<!-- End of StatCounter Code for Default Guide -->
+      var sc_project = 10227952;
+      var sc_invisible = 1;
+      var sc_security = "19025bec";
+    </script>
+    <script
+      type="text/javascript"
+      src="https://www.statcounter.com/counter/counter.js"
+      async
+    ></script>
+    <noscript
+      ><div class="statcounter">
+        <a title="Web Analytics" href="https://statcounter.com/" target="_blank"
+          ><img
+            class="statcounter"
+            src="https://c.statcounter.com/10227952/0/19025bec/1/"
+            alt="Web Analytics"
+            referrerpolicy="no-referrer-when-downgrade"
+        /></a></div
+    ></noscript>
+    <!-- End of Statcounter Code -->
   </body>
 </html>

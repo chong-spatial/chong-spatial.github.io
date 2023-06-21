@@ -3,8 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <title>ClusterLens</title>
-    <link type="text/css" rel="stylesheet" href="../../share/css/layout-default-latest.css" />
-    <link rel="stylesheet" href="https://js.arcgis.com/3.30/esri/css/esri.css" />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="../../share/css/layout-default-latest.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/3.30/esri/css/esri.css"
+    />
     <link rel="stylesheet" href="../../share/css/jquery-ui_smoothness.css" />
     <style type="text/css">
       html,
@@ -214,9 +221,18 @@
         cursor: pointer;
       }
     </style>
-    <script type="text/javascript" src="../../share/js/jquery-latest.js"></script>
-    <script type="text/javascript" src="../../share/js/jquery-ui-latest.js"></script>
-    <script type="text/javascript" src="../../share/js/jquery.layout-latest.js"></script>
+    <script
+      type="text/javascript"
+      src="../../share/js/jquery-latest.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../../share/js/jquery-ui-latest.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../../share/js/jquery.layout-latest.js"
+    ></script>
     <script type="text/javascript" src="../../share/js/d3.v4.min.js"></script>
     <script src="https://js.arcgis.com/3.30/"></script>
     <script>
@@ -231,23 +247,23 @@
       let zoomRestore;
 
       require([
-        'esri/layers/VectorTileLayer',
-        'esri/symbols/SimpleMarkerSymbol',
-        'esri/symbols/SimpleLineSymbol',
-        'esri/symbols/SimpleFillSymbol',
-        'esri/symbols/TextSymbol',
-        'esri/symbols/Font',
-        'esri/geometry/Point',
-        'esri/graphic',
-        'esri/geometry/Extent',
-        'esri/SpatialReference',
-        'esri/Color',
-        'esri/map',
-        'esri/layers/FeatureLayer',
-        'esri/renderers/HeatmapRenderer',
-        'esri/geometry/webMercatorUtils',
-        './js/d3layer_v4_quadtree.js'
-      ], function(
+        "esri/layers/VectorTileLayer",
+        "esri/symbols/SimpleMarkerSymbol",
+        "esri/symbols/SimpleLineSymbol",
+        "esri/symbols/SimpleFillSymbol",
+        "esri/symbols/TextSymbol",
+        "esri/symbols/Font",
+        "esri/geometry/Point",
+        "esri/graphic",
+        "esri/geometry/Extent",
+        "esri/SpatialReference",
+        "esri/Color",
+        "esri/map",
+        "esri/layers/FeatureLayer",
+        "esri/renderers/HeatmapRenderer",
+        "esri/geometry/webMercatorUtils",
+        "./js/d3layer_v4_quadtree.js",
+      ], function (
         VectorTileLayer,
         SimpleMarkerSymbol,
         SimpleLineSymbol,
@@ -267,13 +283,13 @@
       ) {
         CoorUtils = WebMercatorUtils;
         const zoom2LOD = {
-          '10': [1, 2, 3, 4, 5, 6, 7, 8],
-          '11': [2, 3, 4, 5, 6, 7, 8],
-          '12': [3, 4, 5, 6, 7, 8, 9],
-          '13': [4, 5, 6, 7, 8, 9],
-          '14': [5, 6, 7, 8, 9, 10],
-          '15': [6, 7, 8, 9, 10],
-          '16': [8, 9, 10, 11]
+          10: [1, 2, 3, 4, 5, 6, 7, 8],
+          11: [2, 3, 4, 5, 6, 7, 8],
+          12: [3, 4, 5, 6, 7, 8, 9],
+          13: [4, 5, 6, 7, 8, 9],
+          14: [5, 6, 7, 8, 9, 10],
+          15: [6, 7, 8, 9, 10],
+          16: [8, 9, 10, 11],
         };
 
         let initMapCenterPoint = [-77.0365, 38.8977];
@@ -281,23 +297,27 @@
         let oneZoomLevel = 11;
         let lensLOD = zoom2LOD[oneZoomLevel][0];
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('center') && urlParams.has('zoom') && urlParams.has('lod')) {
-          const qpCenter = urlParams.get('center');
-          if (qpCenter.indexOf(',') !== -1) {
+        if (
+          urlParams.has("center") &&
+          urlParams.has("zoom") &&
+          urlParams.has("lod")
+        ) {
+          const qpCenter = urlParams.get("center");
+          if (qpCenter.indexOf(",") !== -1) {
             initMapCenterPoint = urlParams
-              .get('center')
-              .split(',')
+              .get("center")
+              .split(",")
               .map((c) => +c);
           }
-          oneZoomLevel = +urlParams.get('zoom');
-          lensLOD = +urlParams.get('lod');
+          oneZoomLevel = +urlParams.get("zoom");
+          lensLOD = +urlParams.get("lod");
         }
 
         initMapCenter = new EsriPoint(
           initMapCenterPoint[0],
           initMapCenterPoint[1],
           new SpatialReference({
-            wkid: 4326
+            wkid: 4326,
           })
         );
 
@@ -307,7 +327,7 @@
         // community: 273bf8d5c8ac400183fc24e109d20bcf
         // colored pencil: 4cf7e1fb9f254dcda9c8fbadb15cf0f8
         let overlayLayer = new VectorTileLayer(
-          'https://www.arcgis.com/sharing/rest/content/items/273bf8d5c8ac400183fc24e109d20bcf/resources/styles/root.json'
+          "https://www.arcgis.com/sharing/rest/content/items/273bf8d5c8ac400183fc24e109d20bcf/resources/styles/root.json"
         );
 
         // overlayLayer = new FeatureLayer(
@@ -318,16 +338,16 @@
         //   }
         // );
 
-        baseMap = new Map('mapviewDiv', {
+        baseMap = new Map("mapviewDiv", {
           center: initMapCenterPoint,
-          basemap: 'dark-gray-vector',
+          basemap: "dark-gray-vector",
           zoom: oneZoomLevel,
           minZoom: 10,
-          maxZoom: 16
+          maxZoom: 16,
         });
         // baseMap.addLayer(lensMapLayer);
 
-        lensMap = new Map('lensMap', {
+        lensMap = new Map("lensMap", {
           center: initMapCenterPoint,
           // basemap: 'gray',
           zoom: oneZoomLevel,
@@ -350,19 +370,19 @@
           isClickRecenter: false,
           isDoubleClickZoom: false,
           isKeyboardNavigation: false,
-          backgroundColor: '#000000'
+          backgroundColor: "#000000",
         });
         lensMap.addLayer(overlayLayer);
         // baseMap.addLayer(overlayLayer);
-        lensMap.navigationMode = 'classic';
+        lensMap.navigationMode = "classic";
 
-        d3.selection.prototype.moveToFront = function() {
-          return this.each(function() {
+        d3.selection.prototype.moveToFront = function () {
+          return this.each(function () {
             this.parentNode.appendChild(this);
           });
         };
-        d3.selection.prototype.moveToBack = function() {
-          return this.each(function() {
+        d3.selection.prototype.moveToBack = function () {
+          return this.each(function () {
             var firstChild = this.parentNode.firstChild;
             if (firstChild) {
               this.parentNode.insertBefore(this, firstChild);
@@ -374,34 +394,38 @@
           const forAGSfc = features.features.map((f) => ({
             attributes: f.properties,
             // hard-coded spatialReferencde for now
-            geometry: { x: f.geometry.coordinates[0], y: f.geometry.coordinates[1], spatialReference: { wkid: 4326 } }
+            geometry: {
+              x: f.geometry.coordinates[0],
+              y: f.geometry.coordinates[1],
+              spatialReference: { wkid: 4326 },
+            },
           }));
           const featureCollection = {
             layerDefinition: null,
             featureSet: {
               features: forAGSfc,
-              geometryType: 'esriGeometryPoint'
-            }
+              geometryType: "esriGeometryPoint",
+            },
           };
           featureCollection.layerDefinition = {
-            geometryType: 'esriGeometryPoint',
-            objectIdField: 'OBJECTID',
+            geometryType: "esriGeometryPoint",
+            objectIdField: "OBJECTID",
             fields: [
               {
-                name: 'OBJECTID',
-                alias: 'OBJECTID',
-                type: 'esriFieldTypeOID'
+                name: "OBJECTID",
+                alias: "OBJECTID",
+                type: "esriFieldTypeOID",
               },
               {
-                name: 'AV_ADD',
-                alias: 'AV_ADD',
-                type: 'esriFieldTypeString'
-              }
-            ]
+                name: "AV_ADD",
+                alias: "AV_ADD",
+                type: "esriFieldTypeString",
+              },
+            ],
           };
 
           heatmapFeatureLayer = new FeatureLayer(featureCollection, {
-            id: 'heatmapLayer'
+            id: "heatmapLayer",
           });
           // black-white-red
           // colorStops: [
@@ -414,27 +438,28 @@
 
           const heatmapRenderer = new HeatmapRenderer({
             colorStops: [
-              { color: 'rgba(63, 40, 102, 0)', ratio: 0 },
-              { color: '#00441b', ratio: 0.083 },
-              { color: '#276419', ratio: 0.166 },
-              { color: '#4d9221', ratio: 0.249 },
-              { color: '#7fbc41', ratio: 0.332 },
-              { color: '#b8e186', ratio: 0.415 },
-              { color: '#e6f5d0', ratio: 0.498 },
-              { color: '#f7f7f7', ratio: 0.581 },
-              { color: '#fde0ef', ratio: 0.664 },
-              { color: '#f1b6da', ratio: 0.747 },
-              { color: '#de77ae', ratio: 0.83 },
-              { color: '#c51b7d', ratio: 0.913 },
-              { color: '#8e0152', ratio: 1 }
-            ]
+              { color: "rgba(63, 40, 102, 0)", ratio: 0 },
+              { color: "#00441b", ratio: 0.083 },
+              { color: "#276419", ratio: 0.166 },
+              { color: "#4d9221", ratio: 0.249 },
+              { color: "#7fbc41", ratio: 0.332 },
+              { color: "#b8e186", ratio: 0.415 },
+              { color: "#e6f5d0", ratio: 0.498 },
+              { color: "#f7f7f7", ratio: 0.581 },
+              { color: "#fde0ef", ratio: 0.664 },
+              { color: "#f1b6da", ratio: 0.747 },
+              { color: "#de77ae", ratio: 0.83 },
+              { color: "#c51b7d", ratio: 0.913 },
+              { color: "#8e0152", ratio: 1 },
+            ],
             //blurRadius: 12,
             //maxPixelIntensity: 5,
             //minPixelIntensity: 1
           });
           heatmapFeatureLayer.setRenderer(heatmapRenderer);
           // first index is for heatmap
-          heatmapFeatureLayer.visible = geojson_layer_lens.curLOD === zoom2LOD[oneZoomLevel][0];
+          heatmapFeatureLayer.visible =
+            geojson_layer_lens.curLOD === zoom2LOD[oneZoomLevel][0];
 
           lensMap.addLayer(heatmapFeatureLayer);
         }
@@ -442,29 +467,41 @@
         function attractionLensLyrCallback(attrFeatures) {
           createFeatureLayerHeatmap(attrFeatures);
           const scrCtrBaseMap = baseMap.toScreen(initMapCenter);
-          const offsetBaseMap = $('#mapviewDiv_root').offset();
-          $('#lensMap').css('top', offsetBaseMap.top + scrCtrBaseMap.y - $('#lensMap').height() / 2 + 'px');
-          $('#lensMap').css('left', offsetBaseMap.left + scrCtrBaseMap.x - $('#lensMap').width() / 2 + 'px');
+          const offsetBaseMap = $("#mapviewDiv_root").offset();
+          $("#lensMap").css(
+            "top",
+            offsetBaseMap.top +
+              scrCtrBaseMap.y -
+              $("#lensMap").height() / 2 +
+              "px"
+          );
+          $("#lensMap").css(
+            "left",
+            offsetBaseMap.left +
+              scrCtrBaseMap.x -
+              $("#lensMap").width() / 2 +
+              "px"
+          );
 
           var pointSpans =
             '<span style="display: inline-block; border-radius: 6px; padding: 5px 5px;background-color:#fff; border: solid 1px #000"></span> Center Lens';
           var travelTimePySpans =
             '<div id="traveltimeColorSpan"><span class="traveltime1"></span>1minutes <span class="traveltime2"></span>2minutes <span class="traveltime3"></span>3minutes</div>';
-          d3.select('#centerLens')
+          d3.select("#centerLens")
             .html(pointSpans)
             .on(
-              'click',
+              "click",
               () => {
                 const mapCtr = baseMap.extent.getCenter();
                 const scrCtr = baseMap.toScreen(mapCtr);
                 lensMap.centerAt(mapCtr);
-                const lensWidth = $('#lensMap').width();
-                const lensHeight = $('#lensMap').height();
-                const baseMapOffset = $('#mapviewDiv').offset();
+                const lensWidth = $("#lensMap").width();
+                const lensHeight = $("#lensMap").height();
+                const baseMapOffset = $("#mapviewDiv").offset();
 
-                $('#lensMap').offset({
+                $("#lensMap").offset({
                   top: scrCtr.y - lensHeight / 2 + baseMapOffset.top,
-                  left: scrCtr.x - lensWidth / 2 + baseMapOffset.left
+                  left: scrCtr.x - lensWidth / 2 + baseMapOffset.left,
                 });
                 geojson_layer_lens.resetCenter();
               }
@@ -481,38 +518,44 @@
           return;
         }
 
-        geojson_layer = new d3Layer('../../share/data/DC_attractions_new.json', {
-          id: 'layer_geojson_layer',
-          attr: {
-            class: 'attraction',
-            r: 4
-          },
-          svgType: 'circle',
-          map: baseMap,
-          rawPoints: true
-          // callback:
-        });
+        geojson_layer = new d3Layer(
+          "../../share/data/DC_attractions_new.json",
+          {
+            id: "layer_geojson_layer",
+            attr: {
+              class: "attraction",
+              r: 4,
+            },
+            svgType: "circle",
+            map: baseMap,
+            rawPoints: true,
+            // callback:
+          }
+        );
 
-        geojson_layer_lens = new d3Layer('../../share/data/DC_attractions_new.json', {
-          id: 'layer_geojson_layer_lens',
-          // attr: [{name: 'r', value: function }, {name: 'class', value: 'classname'}]
-          // style: [{name: 'stroke', value: }, {name: 'fill', value: }]
-          // svgType: circle, rect,
+        geojson_layer_lens = new d3Layer(
+          "../../share/data/DC_attractions_new.json",
+          {
+            id: "layer_geojson_layer_lens",
+            // attr: [{name: 'r', value: function }, {name: 'class', value: 'classname'}]
+            // style: [{name: 'stroke', value: }, {name: 'fill', value: }]
+            // svgType: circle, rect,
 
-          attr: {
-            class: 'attraction'
-          },
-          svgType: 'circle',
-          map: lensMap,
-          parentMap: baseMap,
-          autoCluster: false,
-          LOD: lensLOD,
-          // // the first are heatmap and circleCluster, then are grid LOD
-          zoom2LOD: zoom2LOD,
-          colorScale0: '#feebe2',
-          colorScale1: '#dd1c77',
-          callback: attractionLensLyrCallback
-        });
+            attr: {
+              class: "attraction",
+            },
+            svgType: "circle",
+            map: lensMap,
+            parentMap: baseMap,
+            autoCluster: false,
+            LOD: lensLOD,
+            // // the first are heatmap and circleCluster, then are grid LOD
+            zoom2LOD: zoom2LOD,
+            colorScale0: "#feebe2",
+            colorScale1: "#dd1c77",
+            callback: attractionLensLyrCallback,
+          }
+        );
 
         baseMap.addLayers([geojson_layer]);
         lensMap.addLayers([geojson_layer_lens]);
@@ -523,32 +566,36 @@
 
         const extSymbol = new SimpleFillSymbol(
           new Color([0, 255, 0, 0.25]),
-          new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASHDOT, new Color([255, 0, 0]), 2),
+          new SimpleLineSymbol(
+            SimpleLineSymbol.STYLE_DASHDOT,
+            new Color([255, 0, 0]),
+            2
+          ),
           new Color([255, 255, 0, 0.25])
         );
 
-        baseMap.on('load', function() {
-          d3.select('#' + baseMap.graphics.id + '_layer').moveToBack();
+        baseMap.on("load", function () {
+          d3.select("#" + baseMap.graphics.id + "_layer").moveToBack();
         });
-        lensMap.on('load', function() {
+        lensMap.on("load", function () {
           lensMapExtent = lensMap.extent;
           lensMapExtGraphic = new Graphic(lensMapExtent, extSymbol);
         });
 
-        baseMap.on('pan', (e) => {
+        baseMap.on("pan", (e) => {
           if (zoomRestore) {
             return;
           }
           lensMap.__pan(e.delta.x, e.delta.y);
         });
-        baseMap.on('pan-end', (e) => {
+        baseMap.on("pan-end", (e) => {
           if (zoomRestore) {
             return;
           }
           lensMap.__panEnd(e.delta.x, e.delta.y);
         });
 
-        baseMap.on('zoom-end', (e) => {
+        baseMap.on("zoom-end", (e) => {
           if (zoomRestore) {
             return;
           }
@@ -561,17 +608,26 @@
           // end up with keeping user focus as zoom gets changes
           //console.log('basemap zoom-end handler...');
           let lensScrCtr = [
-            $('#lensMap').offset().left + $('#lensMap').width() / 2,
-            $('#lensMap').offset().top + $('#lensMap').height() / 2
+            $("#lensMap").offset().left + $("#lensMap").width() / 2,
+            $("#lensMap").offset().top + $("#lensMap").height() / 2,
           ];
           let lensMapCtr = lensMap.extent.getCenter();
           const lensScrCtrInBaseMap = baseMap.toScreen(lensMapCtr);
 
-          const newScrOffsetLeft = lensScrCtrInBaseMap.x - $('#lensMap').width() / 2 + $('#mapviewDiv').offset().left;
-          const newScrOffsetTop = lensScrCtrInBaseMap.y - $('#lensMap').height() / 2 + $('#mapviewDiv').offset().top;
+          const newScrOffsetLeft =
+            lensScrCtrInBaseMap.x -
+            $("#lensMap").width() / 2 +
+            $("#mapviewDiv").offset().left;
+          const newScrOffsetTop =
+            lensScrCtrInBaseMap.y -
+            $("#lensMap").height() / 2 +
+            $("#mapviewDiv").offset().top;
 
           lensMap.setZoom(baseMap.getZoom());
-          $('#lensMap').offset({ top: newScrOffsetTop, left: newScrOffsetLeft });
+          $("#lensMap").offset({
+            top: newScrOffsetTop,
+            left: newScrOffsetLeft,
+          });
 
           return;
 
@@ -581,39 +637,65 @@
           // 3. lensMap.centerAndZoom(resultInStep2)
 
           lensScrCtr = [
-            $('#lensMap').offset().left - $('#mapviewDiv').offset().left + $('#lensMap').width() / 2,
-            $('#lensMap').offset().top - $('#mapviewDiv').offset().top + $('#lensMap').height() / 2
+            $("#lensMap").offset().left -
+              $("#mapviewDiv").offset().left +
+              $("#lensMap").width() / 2,
+            $("#lensMap").offset().top -
+              $("#mapviewDiv").offset().top +
+              $("#lensMap").height() / 2,
           ];
-          const baseMapThrough = baseMap.toMap({ x: lensScrCtr[0], y: lensScrCtr[1] });
-          const wgs84coord = WebMercatorUtils.xyToLngLat(baseMapThrough.x, baseMapThrough.y);
+          const baseMapThrough = baseMap.toMap({
+            x: lensScrCtr[0],
+            y: lensScrCtr[1],
+          });
+          const wgs84coord = WebMercatorUtils.xyToLngLat(
+            baseMapThrough.x,
+            baseMapThrough.y
+          );
 
           //  method2
           let focusExt = lensMap.extent;
-          const lensLeftTop = [$('#lensMap').offset().left, $('#lensMap').offset().top];
-          const lensBR = [lensLeftTop[0] + $('#lensMap').width(), lensLeftTop[1] + $('#lensMap').height()];
+          const lensLeftTop = [
+            $("#lensMap").offset().left,
+            $("#lensMap").offset().top,
+          ];
+          const lensBR = [
+            lensLeftTop[0] + $("#lensMap").width(),
+            lensLeftTop[1] + $("#lensMap").height(),
+          ];
           // current leftTop
-          const leftTop = baseMap.toMap({ x: lensLeftTop[0], y: lensLeftTop[1] });
+          const leftTop = baseMap.toMap({
+            x: lensLeftTop[0],
+            y: lensLeftTop[1],
+          });
           const BR = baseMap.toMap({ x: lensBR[0], y: lensBR[1] });
           var newExtent = new EsriExtent({
             xmin: leftTop.x,
             ymin: leftTop.y,
             xmax: BR.x,
             ymax: BR.y,
-            spatialReference: lensMap.spatialReference
+            spatialReference: lensMap.spatialReference,
           });
 
           // method 3
           //console.log('leftTop:', leftTop);
           const prev = { x: focusExt.xmin, y: focusExt.ymax };
-          const newFocusExtent = focusExt.offset(leftTop.x - prev.x, leftTop.y - prev.y);
+          const newFocusExtent = focusExt.offset(
+            leftTop.x - prev.x,
+            leftTop.y - prev.y
+          );
 
-          const ctrPt = new EsriPoint((leftTop.x + BR.x) / 2, (leftTop.y + BR.y) / 2, lensMap.spatialReference);
+          const ctrPt = new EsriPoint(
+            (leftTop.x + BR.x) / 2,
+            (leftTop.y + BR.y) / 2,
+            lensMap.spatialReference
+          );
 
           const newExtentMapCtr = newExtent.getCenter();
           const newExtentScrCtr = lensMap.toScreen(newExtentMapCtr);
           const lensOldScrCtr = [
-            lensLeftTop[0] + $('#lensMap').width() / 2,
-            lensLeftTop[1] + $('#lensMap').height() / 2
+            lensLeftTop[0] + $("#lensMap").width() / 2,
+            lensLeftTop[1] + $("#lensMap").height() / 2,
           ];
           //lensMap.__pan(lensOldScrCtr[0] - newExtentScrCtr.x, lensOldScrCtr[1] - newExtentScrCtr.y);
           //lensMap.centerAndZoom(newExtent.getCenter(), baseMap.getZoom());
@@ -625,57 +707,62 @@
         //geojson_layer_lens.on('click', (e) => {
         //  console.log('layer clicked e: ', e);
         //});
-        lensMap.on('click', (e) => {
-          const possibleZoom2LODs = geojson_layer_lens._zoom2LOD[lensMap.getZoom()];
-          if (geojson_layer_lens.curLOD === possibleZoom2LODs[possibleZoom2LODs.length - 1]) {
+        lensMap.on("click", (e) => {
+          const possibleZoom2LODs =
+            geojson_layer_lens._zoom2LOD[lensMap.getZoom()];
+          if (
+            geojson_layer_lens.curLOD ===
+            possibleZoom2LODs[possibleZoom2LODs.length - 1]
+          ) {
             heatmapFeatureLayer.setVisibility(true);
             return;
           }
           heatmapFeatureLayer.setVisibility(false);
         });
-        lensMap.on('dbl-click', (e) => {
+        lensMap.on("dbl-click", (e) => {
           //console.log('lens dbl-clicked e: ', e);
           screenShot();
         });
 
-        $('#lensMap').draggable({
+        $("#lensMap").draggable({
           //containment: '#mapviewDiv',
 
-          drag: function(e, ui) {
+          drag: function (e, ui) {
             const px = ui.originalPosition.left - ui.position.left;
             const py = ui.originalPosition.top - ui.position.top;
             lensMap.__pan(px, py);
           },
-          stop: function(e, ui) {
+          stop: function (e, ui) {
             const px = ui.originalPosition.left - ui.position.left;
             const py = ui.originalPosition.top - ui.position.top;
             lensMap.__panEnd(px, py);
-          }
+          },
         });
 
         function screenShot() {
           const baseMapCenter = baseMap.extent.getCenter();
           const lensMapCenter = lensMap.extent.getCenter();
 
-          const center = lensMapCenter.getLongitude() + ',' + lensMapCenter.getLatitude();
+          const center =
+            lensMapCenter.getLongitude() + "," + lensMapCenter.getLatitude();
           const zoom = baseMap.getZoom();
           const lod = geojson_layer_lens.curLOD;
-          const selector = 'lensMap';
+          const selector = "lensMap";
           const size = `300,300`;
 
-          const lensMapDivOffsetTop = $('#lensMap').offset().top;
-          const lensMapDivOffsetLeft = $('#lensMap').offset().left;
+          const lensMapDivOffsetTop = $("#lensMap").offset().top;
+          const lensMapDivOffsetLeft = $("#lensMap").offset().left;
 
           // the url to the prototype
           const url = `https://chongzhang-vis.github.io/work/clusterlens/attraction.html%3Fcenter=${center}%26zoom%3D${zoom}%26lod=${lod}`;
           const imgUrl = `https://supermap.herokuapp.com/screenshot?url=${url}&viewwidth=${window.innerWidth}&viewheight=${window.innerHeight}&selector=%23${selector}&size=${size}`;
 
           const canvasContainer = d3
-            .select('#plotList')
-            .append('div')
-            .attr('class', 'cell');
+            .select("#plotList")
+            .append("div")
+            .attr("class", "cell");
 
-          const image = canvasContainer.selectAll('img').data([
+          const image = canvasContainer.selectAll("img").data([
             {
               baseMapCenter: baseMapCenter,
               lensMapCenter: lensMapCenter,
@@ -683,17 +770,17 @@
               zoom: zoom,
               lod: lod,
               lensDivTop: lensMapDivOffsetTop,
-              lensDivLeft: lensMapDivOffsetLeft
-            }
+              lensDivLeft: lensMapDivOffsetLeft,
+            },
           ]);
           image
             .enter()
-            .append('img')
-            .attr('width', '300')
-            .attr('height', '300')
-            .attr('src', imgUrl)
-            .style('cursor', 'pointer')
-            .on('click', (d) => {
+            .append("img")
+            .attr("width", "300")
+            .attr("height", "300")
+            .attr("src", imgUrl)
+            .style("cursor", "pointer")
+            .on("click", (d) => {
               const possibleZoom2LODs = geojson_layer_lens._zoom2LOD[d.zoom];
               if (d.lod === possibleZoom2LODs[0]) {
                 heatmapFeatureLayer.setVisibility(true);
@@ -713,7 +800,7 @@
                 geojson_layer_lens.restore(d.zoom, d.lod);
               } else {
                 // same zoom level as the current map, then we only need to pan
-                const curOffset = $('#lensMap').offset();
+                const curOffset = $("#lensMap").offset();
                 const deltalLeft = curOffset.left - d.lensDivLeft;
                 const deltaTop = curOffset.top - d.lensDivTop;
                 lensMap.__panEnd(deltalLeft, deltaTop);
@@ -724,18 +811,20 @@
 
               baseMap.centerAt(new EsriPoint(d.baseMapCenter));
               lensMap.centerAt(new EsriPoint(d.lensMapCenter));
-              $('#lensMap').offset({ top: d.lensDivTop, left: d.lensDivLeft });
+              $("#lensMap").offset({ top: d.lensDivTop, left: d.lensDivLeft });
               setTimeout(() => {
                 zoomRestore = false;
               }, 2000);
             });
 
           const closeButton = canvasContainer
-            .append('div')
-            .attr('class', 'close')
-            .html('X');
-          canvasContainer.select('.close').each(function() {
-            d3.select(this).on('click', () => d3.select(this.parentNode).remove());
+            .append("div")
+            .attr("class", "close")
+            .html("X");
+          canvasContainer.select(".close").each(function () {
+            d3.select(this).on("click", () =>
+              d3.select(this.parentNode).remove()
+            );
           });
 
           // html2canvas(document.getElementById('lensMap'), {
@@ -762,22 +851,22 @@
       });
     </script>
     <script type="text/javascript">
-      $(document).ready(function() {
-        $('#container').layout({
-          south__size: '30%',
+      $(document).ready(function () {
+        $("#container").layout({
+          south__size: "30%",
           center__childOptions: {
-            west__size: '40%',
+            west__size: "40%",
             center__enableCursorHotkey: false,
             center__closable: false,
             center__resizable: false,
             center__slidable: false,
             center__spacing_open: 1,
             center__spacing_closed: 1,
-            west__onresize: function() {
+            west__onresize: function () {
               nodeGraph1.reDraw();
               if (scatterplots1) scatterplots1.reDraw();
-            }
-          }
+            },
+          },
           // , north__enableCursorHotkey: false
           //     , north__closable: false
           //     , north__resizable: false
@@ -794,8 +883,9 @@
       <div class="pane ui-layout-center">
         <div class="pane ui-layout-center" id="mapviewDiv">
           <div class="floatingTitle">
-            ClusterLens: explore overlap-free and multi-resolution clusters. Drag to move lens, click to change resolution, dbl-click
-            to screenshot
+            ClusterLens: explore overlap-free and multi-resolution clusters.
+            Drag to move lens, click to change resolution, dbl-click to
+            screenshot
           </div>
           <div id="mapInfo">
             <!-- <div id="mapSearch"></div> -->
@@ -813,28 +903,28 @@
       </div>
     </div>
     <div class="lensMap" id="lensMap"></div>
-    <!-- Start of StatCounter Code for Default Guide -->
+    <!-- Default Statcounter code for Personal page
+https://chongzhang-vis.github.io/ -->
     <script type="text/javascript">
       var sc_project = 10227952;
       var sc_invisible = 1;
-      var sc_security = '19025bec';
-      var sc_https = 1;
-      var scJsHost = 'https:' == document.location.protocol ? 'https://secure.' : 'http://www.';
-      document.write(
-        '<sc' +
-          "ript type='text/javascript' async src='" +
-          scJsHost +
-          "statcounter.com/counter/counter_xhtml.js'></" +
-          'script>'
-      );
+      var sc_security = "19025bec";
     </script>
-    <noscript>
-      <div class="statcounter">
-        <a class="statcounter" href="http://statcounter.com/free-web-stats/" title="web stats"
-          ><img alt="web stats" class="statcounter" src="http://c.statcounter.com/10227952/0/19025bec/1/"
-        /></a>
-      </div>
-    </noscript>
-    <!-- End of StatCounter Code for Default Guide -->
+    <script
+      type="text/javascript"
+      src="https://www.statcounter.com/counter/counter.js"
+      async
+    ></script>
+    <noscript
+      ><div class="statcounter">
+        <a title="Web Analytics" href="https://statcounter.com/" target="_blank"
+          ><img
+            class="statcounter"
+            src="https://c.statcounter.com/10227952/0/19025bec/1/"
+            alt="Web Analytics"
+            referrerpolicy="no-referrer-when-downgrade"
+        /></a></div
+    ></noscript>
+    <!-- End of Statcounter Code -->
   </body>
 </html>
