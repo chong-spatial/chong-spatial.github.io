@@ -304,7 +304,7 @@
         };
 
         function mapClickHandler(evt) {
-          var checkPt = d3.select(evt.toElement).datum();
+          var checkPt = d3.select(evt.target).datum();
           if (!checkPt) return;
 
           clickpoint = evt;
